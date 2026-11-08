@@ -46,7 +46,9 @@ jobs:
               assert hashlib.sha256((data/file).read_bytes()).hexdigest()==sha
           PY
       - name: Execute second-event plan invalidation and re-route
-        run: set -o pipefail
+        shell: bash
+        run: |
+          set -o pipefail
           python -u experiments/dynamic_event_probe.py | tee results/dynamic_event.log
           test -s results/dynamic_event/result.json
       - name: Preserve source, logs and result hashes
