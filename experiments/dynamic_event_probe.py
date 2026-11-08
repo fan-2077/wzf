@@ -8,7 +8,6 @@ import ast,json,sys,time,hashlib
 ROOT=Path.cwd().resolve();OUT=ROOT/'results/dynamic_event';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT/'native_build'));sys.path.insert(0,str(ROOT/'upstream/CoLLMLight'))
 import cityflow
-from models.maxpressure_agent import MaxPressureAgent
 DATA=ROOT/'upstream/CoLLMLight/data/Hangzhou/4_4'
 ROAD=json.loads((DATA/'roadnet_4_4.json').read_text())
 INTER={x['id']:x for x in ROAD['intersections'] if not x['virtual']}
@@ -29,7 +28,12 @@ ROUTES=[
 CFG={'interval':1.0,'seed':7,'dir':str(DATA)+'/', 'roadnetFile':'roadnet_4_4.json','flowFile':'anon_4_4_hangzhou_real.json','rlTrafficLight':True,'laneChange':False,'saveReplay':False,'roadnetLogFile':'unused.json','replayLogFile':'unused.txt'}
 (ROOT/'results').mkdir(exist_ok=True);(OUT/'config.json').write_text(json.dumps(CFG))
 engine=cityflow.Engine(str(OUT/'config.json'),thread_num=1)
-policies={i:MaxPressureAgent({}, {'PHASE':{p:[] for p in range(1,5)}},{},0,i) for i in INTER}
+class MaxPressurePolicy:
+ def choose_action(self,count,state):
+  z=state['traffic_movement_pressure_queue']
+  values=[z[1]+z[4],z[7]+z[10],z[0]+z[3],z[6]+z[9]]
+  return max(range(4),key=lambda i:values[i])
+policies={i:MaxPressurePolicy() for i in INTER}
 phases={i:1 for i in INTER};pending={};last={i:0 for i in INTER};commands=[]
 def setp(i,p):
  engine.set_tl_phase(i,p);phases[i]=p;last[i]=engine.get_current_time();commands.append({'time':engine.get_current_time(),'intersection':i,'phase':p})
@@ -92,6 +96,7 @@ for nxt in remaining:
    blocked={'from_road':current,'to_road':nxt,'iid':m['iid'],'blocked_phase':forbidden_phases[0],'permitted_phases':m['phases'],'link_index':m['link_index']};break
 if blocked is None:raise RuntimeError('No future controllable movement found on planned route')
 second={'iid':blocked['iid'],'phase':blocked['blocked_phase'],'start':900,'release':1200}
+setp(second['iid'],second['phase'])
 # The second event changes environment version and invalidates version-1 plan.
 event={'environment_version':2,'time':900,'kind':'signal_controller_stuck','intersection':second['iid'],'held_phase':second['phase'],'release':second['release'],'blocked_movement':[current,blocked['to_road']]}
 old_plan_valid=False
@@ -106,7 +111,7 @@ assert engine.set_vehicle_route(vid,new_route[1:])
 route_readback=engine.get_vehicle_info(vid)['route'].split()
 assert route_readback==new_route,(route_readback,new_route)
 # Simulate to event release while enforcing both controller failures.
-visited=[];arrive=None;queue_sum=0;phase_obs=[]
+visited=[];arrive=None;queue_sum=0;phase_obs=[{'time':engine.get_current_time(),'phase':engine.observe_tl_phase(second['iid'])}]
 start=time.monotonic()
 for _ in range(900):
  live=set(engine.get_vehicles(include_waiting=True))
