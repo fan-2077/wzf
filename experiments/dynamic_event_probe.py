@@ -122,7 +122,7 @@ if not route_set_result or route_readback!=new_route:
 # Simulate to event release while enforcing both controller failures.
 visited=[];arrive=None;queue_sum=0;phase_obs=[{'time':engine.get_current_time(),'phase':engine.observe_tl_phase(second['iid'])}]
 start=time.monotonic()
-for _ in range(900):
+for _ in range(3000):
  live=set(engine.get_vehicles(include_waiting=True))
  if vid in live:
   r=engine.get_vehicle_info(vid).get('road')
@@ -132,7 +132,8 @@ for _ in range(900):
  if engine.get_current_time()<1005:phase_obs.append({'time':engine.get_current_time(),'phase':engine.observe_tl_phase(second['iid'])})
  queue_sum+=sum(engine.get_lane_waiting_vehicle_count().values())
 if arrive is None and vid not in engine.get_vehicles(include_waiting=True):arrive=engine.get_current_time()
-record={'scenario':'dynamic second signal-controller fault after route plan','initial_plan':plan_record,'second_event':event,'old_plan_valid_after_event':old_plan_valid,'blocked_movement':blocked,'new_route':new_route,'route_readback':route_readback,'route_set_accepted':True,'visited_roads':visited,'destination_reached':arrive is not None and dest in visited,'arrival_time':arrive,'simulated_seconds_after_replan':900,'mean_network_queue_during_window':queue_sum/900,'second_fault_samples':phase_obs,'second_fault_enforced':len(phase_obs)==300 and all(x['phase']==second['phase'] for x in phase_obs),'new_route_avoids_blocked_movement':all(not (visited[i]==blocked['from_road'] and visited[i+1]==blocked['to_road']) for i in range(len(visited)-1)),'new_environment_version':2,'stale_plan_rejected_by_contract':not old_plan_valid,'wall_seconds':time.monotonic()-start,'scope':'one deterministic dynamic event proof; not LLM, not multi-agent, not generalization'}
+final_vehicle_info=engine.get_vehicle_info(vid) if vid in engine.get_vehicles(include_waiting=True) else None
+record={'final_vehicle_info':final_vehicle_info,'scenario':'dynamic second signal-controller fault after route plan','initial_plan':plan_record,'second_event':event,'old_plan_valid_after_event':old_plan_valid,'blocked_movement':blocked,'new_route':new_route,'route_readback':route_readback,'route_set_accepted':True,'visited_roads':visited,'destination_reached':arrive is not None and dest in visited,'arrival_time':arrive,'simulated_seconds_after_replan':3000,'mean_network_queue_during_window':queue_sum/3000,'second_fault_samples':phase_obs,'second_fault_enforced':len(phase_obs)==300 and all(x['phase']==second['phase'] for x in phase_obs),'new_route_avoids_blocked_movement':all(not (visited[i]==blocked['from_road'] and visited[i+1]==blocked['to_road']) for i in range(len(visited)-1)),'new_environment_version':2,'stale_plan_rejected_by_contract':not old_plan_valid,'wall_seconds':time.monotonic()-start,'scope':'one deterministic dynamic event proof; not LLM, not multi-agent, not generalization'}
 (OUT/'result.json').write_text(json.dumps(record,indent=2))
 assert record['second_fault_enforced'] and record['new_route_avoids_blocked_movement'] and record['destination_reached']
 print(json.dumps(record,indent=2))
