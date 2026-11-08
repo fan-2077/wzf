@@ -1,0 +1,99 @@
+name: AIOS model feasibility probe
+on:
+  push:
+    paths:
+      - '.github/workflows/aios-model-feasibility.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  local-model-probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Public-assets-only scope and environment
+        shell: bash
+        run: |
+          mkdir -p results model bin
+          printf '%s\n' 'AI-assisted feasibility experiment, not a finished student competition submission.' 'No user research files or credentials are read. No real road or device is controlled.' 'These are local CPU model-context probes, not a benchmark of four-agent superiority.' > results/SCOPE.txt
+          uname -a > results/environment.txt
+          lscpu >> results/environment.txt
+          free -h >> results/environment.txt
+          df -h >> results/environment.txt
+      - name: Obtain fixed inference binary and verify release digest
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request, json, hashlib, pathlib, tarfile
+          req=urllib.request.Request('https://api.github.com/repos/ggml-org/llama.cpp/releases/tags/b10344',headers={'User-Agent':'AIOS-feasibility-research'})
+          release=json.load(urllib.request.urlopen(req,timeout=60))
+          pathlib.Path('results/llama_release.json').write_text(json.dumps(release,indent=2))
+          asset=next(a for a in release['assets'] if a['name']=='llama-b10344-bin-ubuntu-x64.tar.gz')
+          urllib.request.urlretrieve(asset['browser_download_url'],'llama.tar.gz')
+          digest=hashlib.file_digest(open('llama.tar.gz','rb'),'sha256').hexdigest()
+          if asset.get('digest'): assert 'sha256:'+digest==asset['digest']
+          pathlib.Path('results/binary_digest.json').write_text(json.dumps({'sha256':digest,'url':asset['browser_download_url']}))
+          with tarfile.open('llama.tar.gz') as z: z.extractall('bin',filter='data')
+          PY
+      - name: Obtain fixed official Qwen3 8B weight and verify SHA256
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request,hashlib,json,pathlib,time
+          url='https://huggingface.co/Qwen/Qwen3-8B-GGUF/resolve/7c41481f57cb95916b40956ab2f0b139b296d974/Qwen3-8B-Q4_K_M.gguf'
+          start=time.monotonic()
+          urllib.request.urlretrieve(url,'model/Qwen3-8B-Q4_K_M.gguf')
+          p=pathlib.Path('model/Qwen3-8B-Q4_K_M.gguf')
+          digest=hashlib.file_digest(p.open('rb'),'sha256').hexdigest()
+          assert digest=='d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785',digest
+          assert p.stat().st_size==5027783488
+          pathlib.Path('results/model_manifest.json').write_text(json.dumps({'repository':'Qwen/Qwen3-8B-GGUF','revision':'7c41481f57cb95916b40956ab2f0b139b296d974','file':p.name,'sha256':digest,'bytes':p.stat().st_size,'download_seconds':time.monotonic()-start,'hardware':'GitHub hosted CPU runner; not user RTX4090'},indent=2))
+          PY
+      - name: Real local inference and four isolated review contexts
+        shell: bash
+        run: |
+          SERVER=$(find "$PWD/bin" -type f -name llama-server | head -n1)
+          test -n "$SERVER"
+          export LD_LIBRARY_PATH="$(dirname "$SERVER"):${LD_LIBRARY_PATH:-}"
+          "$SERVER" --version > results/llama_version.txt 2>&1
+          "$SERVER" -m "$PWD/model/Qwen3-8B-Q4_K_M.gguf" --host 127.0.0.1 --port 18080 -t 4 -tb 4 -c 8192 -np 4 -ngl 0 --jinja --chat-template-kwargs '{"enable_thinking":false}' --alias qwen3-8b > results/server.log 2>&1 &
+          PID=$!
+          trap 'kill "$PID" 2>/dev/null || true' EXIT
+          python3 -u - <<'PY'
+          import json,urllib.request,time,pathlib,concurrent.futures,os
+          base='http://127.0.0.1:18080'
+          for _ in range(180):
+              try:
+                  status=json.load(urllib.request.urlopen(base+'/health',timeout=2))
+                  if status.get('status')=='ok': break
+              except Exception: time.sleep(2)
+          else: raise RuntimeError('Real local model failed to start; no mock fallback')
+          def ask(name,system,user):
+              request={'model':'qwen3-8b','messages':[{'role':'system','content':system},{'role':'user','content':user}],'temperature':0,'seed':17,'max_tokens':240,'stream':False,'chat_template_kwargs':{'enable_thinking':False}}
+              begin=time.monotonic()
+              req=urllib.request.Request(base+'/v1/chat/completions',data=json.dumps(request).encode(),headers={'Content-Type':'application/json'})
+              response=json.load(urllib.request.urlopen(req,timeout=480))
+              result={'name':name,'request':request,'response':response,'wall_seconds':time.monotonic()-begin,'independent_context':True}
+              pathlib.Path('results/'+name+'.json').write_text(json.dumps(result,indent=2,ensure_ascii=False))
+              print(name,json.dumps(response['choices'][0]['message'],ensure_ascii=False),flush=True)
+              return result
+          smoke=ask('smoke','Answer only with a JSON object.','Return the product of 17 and 19 under the key product. /no_think')
+          text=smoke['response']['choices'][0]['message']['content']
+          assert '323' in text,'Real model arithmetic smoke failed'
+          dossier='A traffic incident prototype uses the same 8B model for four professional roles. Each task has exactly 9 public route-signal candidates and budget 9, so a deterministic exhaustive solver finds the feasible optimum. Four-process tool execution is 1.303 seconds versus 3.108 seconds serial. Full model inference, communication and final verification are not measured. Some route API calls report success without the required road appearing in the trajectory. All systems can access identical evidence and tools. Contest requires >=4 different agent types, >=4 parallel subtasks, >=3 bidirectional pairs, dependencies, and >=20% full-task time reduction relative to the same multi-agent system serial. No real multi-agent traffic experiment exists yet.'
+          roles={'task_reviewer':'Audit whether the task needs heterogeneous agents; identify the strongest counterexample.','systems_reviewer':'Audit the time accounting and shared-resource concurrency claim.','verification_reviewer':'Audit the action-to-observed-outcome verification and stale evidence risks.','experiment_reviewer':'Audit baselines and propose one falsifiable next experiment without weakening the single-agent baseline.'}
+          begin=time.monotonic()
+          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+              futures=[pool.submit(ask,name,'You are an independent technical reviewer. '+instruction+' Return JSON keys finding, evidence, next_test. Be precise. Do not claim experiments were run.',dossier+' /no_think') for name,instruction in roles.items()]
+              reviews=[f.result() for f in futures]
+          pathlib.Path('results/review_manifest.json').write_text(json.dumps({'count':len(reviews),'wall_seconds':time.monotonic()-begin,'model_contexts_separate':True,'shared_model_weights':True,'tool_use':False,'scope':'four role-specific model reviews, not four-agent tool collaboration or contest validation','names':list(roles)},indent=2))
+          summary=ask('synthesis','Synthesize the four reviews. Do not claim new test results. Return JSON with decision, strongest_counterexample, next_experiment.',json.dumps([{'role':r['name'],'review':r['response']['choices'][0]['message']} for r in reviews])+' /no_think')
+          pathlib.Path('results/status.json').write_text(json.dumps({'real_local_model':True,'research_review_contexts':4,'complete_aios':False,'traffic_agents_tested':False,'competition_speedup_proven':False},indent=2))
+          PY
+      - name: Preserve logs and model responses, never weights
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aios-model-feasibility-evidence
+          path: results/
+          retention-days: 14
