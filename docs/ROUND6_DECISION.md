@@ -91,3 +91,9 @@ Autonomous dynamic task allocation: not demonstrated.
 User RTX 4090 performance: not measured.
 
 No independent external subagent launch interface was available in this session. The prior four role contexts were separate calls to the same Qwen3-8B, not four independent research agents. No real road infrastructure was controlled.
+
+## Protocol implementation update
+
+A deterministic, evidence-bound collaboration ledger was added in `experiments/collaboration_protocol.py`, with 12 unit tests in `experiments/test_collaboration_protocol.py`. The first CI run failed one test because the test attempted to reuse a reply against a different revision artifact; inspection showed the protocol correctly rejected the mismatched subject before reaching duplicate-consumption validation. The test was corrected to replay the same reply against the same original subject artifact. The second CI run `42478743827` completed successfully: all 12 protocol tests passed. This is a protocol unit-test result only; no LLM-generated collaboration or dynamic traffic event was run.
+
+Next: connect this ledger to actual AIOS role calls, then create a held-out dynamic event scenario. Do not claim a bidirectional pair unless the original requester consumes the reply and emits a revision artifact.
