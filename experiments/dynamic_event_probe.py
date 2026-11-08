@@ -108,9 +108,12 @@ if not alternative:raise RuntimeError('No feasible alternate route under second 
 new_route=[current]+alternative[1:] if alternative[0]==current else alternative
 # Apply event at current time and set reroute from current road.
 assert engine.get_current_time()==900
-assert engine.set_vehicle_route(vid,new_route[1:])
+route_before=engine.get_vehicle_info(vid)
+route_set_result=engine.set_vehicle_route(vid,new_route[1:])
 route_readback=engine.get_vehicle_info(vid)['route'].split()
-assert route_readback==new_route,(route_readback,new_route)
+if not route_set_result or route_readback!=new_route:
+ (OUT/'route_replan_failure.json').write_text(json.dumps({'vehicle_live':vid in engine.get_vehicles(include_waiting=True),'vehicle_before':route_before,'current_road':current,'blocked':blocked,'alternative':alternative,'new_route':new_route,'set_result':route_set_result,'readback':route_readback},indent=2))
+ raise RuntimeError('native route replanning rejected; see route_replan_failure.json')
 # Simulate to event release while enforcing both controller failures.
 visited=[];arrive=None;queue_sum=0;phase_obs=[{'time':engine.get_current_time(),'phase':engine.observe_tl_phase(second['iid'])}]
 start=time.monotonic()
