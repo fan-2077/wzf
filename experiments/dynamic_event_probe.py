@@ -141,7 +141,9 @@ phases={i:1 for i in INTER};pending={};last={i:0 for i in INTER};commands=[]
 for i in phases:setp(i,1)
 while engine.get_current_time()<700:tick([initial])
 baseline_before=engine.get_vehicle_info(vid)
-assert baseline_before['route'].split()==planned
+assert baseline_before['route'].split()==ROUTES[0]
+assert engine.set_vehicle_route(vid,planned[1:])
+assert engine.get_vehicle_info(vid)['route'].split()==planned
 while engine.get_current_time()<705:tick([initial])
 baseline_second={'iid':blocked['iid'],'phase':blocked['blocked_phase'],'start':705,'release':1005}
 setp(baseline_second['iid'],baseline_second['phase'])
