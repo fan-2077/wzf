@@ -1,0 +1,79 @@
+name: Native AIOS collaboration pilot
+on:
+  push:
+    paths: ['.github/workflows/aios-collaboration-pilot.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  collaboration-integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      HF_HUB_DOWNLOAD_TIMEOUT: '600'
+      HF_HUB_ETAG_TIMEOUT: '60'
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Static checks, tie cases and frozen pilot intent
+        shell: bash
+        run: |
+          mkdir -p results model bin
+          { uname -a; lscpu; free -h; df -h; python --version; } > results/environment.txt
+          python -m compileall -q experiments
+          python - <<'PY'
+          import sys,json
+          from pathlib import Path
+          sys.path.insert(0,'experiments')
+          from collaboration_probe import optimal_ids
+          rows=[{'candidate_id':'A','passed':True,'elapsed_sim_s':10.,'mean_queue':3.}, {'candidate_id':'B','passed':True,'elapsed_sim_s':10.,'mean_queue':3.}, {'candidate_id':'C','passed':False,'elapsed_sim_s':9.,'mean_queue':2.}, {'candidate_id':'D','passed':True,'elapsed_sim_s':11.,'mean_queue':1.}]
+          assert optimal_ids(rows)==['A','B']
+          assert optimal_ids([])==[]
+          assert optimal_ids([rows[2]])==[]
+          rows[1]['mean_queue']=2.;assert optimal_ids(rows)==['B']
+          Path('results/selection_unit_checks.json').write_text(json.dumps({'tie_and_feasibility_cases_passed':4,'model_calls':0}))
+          Path('results/SCOPE.txt').write_text('One run of each mode on an already-solved public regression. Not an independent task set or a proof of agent necessity. Setup excluded equally; model/tools/coordination/execution verification included. Same local 8B and CPU resources. No secrets, private research files or real devices.\n')
+          PY
+      - name: Prepare identical verified dependencies from successful native setup
+        shell: bash
+        run: |
+          python -m pip install --quiet PyYAML huggingface_hub
+          python -u - <<'PY'
+          import yaml,subprocess,pathlib
+          workflow=yaml.safe_load(pathlib.Path('.github/workflows/aios-native-traffic.yml').read_text())
+          names=['Build pinned CPU inference engine','Acquire and verify official fixed 8B weights','Install native runtime dependencies on CPU','Prepare original managers, SDK, and real simulation tool']
+          steps=workflow['jobs']['native-runtime-regression']['steps']
+          for name in names:
+              step=next(s for s in steps if s.get('name')==name)
+              print('SETUP',name,flush=True)
+              script=pathlib.Path('results')/('setup_'+str(names.index(name))+'.sh')
+              script.write_text('set -euo pipefail\n'+step['run'])
+              subprocess.run(['bash',str(script)],check=True,timeout=900)
+          PY
+      - name: Real native single, parallel team, no-feedback and serial team
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=20s 2100s python -u experiments/collaboration_probe.py | tee results/comparison_console.log
+      - name: Preserve all results and exact sources even on failure
+        if: always()
+        shell: bash
+        run: |
+          cp -r experiments results/executed_sources
+          mkdir -p results/workflows
+          cp .github/workflows/*.yml results/workflows/
+          python - <<'PY'
+          import pathlib,json,hashlib
+          root=pathlib.Path('results')
+          rows={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
+          (root/'MANIFEST.json').write_text(json.dumps(rows,indent=2))
+          PY
+      - name: Save bounded evidence without weights
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: aios-collaboration-pilot-evidence
+          path: results/
+          retention-days: 14
