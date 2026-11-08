@@ -70,6 +70,7 @@ def bfs(start,dest,forbidden):
   end=ROADS[road]['endIntersection']
   if end not in INTER:continue
   for m in INTER[end]['roadLinks']:
+   if m['startRoad']!=road:continue
    nxt=m['endRoad']
    if (road,nxt)==forbidden or nxt in seen:continue
    seen.add(nxt);q.append((nxt,path+[nxt]))
