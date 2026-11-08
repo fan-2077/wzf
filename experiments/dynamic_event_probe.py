@@ -134,6 +134,33 @@ for _ in range(3000):
 if arrive is None and vid not in engine.get_vehicles(include_waiting=True):arrive=engine.get_current_time()
 final_vehicle_info=engine.get_vehicle_info(vid) if vid in engine.get_vehicles(include_waiting=True) else None
 record={'final_vehicle_info':final_vehicle_info,'scenario':'dynamic second signal-controller fault after route plan','initial_plan':plan_record,'second_event':event,'old_plan_valid_after_event':old_plan_valid,'blocked_movement':blocked,'new_route':new_route,'route_readback':route_readback,'route_set_accepted':True,'visited_roads':visited,'destination_reached':arrive is not None and dest in visited,'arrival_time':arrive,'simulated_seconds_after_replan':3000,'mean_network_queue_during_window':queue_sum/3000,'second_fault_samples':phase_obs,'second_fault_enforced':len(phase_obs)==300 and all(x['phase']==second['phase'] for x in phase_obs),'new_route_avoids_blocked_movement':all(not (visited[i]==blocked['from_road'] and visited[i+1]==blocked['to_road']) for i in range(len(visited)-1)),'new_environment_version':2,'stale_plan_rejected_by_contract':not old_plan_valid,'wall_seconds':time.monotonic()-start,'scope':'one deterministic dynamic event proof; not LLM, not multi-agent, not generalization'}
+# Fair no-replan baseline: fresh engine, same seed, same initial route, same two
+# faults, same simulation horizon. The only intervention removed is route replanning.
+engine=cityflow.Engine(str(OUT/'config.json'),thread_num=1)
+phases={i:1 for i in INTER};pending={};last={i:0 for i in INTER};commands=[]
+for i in phases:setp(i,1)
+while engine.get_current_time()<700:tick([initial])
+baseline_before=engine.get_vehicle_info(vid)
+assert baseline_before['route'].split()==planned
+while engine.get_current_time()<705:tick([initial])
+baseline_second={'iid':blocked['iid'],'phase':blocked['blocked_phase'],'start':705,'release':1005}
+setp(baseline_second['iid'],baseline_second['phase'])
+baseline_visited=[];baseline_arrival=None;baseline_queue=0
+for _ in range(3000):
+ live=set(engine.get_vehicles(include_waiting=True))
+ if vid in live:
+  road=engine.get_vehicle_info(vid).get('road')
+  if road and (not baseline_visited or baseline_visited[-1]!=road):baseline_visited.append(road)
+ elif baseline_arrival is None:baseline_arrival=engine.get_current_time()
+ tick([initial,baseline_second])
+ baseline_queue+=sum(engine.get_lane_waiting_vehicle_count().values())
+if baseline_arrival is None and vid not in engine.get_vehicles(include_waiting=True):baseline_arrival=engine.get_current_time()
+record['no_replan_baseline']={'initial_route':planned,'visited_roads':baseline_visited,
+ 'destination_reached':baseline_arrival is not None and dest in baseline_visited,
+ 'arrival_time':baseline_arrival,'mean_network_queue_during_window':baseline_queue/3000,
+ 'blocked_movement_traversed':any(baseline_visited[i]==blocked['from_road'] and baseline_visited[i+1]==blocked['to_road'] for i in range(len(baseline_visited)-1)),
+ 'scope':'same seed, same initial route and faults, no route intervention'}
+record['reroute_vs_no_replan_arrival_delta_sim_s']=None if baseline_arrival is None else baseline_arrival-arrive
 (OUT/'result.json').write_text(json.dumps(record,indent=2))
 assert record['second_fault_enforced'] and record['new_route_avoids_blocked_movement'] and record['destination_reached']
 print(json.dumps(record,indent=2))
