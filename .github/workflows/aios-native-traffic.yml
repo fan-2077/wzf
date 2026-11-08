@@ -27,11 +27,14 @@ jobs:
           from pathlib import Path
           import difflib
           p=Path('experiments/native_run.py');a=p.read_text()
-          old='candidate_id\\\":\\\"r1-bounded'
-          # The checked-in Python string is ordinary source text, not JSON-escaped.
           old='candidate_id":"r1-bounded'
-          assert a.count(old)==1
-          b=a.replace(old,'candidate_id":"<ID returned by evaluate_candidates>')
+          neutral='candidate_id":"<ID returned by evaluate_candidates>'
+          if old in a:
+              assert a.count(old)==1
+              b=a.replace(old,neutral)
+          else:
+              assert neutral in a
+              b=a
           p.write_text(b)
           Path('results/prompt_example_neutralization.patch').write_text(''.join(difflib.unified_diff(a.splitlines(True),b.splitlines(True),'before/native_run.py','executed/native_run.py')))
           PY
@@ -70,7 +73,7 @@ jobs:
       - name: Prepare original managers, SDK, and real simulation tool
         shell: bash
         run: |
-          python -u experiments/prepare_native.py > results/native-setup.log 2>&1
+          python -u experiments/sdk_path_bootstrap.py > results/native-setup.log 2>&1
           python -m pip freeze > results/runtime-freeze-final.txt
       - name: Execute native model tool loop and corrected independent reviews
         shell: bash
