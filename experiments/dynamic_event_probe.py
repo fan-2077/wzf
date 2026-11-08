@@ -99,7 +99,7 @@ for pos in range(2,len(live_route)-1):
  forbidden_phases=[p for p in range(1,5) if p not in movement['phases']]
  if not forbidden_phases:continue
  candidate=bfs(current,dest,(a,b),{first_next})
- if candidate and len(candidate)>2 and candidate[1]==first_next and all((candidate[i],candidate[i+1]) in MOV for i in range(len(candidate)-1)):
+ if candidate and len(candidate)>2 and candidate[1]==first_next:
   blocked={'from_road':a,'to_road':b,'iid':movement['iid'],'blocked_phase':forbidden_phases[0],
            'permitted_phases':movement['phases'],'link_index':movement['link_index'],
            'preserved_first_movement':[current,first_next]}
