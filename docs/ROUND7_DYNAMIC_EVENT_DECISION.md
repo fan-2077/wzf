@@ -103,3 +103,35 @@ The static nine-candidate task remains only a regression test. The new dynamic t
 - At least 20% full-task concurrent speedup is achieved.
 - Performance on the user's RTX 4090.
 - Generalization beyond this one vehicle, route and road network.
+
+
+## Matched baseline and duration sweep update
+
+A later matched experiment extended the same deterministic scenario:
+- Rerouted plan reached the destination at simulation time 1652.
+- No-replan baseline, with identical initial route, same two faults, same seed and 3000-second horizon, reached at simulation time 1347 for the 300-second fault.
+- The rerouted plan was therefore 305 simulated seconds slower in the 300-second case.
+
+A controlled duration sweep then varied only the second fault duration, with fresh engines and the same seed for each wait/reroute arm:
+
+| Second fault duration | Wait arrival | Reroute arrival | Reroute minus wait | Faster |
+|---:|---:|---:|---:|---|
+| 120 s | 1310 | 1652 | +342 s | Wait |
+| 300 s | 1347 | 1652 | +305 s | Wait |
+| 600 s | 1777 | 1652 | -125 s | Reroute |
+| 900 s | 1973 | 1652 | -321 s | Reroute |
+
+The decision boundary for this single route/vehicle/roadnet lies between 300 and 600 seconds. This is a development result, not a general threshold. It demonstrates that automatic rerouting is not always beneficial and that incident duration is decision-critical.
+
+Source run: GitHub Actions `42495116598`, commit `ed9b6aba891af4248173860b48fa635cd61836bf`, artifact ID `13622699565`.
+
+## Revised next task
+
+The dynamic task should require the system to decide between:
+- wait for controller restoration,
+- reroute around the blocked movement,
+- or request additional evidence before committing.
+
+The decision must account for estimated restoration time and its uncertainty, lane-feasible route availability, actual queue impact and destination deadline. The restoration duration used by the simulator should remain hidden from the agent; the agent sees only the declared estimate/evidence. Evaluation should vary actual duration and estimate error.
+
+This is a more defensible task than “always reroute after a plan becomes stale”. It creates a real decision problem where a successful action can still be suboptimal.
