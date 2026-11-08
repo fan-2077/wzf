@@ -1,0 +1,66 @@
+name: Dynamic traffic event feasibility
+on:
+  push:
+    paths:
+      - 'experiments/dynamic_event_probe.py'
+      - '.github/workflows/dynamic-event-probe.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  dynamic-event:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Record bounded runner
+        run: |
+          mkdir -p results
+          { uname -a; lscpu; free -h; df -h; python --version; } > results/environment.txt
+          python -m compileall -q experiments
+      - name: Prepare pinned native CityFlow and public road network
+        shell: bash
+        run: |
+          python -m pip install --quiet PyYAML pybind11
+          git clone https://github.com/cityflow-project/CityFlow.git upstream/CityFlow
+          git -C upstream/CityFlow fetch --depth=1 origin 81ee0f47659ca66177a71f81676691c58ee89184
+          git -C upstream/CityFlow checkout --detach FETCH_HEAD
+          git -C upstream/CityFlow submodule update --init --depth=1 extern/rapidjson
+          git clone https://github.com/usail-hkust/CoLLMLight.git upstream/CoLLMLight
+          git -C upstream/CoLLMLight fetch --depth=1 origin ce204a90a238e206fa5673b6922aab3a6a9fc597
+          git -C upstream/CoLLMLight checkout --detach FETCH_HEAD
+          mkdir -p native_build
+          python - <<'PY'
+          from pathlib import Path
+          import sysconfig,pybind11,json,hashlib
+          root=Path.cwd();city=root/'upstream/CityFlow'
+          cmd=['g++','-O2','-shared','-std=c++11','-fPIC','-pthread','-DRAPIDJSON_HAS_STDSTRING=1','-I'+str(city/'src'),'-I'+str(city/'extern/rapidjson/include'),'-I'+str(city/'extern/milo'),'-I'+pybind11.get_include(),'-I'+sysconfig.get_paths()['include'],*[str(city/'src'/x) for x in ['utility/utility.cpp','utility/barrier.cpp','engine/archive.cpp','engine/engine.cpp','flow/flow.cpp','roadnet/roadnet.cpp','roadnet/trafficlight.cpp','vehicle/router.cpp','vehicle/vehicle.cpp','vehicle/lanechange.cpp','cityflow.cpp']],'-o',str(root/'native_build'/('cityflow'+sysconfig.get_config_var('EXT_SUFFIX')))]
+          import subprocess
+          subprocess.run(cmd,check=True,timeout=240)
+          (root/'results'/'source_commits.json').write_text(json.dumps({'CityFlow':'81ee0f47659ca66177a71f81676691c58ee89184','CoLLMLight':'ce204a90a238e206fa5673b6922aab3a6a9fc597'},indent=2))
+          data=root/'upstream/CoLLMLight/data/Hangzhou/4_4'
+          for file,sha in [('roadnet_4_4.json','11e2fe89f632e43e81f56ea87a308d544b66f9c5af8a410e16149668d6d376c1'),('anon_4_4_hangzhou_real.json','595a6140e6649efe5be1b274eb8b03e8c4029e517c9ac2ad53c9ea556a414213')]:
+              assert hashlib.sha256((data/file).read_bytes()).hexdigest()==sha
+          PY
+      - name: Execute second-event plan invalidation and re-route
+        run: python -u experiments/dynamic_event_probe.py | tee results/dynamic_event.log
+      - name: Preserve source, logs and result hashes
+        if: always()
+        run: |
+          cp experiments/dynamic_event_probe.py results/
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('results')
+          (root/'manifest.json').write_text(json.dumps({str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()},indent=2))
+          PY
+      - name: Upload dynamic event evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dynamic-traffic-event-evidence
+          path: results/
+          retention-days: 14
