@@ -82,7 +82,7 @@ assert engine.get_vehicle_info(vid)['route'].split()==ROUTES[0]
 assert engine.set_vehicle_route(vid,planned[1:])
 assert engine.get_vehicle_info(vid)['route'].split()==planned
 plan_record={'environment_version':1,'planned_at':700,'route':planned,'vehicle':vid,'destination':dest}
-while engine.get_current_time()<900:tick([initial])
+while engine.get_current_time()<850:tick([initial])
 info=engine.get_vehicle_info(vid);current=info['road'];remaining=info['route'].split()
 if remaining and remaining[0]==current:remaining=remaining[1:]
 assert current in ROADS
@@ -96,10 +96,10 @@ for nxt in remaining:
   if forbidden_phases:
    blocked={'from_road':current,'to_road':nxt,'iid':m['iid'],'blocked_phase':forbidden_phases[0],'permitted_phases':m['phases'],'link_index':m['link_index']};break
 if blocked is None:raise RuntimeError('No future controllable movement found on planned route')
-second={'iid':blocked['iid'],'phase':blocked['blocked_phase'],'start':900,'release':1200}
+second={'iid':blocked['iid'],'phase':blocked['blocked_phase'],'start':850,'release':1150}
 setp(second['iid'],second['phase'])
 # The second event changes environment version and invalidates version-1 plan.
-event={'environment_version':2,'time':900,'kind':'signal_controller_stuck','intersection':second['iid'],'held_phase':second['phase'],'release':second['release'],'blocked_movement':[current,blocked['to_road']]}
+event={'environment_version':2,'time':850,'kind':'signal_controller_stuck','intersection':second['iid'],'held_phase':second['phase'],'release':second['release'],'blocked_movement':[current,blocked['to_road']]}
 old_plan_valid=False
 # Compute alternative path from current road to destination, excluding the blocked
 # directed movement; then execute it through native CityFlow.
@@ -107,7 +107,7 @@ alternative=bfs(current,dest,(current,blocked['to_road']))
 if not alternative:raise RuntimeError('No feasible alternate route under second event')
 new_route=[current]+alternative[1:] if alternative[0]==current else alternative
 # Apply event at current time and set reroute from current road.
-assert engine.get_current_time()==900
+assert engine.get_current_time()==850
 route_before=engine.get_vehicle_info(vid)
 route_set_result=engine.set_vehicle_route(vid,new_route[1:])
 route_readback=engine.get_vehicle_info(vid)['route'].split()
@@ -124,7 +124,7 @@ for _ in range(900):
   if r and (not visited or visited[-1]!=r):visited.append(r)
  elif arrive is None:arrive=engine.get_current_time()
  tick([initial,second])
- if engine.get_current_time()<1200:phase_obs.append({'time':engine.get_current_time(),'phase':engine.observe_tl_phase(second['iid'])})
+ if engine.get_current_time()<1150:phase_obs.append({'time':engine.get_current_time(),'phase':engine.observe_tl_phase(second['iid'])})
  queue_sum+=sum(engine.get_lane_waiting_vehicle_count().values())
 if arrive is None and vid not in engine.get_vehicles(include_waiting=True):arrive=engine.get_current_time()
 record={'scenario':'dynamic second signal-controller fault after route plan','initial_plan':plan_record,'second_event':event,'old_plan_valid_after_event':old_plan_valid,'blocked_movement':blocked,'new_route':new_route,'route_readback':route_readback,'route_set_accepted':True,'visited_roads':visited,'destination_reached':arrive is not None and dest in visited,'arrival_time':arrive,'simulated_seconds_after_replan':900,'mean_network_queue_during_window':queue_sum/900,'second_fault_samples':phase_obs,'second_fault_enforced':len(phase_obs)==300 and all(x['phase']==second['phase'] for x in phase_obs),'new_route_avoids_blocked_movement':all(not (visited[i]==blocked['from_road'] and visited[i+1]==blocked['to_road']) for i in range(len(visited)-1)),'new_environment_version':2,'stale_plan_rejected_by_contract':not old_plan_valid,'wall_seconds':time.monotonic()-start,'scope':'one deterministic dynamic event proof; not LLM, not multi-agent, not generalization'}
