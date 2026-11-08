@@ -50,8 +50,9 @@ config={'api_keys':{'openai':'','gemini':'','groq':'','anthropic':'','huggingfac
  'scheduler':{'log_mode':'console'},'agent_factory':{'log_mode':'console','max_workers':4},
  'server':{'host':'127.0.0.1','port':18082}}
 (compat/'aios/config/config.yaml').write_text(yaml.safe_dump(config,sort_keys=False)); (OUT/'aios_config.yaml').write_text(yaml.safe_dump(config,sort_keys=False))
-# Native preloaded tool manager stays intact; only register our own local tool.
+# Native preloaded tool manager stays intact; explicitly resolve the pinned SDK source.
 os.environ['XDG_CACHE_HOME']=str(ROOT/'isolated/cache')
+sys.path.insert(0,str(UP/'Cerebrum'))
 from cerebrum.manager.package import ToolPackage
 from cerebrum.interface import AutoTool
 source='''import json,urllib.request
@@ -80,7 +81,9 @@ mods={'src/engine/engine.h':[('#include <fstream>','#include <fstream>\n#include
 patch=[]
 for rel,reps in mods.items():
     f=city/rel;a=f.read_text();b=a
-    for x,y in reps:assert b.count(x)==1;(None);b=b.replace(x,y)
+    for x,y in reps:
+        assert b.count(x)==1
+        b=b.replace(x,y)
     f.write_text(b);patch.extend(difflib.unified_diff(a.splitlines(True),b.splitlines(True),'a/'+rel,'b/'+rel))
 (OUT/'cityflow_readonly.patch').write_text(''.join(patch))
 build=ROOT/'native_build';build.mkdir(exist_ok=True)
