@@ -163,6 +163,52 @@ record['no_replan_baseline']={'initial_route':planned,'visited_roads':baseline_v
  'blocked_movement_traversed':any(baseline_visited[i]==blocked['from_road'] and baseline_visited[i+1]==blocked['to_road'] for i in range(len(baseline_visited)-1)),
  'scope':'same seed, same initial route and faults, no route intervention'}
 record['reroute_vs_no_replan_arrival_delta_sim_s']=None if baseline_arrival is None else baseline_arrival-arrive
+
+# Sensitivity study: vary only the second controller-fault duration. Each arm
+# starts from a fresh identical CityFlow seed and initial route. Compare waiting
+# on the original route against the same lane-feasible reroute.
+def matched_trial(duration, reroute):
+ global engine,phases,pending,last,commands
+ engine=cityflow.Engine(str(OUT/'config.json'),thread_num=1)
+ phases={i:1 for i in INTER};pending={};last={i:0 for i in INTER};commands=[]
+ for iid in phases:setp(iid,1)
+ while engine.get_current_time()<700:tick([initial])
+ assert engine.get_vehicle_info(vid)['route'].split()==ROUTES[0]
+ assert engine.set_vehicle_route(vid,planned[1:])
+ assert engine.get_vehicle_info(vid)['route'].split()==planned
+ while engine.get_current_time()<705:tick([initial])
+ second_trial={'iid':blocked['iid'],'phase':blocked['blocked_phase'],'start':705,'release':705+duration}
+ setp(second_trial['iid'],second_trial['phase'])
+ route_before=engine.get_vehicle_info(vid)['route'].split()
+ if reroute:
+  accepted=engine.set_vehicle_route(vid,new_route[1:])
+  readback=engine.get_vehicle_info(vid)['route'].split()
+  if not accepted or readback!=new_route:raise RuntimeError('matched trial reroute rejected')
+ visited_trial=[];arrival_trial=None;queue_trial=0
+ begin=time.monotonic()
+ for _ in range(3000):
+  live=set(engine.get_vehicles(include_waiting=True))
+  if vid in live:
+   road=engine.get_vehicle_info(vid).get('road')
+   if road and (not visited_trial or visited_trial[-1]!=road):visited_trial.append(road)
+  elif arrival_trial is None:arrival_trial=engine.get_current_time()
+  tick([initial,second_trial])
+  queue_trial+=sum(engine.get_lane_waiting_vehicle_count().values())
+ if arrival_trial is None and vid not in engine.get_vehicles(include_waiting=True):arrival_trial=engine.get_current_time()
+ return {'duration_s':duration,'policy':'reroute' if reroute else 'wait_original_route',
+  'initial_route':planned,'executed_route':new_route if reroute else route_before,
+  'visited_roads':visited_trial,'destination_reached':arrival_trial is not None and dest in visited_trial,
+  'arrival_time':arrival_trial,'mean_network_queue':queue_trial/3000,
+  'wall_seconds':time.monotonic()-begin}
+
+sweep=[]
+for duration in [120,300,600,900]:
+ wait_result=matched_trial(duration,False)
+ reroute_result=matched_trial(duration,True)
+ sweep.append({'duration_s':duration,'wait':wait_result,'reroute':reroute_result,
+  'reroute_arrival_delta_sim_s':None if wait_result['arrival_time'] is None or reroute_result['arrival_time'] is None else reroute_result['arrival_time']-wait_result['arrival_time'],
+  'faster_policy':None if wait_result['arrival_time'] is None or reroute_result['arrival_time'] is None else ('reroute' if reroute_result['arrival_time']<wait_result['arrival_time'] else 'wait_original_route')})
+record['duration_sensitivity']=sweep
 (OUT/'result.json').write_text(json.dumps(record,indent=2))
 assert record['second_fault_enforced'] and record['new_route_avoids_blocked_movement'] and record['destination_reached']
 print(json.dumps(record,indent=2))
