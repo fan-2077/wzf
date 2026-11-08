@@ -52,7 +52,7 @@ class ProtocolTests(unittest.TestCase):
         self.ledger.submit_reply(ReviewReply("r1","q1","signal","route","No conflict",("sim://evidence/1",)))
         self.ledger.consume_and_revise(art("a2","route",revision="a1",replies=("r1",)))
         with self.assertRaisesRegex(ValueError,"already consumed"):
-            self.ledger.consume_and_revise(art("a3","route",revision="a2",replies=("r1",)))
+            self.ledger.consume_and_revise(art("a3","route",revision="a1",replies=("r1",)))
 
     def test_environment_change_invalidates_old_artifacts(self):
         self.ledger.advance_environment(2)
