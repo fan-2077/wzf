@@ -1,0 +1,98 @@
+name: Native AIOS traffic regression
+on:
+  push:
+    paths: ['.github/workflows/aios-native-traffic.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-runtime-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      HF_HUB_DOWNLOAD_TIMEOUT: '600'
+      HF_HUB_ETAG_TIMEOUT: '60'
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Record environment and remove concrete answer-shaped prompt example
+        shell: bash
+        run: |
+          mkdir -p results model bin
+          { uname -a; lscpu; free -h; df -h; python --version; } > results/environment.txt
+          python - <<'PY'
+          from pathlib import Path
+          import difflib
+          p=Path('experiments/native_run.py');a=p.read_text()
+          old='candidate_id\\\":\\\"r1-bounded'
+          # The checked-in Python string is ordinary source text, not JSON-escaped.
+          old='candidate_id":"r1-bounded'
+          assert a.count(old)==1
+          b=a.replace(old,'candidate_id":"<ID returned by evaluate_candidates>')
+          p.write_text(b)
+          Path('results/prompt_example_neutralization.patch').write_text(''.join(difflib.unified_diff(a.splitlines(True),b.splitlines(True),'before/native_run.py','executed/native_run.py')))
+          PY
+          python -m compileall -q experiments
+      - name: Build pinned CPU inference engine
+        shell: bash
+        run: |
+          python -m pip install --quiet PyYAML huggingface_hub
+          git clone --depth 1 --branch b10344 https://github.com/ggml-org/llama.cpp.git llama-source
+          git -C llama-source rev-parse HEAD > results/llama_source_commit.txt
+          test "$(cat results/llama_source_commit.txt)" = '7a20b417f4526cae073bd997af5020cea3e7ccbe'
+          cmake -S llama-source -B llama-source/build -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=OFF -DLLAMA_CURL=OFF -DBUILD_SHARED_LIBS=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_SERVER=ON > results/cmake-configure.log 2>&1
+          cmake --build llama-source/build --target llama-server -j4 > results/cmake-build.log 2>&1
+          cp llama-source/build/bin/llama-server bin/llama-server
+          sha256sum bin/llama-server > results/binary.sha256
+      - name: Acquire and verify official fixed 8B weights
+        shell: bash
+        run: |
+          python -u - <<'PY'
+          from huggingface_hub import hf_hub_download
+          from pathlib import Path
+          import hashlib,json,time
+          t=time.monotonic();local=hf_hub_download(repo_id='Qwen/Qwen3-8B-GGUF',revision='7c41481f57cb95916b40956ab2f0b139b296d974',filename='Qwen3-8B-Q4_K_M.gguf')
+          p=Path('model/Qwen3-8B-Q4_K_M.gguf');p.symlink_to(local)
+          sha=hashlib.file_digest(p.open('rb'),'sha256').hexdigest()
+          assert sha=='d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785'
+          assert p.stat().st_size==5027783488
+          Path('results/model_manifest.json').write_text(json.dumps({'repository':'Qwen/Qwen3-8B-GGUF','revision':'7c41481f57cb95916b40956ab2f0b139b296d974','file':p.name,'sha256':sha,'bytes':p.stat().st_size,'download_seconds':time.monotonic()-t,'runtime':'locally loaded CPU weights on GitHub runner; not a commercial cloud model and not the user RTX4090'},indent=2))
+          PY
+      - name: Install native runtime dependencies on CPU
+        shell: bash
+        run: |
+          python -m pip install --no-cache-dir 'torch==2.5.1+cpu' --index-url https://download.pytorch.org/whl/cpu > results/torch-install.log 2>&1
+          python -m pip install --no-cache-dir -r experiments/requirements-aios.txt > results/native-install.log 2>&1
+          python -m pip freeze > results/runtime-freeze.txt
+      - name: Prepare original managers, SDK, and real simulation tool
+        shell: bash
+        run: |
+          python -u experiments/prepare_native.py > results/native-setup.log 2>&1
+          python -m pip freeze > results/runtime-freeze-final.txt
+      - name: Execute native model tool loop and corrected independent reviews
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=20s 1500s python -u experiments/native_run.py | tee results/native-run.log
+      - name: Preserve exact sources, logs and results without model weights
+        if: always()
+        shell: bash
+        run: |
+          cp -r experiments results/executed_sources
+          mkdir -p results/workflows
+          cp .github/workflows/*.yml results/workflows/
+          python - <<'PY'
+          import pathlib,hashlib,json
+          root=pathlib.Path('results')
+          rows={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
+          (root/'MANIFEST.json').write_text(json.dumps(rows,indent=2))
+          PY
+      - name: Upload bounded evidence artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: aios-native-traffic-evidence
+          path: results/
+          retention-days: 14
