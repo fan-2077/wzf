@@ -68,6 +68,7 @@ def bfs(start,dest,forbidden):
   road,path=q.popleft()
   if road==dest:return path
   end=ROADS[road]['endIntersection']
+  if end not in INTER:continue
   for m in INTER[end]['roadLinks']:
    nxt=m['endRoad']
    if (road,nxt)==forbidden or nxt in seen:continue
