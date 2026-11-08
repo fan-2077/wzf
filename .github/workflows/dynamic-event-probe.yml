@@ -37,7 +37,7 @@ jobs:
           from pathlib import Path
           import sysconfig,pybind11,json,hashlib
           root=Path.cwd();city=root/'upstream/CityFlow'
-          engine_h=city/'src/engine/engine.h';a=engine_h.read_text();needle='        void setTrafficLightPhase(const std::string &id, int phaseIndex);';addition='''        int observeTrafficLightPhase(const std::string &id) const {
+          engine_h=city/'src/engine/engine.h';a=engine_h.read_text();a=a.replace('#include <fstream>','#include <fstream>\\n#include <stdexcept>');needle='        void setTrafficLightPhase(const std::string &id, int phaseIndex);';addition='''        int observeTrafficLightPhase(const std::string &id) const {
             Intersection *intersection = roadnet.getIntersectionById(id);
             if (intersection == nullptr) throw std::out_of_range("unknown intersection");
             return intersection->getTrafficLight().getCurrentPhaseIndex();
