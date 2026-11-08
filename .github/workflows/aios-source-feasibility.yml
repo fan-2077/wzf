@@ -1,0 +1,59 @@
+name: AIOS source-build feasibility
+on:
+  push:
+    paths: ['.github/workflows/aios-source-feasibility.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-local-model:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Environment and fixed source build
+        shell: bash
+        run: |
+          mkdir -p results model bin
+          { uname -a; lscpu; free -h; df -h; } > results/environment.txt
+          python3 -m pip install --quiet PyYAML huggingface_hub
+          git clone --depth 1 --branch b10344 https://github.com/ggml-org/llama.cpp.git llama-source
+          git -C llama-source rev-parse HEAD > results/llama_source_commit.txt
+          test "$(cat results/llama_source_commit.txt)" = '7a20b417f4526cae073bd997af5020cea3e7ccbe'
+          cmake -S llama-source -B llama-source/build -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=OFF -DLLAMA_CURL=OFF -DBUILD_SHARED_LIBS=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_SERVER=ON > results/cmake-configure.log 2>&1
+          cmake --build llama-source/build --target llama-server -j4 > results/cmake-build.log 2>&1
+          cp llama-source/build/bin/llama-server bin/llama-server
+          sha256sum bin/llama-server > results/binary.sha256
+      - name: Download the same official model and execute unchanged inference probes
+        shell: bash
+        env:
+          HF_HUB_DOWNLOAD_TIMEOUT: '600'
+          HF_HUB_ETAG_TIMEOUT: '60'
+        run: |
+          python3 -u - <<'PY'
+          import pathlib,yaml,subprocess,json,os
+          document=yaml.safe_load(pathlib.Path('.github/workflows/aios-model-feasibility.yml').read_text())
+          steps=document['jobs']['local-model-probe']['steps']
+          selected=[s for s in steps if s.get('name') in ['Obtain fixed official Qwen3 8B weight and verify SHA256','Real local inference and four isolated review contexts']]
+          for index,step in enumerate(selected):
+              code=step['run']
+              if index==0:
+                  original="urllib.request.urlretrieve(url,'model/Qwen3-8B-Q4_K_M.gguf')"
+                  replacement="from huggingface_hub import hf_hub_download\nlocal=hf_hub_download(repo_id='Qwen/Qwen3-8B-GGUF',revision='7c41481f57cb95916b40956ab2f0b139b296d974',filename='Qwen3-8B-Q4_K_M.gguf')\npathlib.Path('model/Qwen3-8B-Q4_K_M.gguf').symlink_to(local)"
+                  assert original in code
+                  code=code.replace(original,replacement)
+              script=pathlib.Path('results')/('executed_step_'+str(index)+'.sh')
+              script.write_text('set -euo pipefail\n'+code)
+              print('Executing',step['name'],flush=True)
+              with open('results/step_'+str(index)+'.log','w') as f:
+                  completed=subprocess.run(['bash',str(script)],stdout=f,stderr=subprocess.STDOUT,timeout=1200)
+              print(pathlib.Path('results/step_'+str(index)+'.log').read_text()[-12000:],flush=True)
+              if completed.returncode: raise RuntimeError('Step failed: '+step['name'])
+          PY
+      - name: Preserve actual logs and outputs, never model weights
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: aios-source-feasibility-evidence
+          path: results/
+          retention-days: 14
