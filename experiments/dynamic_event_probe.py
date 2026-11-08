@@ -76,53 +76,39 @@ def bfs(start,dest,forbidden,first_allowed=None):
    if len(path)==1 and first_allowed is not None and nxt not in first_allowed:continue
    seen.add(nxt);q.append((nxt,path+[nxt]))
  return None
-# Warm up, freeze an initial route plan, then select a vehicle whose CURRENT
-# lane has a genuinely executable alternative outgoing lane link.
+# Freeze a route plan at t=700. A later event blocks a FUTURE movement,
+# while preserving the first movement from the vehicle's current lane.
 initial={'iid':'intersection_2_3','phase':2,'start':700,'release':1500}
 while engine.get_current_time()<700:tick([initial])
-vid=None;dest=None;current=None;original_next=None;blocked=None;alternative=None
-for candidate in sorted(engine.get_vehicles(include_waiting=True)):
- try:info=engine.get_vehicle_info(candidate)
- except Exception:continue
- current_road=info.get('road','');route=info.get('route','').split();drivable=info.get('drivable','')
- if current_road not in ROADS or len(route)<2 or not drivable.startswith(current_road+'_'):continue
- try:lane_index=int(drivable.rsplit('_',1)[1])
- except Exception:continue
- try:route_pos=route.index(current_road)
- except ValueError:continue
- if route_pos+1>=len(route):continue
- next_road=route[route_pos+1];movement=MOV.get((current_road,next_road))
+vid='flow_1457_0';dest='road_3_3_3';planned=ROUTES[1]
+assert engine.get_vehicle_info(vid)['route'].split()==ROUTES[0]
+assert engine.set_vehicle_route(vid,planned[1:])
+assert engine.get_vehicle_info(vid)['route'].split()==planned
+plan_record={'environment_version':1,'planned_at':700,'route':planned,'vehicle':vid,'destination':dest}
+while engine.get_current_time()<705:tick([initial])
+info=engine.get_vehicle_info(vid);current=info['road'];live_route=info['route'].split()
+if live_route[0]!=current:raise RuntimeError('vehicle route snapshot does not start at current road')
+if len(live_route)<4:raise RuntimeError('insufficient future route for dynamic event')
+first_next=live_route[1]
+blocked=None;alternative=None
+# Search later planned transitions, never the current lane's immediate movement.
+for pos in range(2,len(live_route)-1):
+ a,b=live_route[pos],live_route[pos+1]
+ movement=MOV.get((a,b))
  if movement is None or movement['iid']==initial['iid']:continue
- end=ROADS[current_road]['endIntersection']
- if end not in INTER:continue
- outgoing=[]
- for road_link in INTER[end]['roadLinks']:
-  if road_link['startRoad']!=current_road or road_link['endRoad']==next_road:continue
-  if any(int(ll['startLaneIndex'])==lane_index for ll in road_link['laneLinks']):
-   outgoing.append(road_link['endRoad'])
- if not outgoing:continue
  forbidden_phases=[p for p in range(1,5) if p not in movement['phases']]
  if not forbidden_phases:continue
- candidate_dest=route[-1]
- candidate_path=bfs(current_road,candidate_dest,(current_road,next_road),set(outgoing))
- if not candidate_path or len(candidate_path)<2 or candidate_path[1] not in outgoing:continue
- vid=candidate;dest=candidate_dest;current=current_road;original_next=next_road;alternative=candidate_path
- blocked={'from_road':current,'to_road':original_next,'iid':movement['iid'],'blocked_phase':forbidden_phases[0],
-          'permitted_phases':movement['phases'],'link_index':movement['link_index'],'vehicle_lane':lane_index,
-          'lane_compatible_alternatives':outgoing}
- break
-if vid is None:raise RuntimeError('No vehicle with a lane-feasible alternate route found at the frozen event time')
-plan_before=engine.get_vehicle_info(vid)
-planned=plan_before['route'].split()
-plan_record={'environment_version':1,'planned_at':700,'route':planned,'vehicle':vid,'destination':dest,
-             'current_road':current,'next_movement':[current,original_next]}
-while engine.get_current_time()<705:tick([initial])
-info=engine.get_vehicle_info(vid)
-if info.get('road')!=current:raise RuntimeError('Selected vehicle left the planned road before event injection')
+ candidate=bfs(current,dest,(a,b),{first_next})
+ if candidate and len(candidate)>2 and candidate[1]==first_next and all((candidate[i],candidate[i+1]) in MOV for i in range(len(candidate)-1)):
+  blocked={'from_road':a,'to_road':b,'iid':movement['iid'],'blocked_phase':forbidden_phases[0],
+           'permitted_phases':movement['phases'],'link_index':movement['link_index'],
+           'preserved_first_movement':[current,first_next]}
+  alternative=candidate;break
+if blocked is None:raise RuntimeError('No alternate route preserving the current lane commitment was found')
 second={'iid':blocked['iid'],'phase':blocked['blocked_phase'],'start':705,'release':1005}
 setp(second['iid'],second['phase'])
 event={'environment_version':2,'time':705,'kind':'signal_controller_stuck','intersection':second['iid'],
-       'held_phase':second['phase'],'release':second['release'],'blocked_movement':[current,original_next]}
+       'held_phase':second['phase'],'release':second['release'],'blocked_movement':[blocked['from_road'],blocked['to_road']]}
 old_plan_valid=False
 new_route=alternative
 route_before=engine.get_vehicle_info(vid)
@@ -132,7 +118,7 @@ if not route_set_result or route_readback!=new_route:
  (OUT/'route_replan_failure.json').write_text(json.dumps({'vehicle':vid,'vehicle_live':vid in engine.get_vehicles(include_waiting=True),
   'vehicle_before':route_before,'current_road':current,'blocked':blocked,'alternative':alternative,
   'new_route':new_route,'set_result':route_set_result,'readback':route_readback},indent=2))
- raise RuntimeError('native lane-feasible route replanning rejected; see route_replan_failure.json')
+ raise RuntimeError('native route replanning rejected; see route_replan_failure.json')
 # Simulate to event release while enforcing both controller failures.
 visited=[];arrive=None;queue_sum=0;phase_obs=[{'time':engine.get_current_time(),'phase':engine.observe_tl_phase(second['iid'])}]
 start=time.monotonic()
