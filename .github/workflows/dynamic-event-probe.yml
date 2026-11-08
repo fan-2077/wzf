@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'experiments/dynamic_event_probe.py'
+      - 'experiments/patch_cityflow_readonly.py'
       - '.github/workflows/dynamic-event-probe.yml'
   workflow_dispatch:
 permissions:
@@ -37,16 +38,8 @@ jobs:
           from pathlib import Path
           import sysconfig,pybind11,json,hashlib
           root=Path.cwd();city=root/'upstream/CityFlow'
-          engine_h=city/'src/engine/engine.h';a=engine_h.read_text();a=a.replace('#include <fstream>','#include <fstream>\\n#include <stdexcept>');needle='        void setTrafficLightPhase(const std::string &id, int phaseIndex);';addition='''        int observeTrafficLightPhase(const std::string &id) const {
-            Intersection *intersection = roadnet.getIntersectionById(id);
-            if (intersection == nullptr) throw std::out_of_range("unknown intersection");
-            return intersection->getTrafficLight().getCurrentPhaseIndex();
-        }
-'''+needle
-          assert a.count(needle)==1;engine_h.write_text(a.replace(needle,addition))
-          cpp=city/'src/cityflow.cpp';a=cpp.read_text();needle='        .def("set_tl_phase", &CityFlow::Engine::setTrafficLightPhase, "intersection_id"_a, "phase_id"_a)';addition='        .def("observe_tl_phase", &CityFlow::Engine::observeTrafficLightPhase, "intersection_id"_a)\\n'+needle
-          assert a.count(needle)==1;cpp.write_text(a.replace(needle,addition))
-          (root/'results'/'readonly_observation_patch.json').write_text(json.dumps({'files':['src/engine/engine.h','src/cityflow.cpp'],'scope':'read-only phase observation only; no simulation dynamics modified'},indent=2))
+          import subprocess,sys
+          subprocess.run([sys.executable,str(root/'experiments/patch_cityflow_readonly.py')],check=True)
           cmd=['g++','-O2','-shared','-std=c++11','-fPIC','-pthread','-DRAPIDJSON_HAS_STDSTRING=1','-I'+str(city/'src'),'-I'+str(city/'extern/rapidjson/include'),'-I'+str(city/'extern/milo'),'-I'+pybind11.get_include(),'-I'+sysconfig.get_paths()['include'],*[str(city/'src'/x) for x in ['utility/utility.cpp','utility/barrier.cpp','engine/archive.cpp','engine/engine.cpp','flow/flow.cpp','roadnet/roadnet.cpp','roadnet/trafficlight.cpp','vehicle/router.cpp','vehicle/vehicle.cpp','vehicle/lanechange.cpp','cityflow.cpp']],'-o',str(root/'native_build'/('cityflow'+sysconfig.get_config_var('EXT_SUFFIX')))]
           import subprocess
           subprocess.run(cmd,check=True,timeout=240)
