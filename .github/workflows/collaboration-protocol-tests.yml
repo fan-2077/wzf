@@ -1,0 +1,21 @@
+name: Collaboration protocol unit tests
+on:
+  push:
+    paths:
+      - 'experiments/collaboration_protocol.py'
+      - 'experiments/test_collaboration_protocol.py'
+      - '.github/workflows/collaboration-protocol-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  protocol:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run protocol contract tests
+        run: |
+          python -m unittest discover -s experiments -p 'test_collaboration_protocol.py' -v
