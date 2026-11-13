@@ -1,0 +1,102 @@
+name: Round8 verified feedback integration
+on:
+  push:
+    branches: ['experiment/round8-verified-feedback']
+    paths: ['.github/workflows/round8-verified-feedback.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: round8-verified-feedback
+  cancel-in-progress: false
+jobs:
+  native-model-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      HF_HUB_DOWNLOAD_TIMEOUT: '600'
+      HF_HUB_ETAG_TIMEOUT: '60'
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Record scope and validate new sources before dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p results model bin
+          { uname -a; lscpu; free -h; df -h; python --version; git rev-parse HEAD; } > results/environment.txt
+          python experiments/round8_runtime_guard.py
+          python -m compileall -q experiments
+          python - <<'PY'
+          import sys,json
+          from pathlib import Path
+          sys.path.insert(0,'experiments')
+          from round8_task import DecisionGate,ContractError,expected_scores
+          from round8_feedback import Ledger
+          rows=[{'duration':d,'arrival':{'wait':a,'reroute':1652},'mean_queue':{'wait':100,'reroute':100}} for d,a in zip([120,300,600,900],[1310,1347,1777,1973])]
+          g=DecisionGate('probe',rows,'short')
+          p={'task_id':'probe','version':1,'policy':'wait','evidence_ids':g.public()['evidence_ids']}
+          g.update('long')
+          try:g.commit(p);raise AssertionError('stale commit accepted')
+          except ContractError:pass
+          assert not g.executed
+          assert expected_scores(rows,[.7,.2,.1,0])['best']=='wait'
+          assert expected_scores(rows,[0,.1,.3,.6])['best']=='reroute'
+          Path('results/preflight.json').write_text(json.dumps({'stale_write_rejected':True,'decision_math_checked':True,'scope':'deterministic preflight, not LLM outcome'}))
+          Path('results/SCOPE.txt').write_text('AI-assisted integration only. Same known roadnet/vehicle; synthetic forecast updates. Four isolated 8B role contexts use three PREDEFINED peer paths. Not autonomous decomposition or proof of collaboration superiority. Exact forecasts are shared by all modes; actual duration is not sent to model prompts. Actions affect simulation only. No private credentials, research files, real roads or model weights are uploaded.\n')
+          PY
+      - name: Prepare pinned inference and original AIOS managers using successful setup
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet PyYAML huggingface_hub
+          python -u - <<'PY'
+          from pathlib import Path
+          import yaml,subprocess
+          doc=yaml.safe_load(Path('.github/workflows/aios-native-traffic.yml').read_text())
+          names=['Build pinned CPU inference engine','Acquire and verify official fixed 8B weights','Install native runtime dependencies on CPU','Prepare original managers, SDK, and real simulation tool']
+          steps=doc['jobs']['native-runtime-regression']['steps']
+          for index,name in enumerate(names):
+              print('SETUP',name,flush=True)
+              step=next(s for s in steps if s.get('name')==name)
+              p=Path('results')/('setup_'+str(index)+'.sh');p.write_text('set -euo pipefail\n'+step['run'])
+              subprocess.run(['bash',str(p)],check=True,timeout=900)
+          PY
+      - name: Run genuine native 8B decisions, stale rejection, peer replies and requester revisions
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=45s 2400s python -u - <<'PY' | tee results/round8_console.log
+          import sys,signal
+          sys.path.insert(0,'experiments')
+          import round8_live
+          def interrupt(signum,frame):raise SystemExit(124)
+          signal.signal(signal.SIGTERM,interrupt)
+          round8_live.main()
+          PY
+      - name: Seal exact executed sources and actual logs
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p results/executed_sources results/workflows
+          cp experiments/round8_*.py experiments/native_run.py experiments/prepare_native.py experiments/sdk_path_bootstrap.py experiments/requirements-aios.txt results/executed_sources/
+          cp .github/workflows/round8-verified-feedback.yml .github/workflows/aios-native-traffic.yml results/workflows/
+          find results -type l -delete
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('results')
+          manifest={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
+          (root/'MANIFEST.json').write_text(json.dumps(manifest,indent=2))
+          PY
+      - name: Save bounded evidence without model weights
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: round8-verified-feedback-evidence
+          path: results/
+          retention-days: 14
