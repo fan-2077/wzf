@@ -1,0 +1,43 @@
+name: Round8 contract regression
+on:
+  push:
+    branches: ['experiment/round8-verified-feedback']
+    paths: ['.github/workflows/round8-contract-tests.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contract-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run deterministic contracts, not simulated model answers
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p results
+          python - <<'PY'
+          import sys,json,unittest,io,hashlib,subprocess
+          from pathlib import Path
+          sys.path.insert(0,'experiments')
+          suite=unittest.defaultTestLoader.discover('experiments',pattern='test_round8.py')
+          log=io.StringIO();result=unittest.TextTestRunner(stream=log,verbosity=2).run(suite)
+          Path('results/unit_tests.log').write_text(log.getvalue());print(log.getvalue())
+          data={'tests_run':result.testsRun,'failures':len(result.failures),'errors':len(result.errors),'skipped':len(result.skipped),'passed':result.wasSuccessful(),'python':sys.version,'commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'scope':'deterministic unit tests only; zero model requests; fixture forecasts are not scientific results'}
+          Path('results/summary.json').write_text(json.dumps(data,indent=2))
+          for name in ['round8_task.py','round8_feedback.py','test_round8.py']:
+              src=Path('experiments')/name;Path('results',name).write_bytes(src.read_bytes())
+          root=Path('results');manifest={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.iterdir() if p.is_file()};(root/'MANIFEST.json').write_text(json.dumps(manifest,indent=2))
+          if result.testsRun!=29 or not result.wasSuccessful():raise SystemExit(1)
+          PY
+      - name: Preserve actual test results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: round8-contract-test-evidence
+          path: results/
+          retention-days: 14
