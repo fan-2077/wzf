@@ -1,0 +1,80 @@
+name: Round8 typed evidence repair
+on:
+  push:
+    branches: ['experiment/round8-verified-feedback']
+    paths: ['.github/workflows/round8-semantic-followup.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  typed-peer-repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      HF_HUB_DOWNLOAD_TIMEOUT: '600'
+      HF_HUB_ETAG_TIMEOUT: '60'
+      PIP_DISABLE_PIP_VERSION_CHECK: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Freeze targeted repair scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p results model bin
+          { uname -a; lscpu; free -h; df -h; python --version; git rev-parse HEAD; } > results/environment.txt
+          python -m compileall -q experiments
+          printf '%s\n' 'Post-failure targeted repair. Same public task/evidence/model, amended numeric-unit-aggregation interface plus explicit feedback. Not a randomized ablation or a new success-rate benchmark. At most four actual model calls. Original wrong peer/revision remain in source run43360324063. Private duration is never put in prompts. Simulation only. No weights or private credentials in artifacts.' > results/SCOPE.txt
+      - name: Rebuild fixed native AIOS and local model dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet PyYAML huggingface_hub
+          python -u - <<'PY'
+          from pathlib import Path
+          import yaml,subprocess
+          doc=yaml.safe_load(Path('.github/workflows/aios-native-traffic.yml').read_text())
+          names=['Build pinned CPU inference engine','Acquire and verify official fixed 8B weights','Install native runtime dependencies on CPU','Prepare original managers, SDK, and real simulation tool']
+          steps=doc['jobs']['native-runtime-regression']['steps']
+          for index,name in enumerate(names):
+              print('SETUP',name,flush=True)
+              step=next(s for s in steps if s.get('name')==name)
+              p=Path('results')/('setup_'+str(index)+'.sh');p.write_text('set -euo pipefail\n'+step['run'])
+              subprocess.run(['bash',str(p)],check=True,timeout=900)
+          PY
+      - name: Run actual repaired peer and original-requester contexts
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=45s 1200s python -u - <<'PY' | tee results/followup_console.log
+          import sys,signal
+          sys.path.insert(0,'experiments')
+          import round8_semantic_followup
+          def interrupt(signum,frame):raise SystemExit(124)
+          signal.signal(signal.SIGTERM,interrupt)
+          round8_semantic_followup.main()
+          PY
+      - name: Seal actual sources and logs
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p results/executed_sources results/workflows
+          cp experiments/round8_*.py experiments/native_run.py experiments/prepare_native.py experiments/sdk_path_bootstrap.py experiments/requirements-aios.txt results/executed_sources/
+          cp .github/workflows/round8-semantic-followup.yml .github/workflows/aios-native-traffic.yml results/workflows/
+          find results -type l -delete
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('results');m={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
+          (root/'MANIFEST.json').write_text(json.dumps(m,indent=2))
+          PY
+      - name: Preserve original evidence of the repair attempt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: round8-typed-evidence-repair
+          path: results/
+          retention-days: 14
