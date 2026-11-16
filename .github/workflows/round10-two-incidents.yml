@@ -1,0 +1,98 @@
+name: Round 10 two-incident eight-vehicle joint assignment
+on:
+  push:
+    paths:
+      - 'experiments/run_two_incident_joint.py'
+      - '.github/workflows/round10-two-incidents.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  two-incident-joint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: round10-multi-incident-20261116
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Record environment
+        run: |
+          mkdir -p results native_build upstream
+          { uname -a; lscpu; free -h; df -h; python --version; } > results/environment.txt
+          python -m pip install --quiet pybind11
+      - name: Clone pinned public simulator and demand
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone https://github.com/cityflow-project/CityFlow.git upstream/CityFlow
+          git -C upstream/CityFlow fetch --depth=1 origin 81ee0f47659ca66177a71f81676691c58ee89184
+          git -C upstream/CityFlow checkout --detach FETCH_HEAD
+          git -C upstream/CityFlow submodule update --init --depth=1 extern/rapidjson
+          git clone https://github.com/usail-hkust/CoLLMLight.git upstream/CoLLMLight
+          git -C upstream/CoLLMLight fetch --depth=1 origin ce204a90a238e206fa5673b6922aab3a6a9fc597
+          git -C upstream/CoLLMLight checkout --detach FETCH_HEAD
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          d=Path('upstream/CoLLMLight/data/Hangzhou/4_4')
+          expected={'roadnet_4_4.json':'11e2fe89f632e43e81f56ea87a308d544b66f9c5af8a410e16149668d6d376c1','anon_4_4_hangzhou_real.json':'595a6140e6649efe5be1b274eb8b03e8c4029e517c9ac2ad53c9ea556a414213'}
+          actual={k:hashlib.sha256((d/k).read_bytes()).hexdigest() for k in expected}
+          assert actual==expected
+          Path('results/source_manifest.json').write_text(json.dumps({'CityFlow':'81ee0f47659ca66177a71f81676691c58ee89184','CoLLMLight':'ce204a90a238e206fa5673b6922aab3a6a9fc597','data':actual},indent=2))
+          PY
+      - name: Build pinned CityFlow with read-only phase observer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          root=Path.cwd();city=root/'upstream/CityFlow'
+          p=city/'src/engine/engine.h';s=p.read_text()
+          if '#include <stdexcept>' not in s:s=s.replace('#include <fstream>','#include <fstream>\n#include <stdexcept>')
+          needle='        void setTrafficLightPhase(const std::string &id, int phaseIndex);'
+          method='''        int observeTrafficLightPhase(const std::string &id) const {
+              Intersection *intersection = roadnet.getIntersectionById(id);
+              if (intersection == nullptr) throw std::out_of_range("unknown intersection");
+              return intersection->getTrafficLight().getCurrentPhaseIndex();
+          }
+          '''
+          assert s.count(needle)==1;s=s.replace(needle,method+needle);p.write_text(s)
+          p=city/'src/cityflow.cpp';s=p.read_text()
+          needle='        .def("set_tl_phase", &CityFlow::Engine::setTrafficLightPhase, "intersection_id"_a, "phase_id"_a)'
+          assert s.count(needle)==1;s=s.replace(needle,'        .def("observe_tl_phase", &CityFlow::Engine::observeTrafficLightPhase, "intersection_id"_a)\n'+needle);p.write_text(s)
+          PY
+          python - <<'PY'
+          from pathlib import Path
+          import sysconfig,pybind11,subprocess
+          root=Path.cwd();city=root/'upstream/CityFlow'
+          sources=['utility/utility.cpp','utility/barrier.cpp','engine/archive.cpp','engine/engine.cpp','flow/flow.cpp','roadnet/roadnet.cpp','roadnet/trafficlight.cpp','vehicle/router.cpp','vehicle/vehicle.cpp','vehicle/lanechange.cpp','cityflow.cpp']
+          cmd=['g++','-O1','-shared','-std=c++11','-fPIC','-pthread','-DRAPIDJSON_HAS_STDSTRING=1','-I'+str(city/'src'),'-I'+str(city/'extern/rapidjson/include'),'-I'+str(city/'extern/milo'),'-I'+pybind11.get_include(),'-I'+sysconfig.get_paths()['include'],*[str(city/'src'/x) for x in sources],'-o',str(root/'native_build'/('cityflow'+sysconfig.get_config_var('EXT_SUFFIX')))]
+          subprocess.run(cmd,check=True,timeout=600)
+          PY
+      - name: Run 8 vehicles under two simultaneous incidents (256 assignments)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -u experiments/run_two_incident_joint.py | tee results/round10_multi.log
+          test -s results/round10_multi/joint/summary.json
+      - name: Preserve exact source and result manifest
+        if: always()
+        run: |
+          cp experiments/run_two_incident_joint.py results/
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          root=Path('results')
+          rows={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file()}
+          (root/'manifest.json').write_text(json.dumps(rows,indent=2))
+          PY
+      - name: Upload two-incident evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: round10-two-incident-evidence
+          path: results/
+          retention-days: 14
