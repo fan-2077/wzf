@@ -1,0 +1,59 @@
+name: Real-model feedback consumption gate
+on:
+  push:
+    paths: ['.github/workflows/feedback-closure-20261116.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  feedback-consumption:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 28
+    env:
+      HF_HUB_DOWNLOAD_TIMEOUT: '600'
+      HF_HUB_ETAG_TIMEOUT: '60'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Freeze scope and tested source
+        shell: bash
+        run: |
+          mkdir -p results model bin results/executed_sources
+          { uname -a; lscpu; free -h; python --version; git rev-parse HEAD; } > results/environment.txt
+          cp experiments/{feedback_closure_probe.py,feedback_closure_cases.json,evidence_ledger.py,protocol_audit_agents.py,collaboration_protocol.py} results/executed_sources/
+          python -m compileall -q experiments/feedback_closure_probe.py experiments/evidence_ledger.py
+          python -m pip install --quiet PyYAML huggingface_hub
+      - name: Build fixed inference engine and verify official model
+        shell: bash
+        run: |
+          python -u - <<'PY'
+          import pathlib,yaml,subprocess
+          w=yaml.safe_load(pathlib.Path('.github/workflows/aios-native-traffic.yml').read_text())
+          for i,name in enumerate(['Build pinned CPU inference engine','Acquire and verify official fixed 8B weights']):
+              code=next(x['run'] for x in w['jobs']['native-runtime-regression']['steps'] if x.get('name')==name)
+              p=pathlib.Path('results')/f'setup_{i}.sh';p.write_text('set -euo pipefail\n'+code)
+              subprocess.run(['bash',str(p)],check=True,timeout=660)
+          PY
+      - name: Actual requester-peer-requester calls, independent controls
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=15s 900s python -u experiments/feedback_closure_probe.py | tee results/console.log
+      - name: Preserve successes and failures, not weights
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib,json,hashlib
+          r=pathlib.Path('results');m={str(p.relative_to(r)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(r.rglob('*')) if p.is_file() and p.name!='MANIFEST.json'}
+          (r/'MANIFEST.json').write_text(json.dumps(m,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: real-model-feedback-consumption-evidence
+          path: results/
+          retention-days: 14
