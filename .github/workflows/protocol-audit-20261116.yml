@@ -1,0 +1,61 @@
+name: Evidence-bound feedback protocol audit
+on:
+  push:
+    paths: ['.github/workflows/protocol-audit-20261116.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  read-only-auditors:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 28
+    env:
+      HF_HUB_DOWNLOAD_TIMEOUT: '600'
+      HF_HUB_ETAG_TIMEOUT: '60'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Freeze sources and environment
+        shell: bash
+        run: |
+          mkdir -p results model bin
+          { uname -a; lscpu; free -h; python --version; git rev-parse HEAD; } > results/environment.txt
+          cp experiments/protocol_audit_agents.py results/runner.py
+          python -m compileall -q experiments/protocol_audit_agents.py
+          python -m pip install --quiet PyYAML huggingface_hub
+      - name: Reuse previously verified fixed build and official model steps
+        shell: bash
+        run: |
+          python -u - <<'PY'
+          import pathlib,yaml,subprocess
+          w=yaml.safe_load(pathlib.Path('.github/workflows/aios-native-traffic.yml').read_text())
+          names=['Build pinned CPU inference engine','Acquire and verify official fixed 8B weights']
+          steps=w['jobs']['native-runtime-regression']['steps']
+          for i,name in enumerate(names):
+              source=next(x['run'] for x in steps if x.get('name')==name)
+              p=pathlib.Path('results')/f'setup_{i}.sh';p.write_text('set -euo pipefail\n'+source)
+              print(name,flush=True);subprocess.run(['bash',str(p)],check=True,timeout=660)
+          PY
+      - name: Execute independent code-reading and probe-using reviewers
+        shell: bash
+        run: |
+          timeout --signal=TERM --kill-after=15s 900s python -u experiments/protocol_audit_agents.py | tee results/console.log
+      - name: Freeze evidence after all child processes have exited
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib,hashlib,json
+          r=pathlib.Path('results');m={str(p.relative_to(r)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(r.rglob('*')) if p.is_file() and p.name!='MANIFEST.json'}
+          (r/'MANIFEST.json').write_text(json.dumps(m,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: protocol-audit-four-8b-contexts
+          path: results/
+          retention-days: 14
