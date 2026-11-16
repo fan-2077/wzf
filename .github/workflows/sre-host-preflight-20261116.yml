@@ -214,11 +214,16 @@ jobs:
               command("network_server", ["docker", "run", "-d", "--name", server, "--label", "sregym.preflight=" + RUN,
                   "--network", NETWORK, "--network-alias", "probe-peer", image_id, "sh", "-ec",
                   "mkdir -p /www; printf 'sregym-preflight' > /www/index.html; exec httpd -f -p 8080 -h /www"], required=True)
-              command("network_client", ["docker", "run", "--rm", "--name", client, "--label", "sregym.preflight=" + RUN,
-                  "--network", NETWORK, image_id, "timeout", "10", "sh", "-ec",
-                  'nslookup -type=A probe-peer. 127.0.0.11; attempt=0; while :; do attempt=$((attempt+1)); echo "readiness_attempt=$attempt"; '
-                  'if value=$(wget -T 1 -qO- http://probe-peer:8080) && [ "$value" = sregym-preflight ]; '
-                  'then echo network_ready; exit 0; fi; sleep 0.2; done'], required=True)
+              command("network_server_state", ["docker", "inspect", "--format", "{{json .State}}", server], required=True)
+              try:
+                  command("network_client", ["docker", "run", "--rm", "--name", client, "--label", "sregym.preflight=" + RUN,
+                      "--network", NETWORK, image_id, "timeout", "10", "sh", "-ec",
+                      'nslookup -type=A probe-peer. 127.0.0.11; attempt=0; while :; do attempt=$((attempt+1)); echo "readiness_attempt=$attempt"; '
+                      'if value=$(wget -T 1 -qO- http://probe-peer:8080) && [ "$value" = sregym-preflight ]; '
+                      'then echo network_ready; exit 0; fi; sleep 0.2; done'], required=True)
+              finally:
+                  command("network_server_logs", ["docker", "logs", server], cleanup=True)
+                  command("network_server_final_state", ["docker", "inspect", "--format", "{{json .State}}", server], cleanup=True)
               # Auxiliary namespace operations can fail for reasons that do not prevent
               # KIND itself. Record them, but let the actual cluster lifecycle decide
               # whether this runner supports the tested KIND path.
