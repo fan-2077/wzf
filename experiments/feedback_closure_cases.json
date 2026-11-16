@@ -1,0 +1,44 @@
+{
+  "scope": "Three isolated protocol-regression fixtures. Initial bad plans are deliberately injected, not mistakes made by the current model. Prior measured evidence is replayed; no new physical simulation. All participants and the no-peer control see identical evidence. Do not aggregate the three role pairs into proof for one contest task.",
+  "cases": [
+    {
+      "id": "queue_contract",
+      "requester": "route",
+      "peer": "network",
+      "initial_action": {"candidate": "r2-task"},
+      "action_spec": "Return action {candidate: candidate_id}. Choose minimum elapsed_sim_s among candidates whose queue increase is <=5 percent, then minimum mean_queue. Exact objective ties are equally acceptable.",
+      "evidence_id": "queue_rows",
+      "source": "round5_native_success_evidence.zip, traffic/candidate_evidence.json, GitHub run 42468568048",
+      "evidence": {
+        "queue_cap_percent": 5,
+        "candidates": [
+          {"candidate_id":"r0-none","elapsed_sim_s":567,"mean_queue":86.53833333333333,"queue_change_percent":0},
+          {"candidate_id":"r1-task","elapsed_sim_s":505,"mean_queue":90.81166666666667,"queue_change_percent":4.938081389750226},
+          {"candidate_id":"r1-bounded","elapsed_sim_s":505,"mean_queue":90.81166666666667,"queue_change_percent":4.938081389750226},
+          {"candidate_id":"r2-task","elapsed_sim_s":478,"mean_queue":92.05833333333334,"queue_change_percent":6.378676116557225}
+        ],
+        "note":"Four-row subset of previously measured nine-candidate results; this is not a new search benchmark."
+      }
+    },
+    {
+      "id": "phase_hold_contract",
+      "requester": "signal",
+      "peer": "event",
+      "initial_action": {"phase": 3},
+      "action_spec": "Return action {phase: integer}. During the active declared hold interval, the supported action must preserve the held phase. It does not claim this phase is universally safe or all-red.",
+      "evidence_id": "active_hold",
+      "source": "round5_native_success_evidence.zip, traffic/contract.json and selected_execution.json; case t700_i1",
+      "evidence": {"simulation_time":705,"hold_start":700,"hold_release":1120,"intersection_id":"intersection_2_3","held_phase":2,"native_observation_phase":2,"note":"Prior measured hold episode, not a fresh live observation."}
+    },
+    {
+      "id": "receipt_vs_outcome",
+      "requester": "event",
+      "peer": "route",
+      "initial_action": {"complete": true},
+      "action_spec": "Return action {complete: boolean}. Complete only when every required waypoint was actually traversed; tool acceptance alone is insufficient.",
+      "evidence_id": "native_trajectory",
+      "source": "AIOS_round3_evidence_20261108.zip, traffic/results/paired_route_probe.json, first flow_11_0 row",
+      "evidence": {"vehicle_id":"flow_11_0","accepted":true,"requested_anchors":["road_1_1_0","road_2_4_1"],"visited_roads":["road_2_4_1"],"finished_sim_time":939,"note":"Actual preserved negative trace; no new simulation was run for this fixture."}
+    }
+  ]
+}
