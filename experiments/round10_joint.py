@@ -1,5 +1,6 @@
 from pathlib import Path
 import json,sys,time,ast,collections,itertools,hashlib
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'native_build'))
 import cityflow
 ROOT=Path.cwd(); DATA=ROOT/'upstream/CoLLMLight/data/Hangzhou/4_4'
 ROAD=json.loads((DATA/'roadnet_4_4.json').read_text())
