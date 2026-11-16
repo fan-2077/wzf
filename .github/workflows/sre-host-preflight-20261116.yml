@@ -43,7 +43,7 @@ jobs:
           EXPECTED_REPOSITORY = "fan-2077/wzf"
           EXPECTED_REF = "refs/heads/sre-host-preflight-20261116"
           NODE_IMAGE = "kindest/node:v1.32.11@sha256:5fc52d52a7b9574015299724bd68f183702956aa4a2116ae75a63cb574b35af8"
-          PROBE_IMAGE = "alpine:3.21.3"
+          PROBE_IMAGE = "python:3.12.9-alpine3.21"
           RESULTS = Path("results").resolve()
           START = time.monotonic()
           DEADLINE = START + 420
@@ -213,7 +213,7 @@ jobs:
               OWN_CONTAINERS.extend((server, client, privilege))
               command("network_server", ["docker", "run", "-d", "--name", server, "--label", "sregym.preflight=" + RUN,
                   "--network", NETWORK, "--network-alias", "probe-peer", image_id, "sh", "-ec",
-                  "mkdir -p /www; printf 'sregym-preflight' > /www/index.html; exec httpd -f -p 8080 -h /www"], required=True)
+                  "mkdir -p /www; printf 'sregym-preflight' > /www/index.html; exec python3 -m http.server 8080 --bind 0.0.0.0 --directory /www"], required=True)
               command("network_server_state", ["docker", "inspect", "--format", "{{json .State}}", server], required=True)
               try:
                   command("network_client", ["docker", "run", "--rm", "--name", client, "--label", "sregym.preflight=" + RUN,
