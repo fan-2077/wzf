@@ -33,7 +33,14 @@ def paths():
         "G1_NATIVE_PYTHON": "/opt/native/bin/python", "G1_MODEL_SERVER": "/opt/llama/bin/llama-server",
         "G1_MODEL_PATH": "/opt/models/Qwen3-8B-Q4_K_M.gguf",
     }
-    return {key: Path(os.environ.get(key, default)).resolve() for key, default in values.items()}
+    interpreters = {"G1_AIOS_PYTHON", "G1_NATIVE_PYTHON"}
+    result = {}
+    for key, default in values.items():
+        path = Path(os.environ.get(key, default))
+        # Preserve a venv's invocation path: resolving its python symlink selects
+        # the base interpreter and bypasses that venv's installed dependencies.
+        result[key] = path.absolute() if key in interpreters else path.resolve()
+    return result
 
 
 def base_environment(p):
