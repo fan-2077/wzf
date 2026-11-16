@@ -32,3 +32,8 @@ Branch: round10-eight-vehicle-20261116
 Workflow: .github/workflows/round10-eight-vehicle.yml
 
 在结果未完成并独立核验之前，不报告256组合成功、不报告多智能体成绩、不报告20%提速。
+
+## 运行记录
+
+- 首次工作流 run 43845940998 在构建成功后，因实验脚本未将 `native_build/` 加入 Python 模块搜索路径，出现 `ModuleNotFoundError: cityflow`。这是执行包装错误，不是仿真失败；日志与失败工件保留。
+- 已在脚本中增加原生扩展搜索路径，重新触发 run 43846116043。必须以第二次运行的原始输出和独立验收为准。
