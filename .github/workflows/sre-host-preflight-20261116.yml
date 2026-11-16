@@ -1,0 +1,383 @@
+name: Round4 isolated SRE host preflight
+on:
+  push:
+    branches: ['sre-host-preflight-20261116']
+    paths: ['.github/workflows/sre-host-preflight-20261116.yml']
+permissions:
+  contents: read
+concurrency:
+  group: sre-host-preflight-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  host-capabilities:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-host-preflight-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 13
+    steps:
+      - name: Probe daemon, disposable network, privileged container and minimal KIND
+        id: probe
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > preflight.py <<'PREFLIGHT_PY'
+          #!/usr/bin/env python3
+          """Bounded disposable GitHub-hosted runner probe; NOT a SREGym benchmark.
+          
+          No model, user credentials, host tuning, external cluster, or production service.
+          The one-node default-CNI KIND cluster is a host-capability probe only.
+          """
+          
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import platform
+          import shutil
+          import signal
+          import subprocess
+          import sys
+          import time
+          
+          
+          EXPECTED_REPOSITORY = "fan-2077/wzf"
+          EXPECTED_REF = "refs/heads/sre-host-preflight-20261116"
+          NODE_IMAGE = "kindest/node:v1.32.11@sha256:5fc52d52a7b9574015299724bd68f183702956aa4a2116ae75a63cb574b35af8"
+          PROBE_IMAGE = "alpine:3.21.3"
+          RESULTS = Path("results").resolve()
+          START = time.monotonic()
+          DEADLINE = START + 420
+          STATE = {
+              "scope": "disposable-host-capability-probe",
+              "native_problem": "gitlab_notification_intermittent_replicated",
+              "native_source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
+              "native_problem_executed": False,
+              "native_oracle_executed": False,
+              "full_sregym_deployment_verified": False,
+              "cluster_topology": "one control-plane node; default KIND CNI; capability probe only",
+              "host_tuning_performed": False,
+              "commands": [],
+              "probe_passed": False,
+              "cleanup_verified": False,
+              "mutation_scope_initialized": False,
+          }
+          RUN = ""
+          NETWORK = ""
+          CLUSTER = ""
+          KUBECONFIG = None
+          NETWORK_CREATED = False
+          CLUSTER_ATTEMPTED = False
+          OWN_CONTAINERS = []
+          
+          
+          class ProbeFailure(RuntimeError):
+              pass
+          
+          
+          def save_json(name, value):
+              (RESULTS / name).write_text(json.dumps(value, indent=2) + "\n")
+          
+          
+          def command(name, argv, timeout=15, *, required=False, cleanup=False, extra_env=None):
+              """Capture bounded, fixed commands. No shell expansion and no environment dump."""
+              if not cleanup:
+                  timeout = min(timeout, max(0, int(DEADLINE - time.monotonic())))
+              if timeout < 1:
+                  raise ProbeFailure("probe execution budget exhausted before " + name)
+              record = {"name": name, "argv": argv, "timeout_s": timeout, "started_s": round(time.monotonic() - START, 3)}
+              log_path = RESULTS / (name + ".log")
+              env = os.environ.copy()
+              if extra_env:
+                  env.update(extra_env)
+              try:
+                  with log_path.open("wb") as log:
+                      proc = subprocess.Popen(argv, stdout=log, stderr=subprocess.STDOUT, env=env, start_new_session=True)
+                      try:
+                          code = proc.wait(timeout=timeout)
+                      except subprocess.TimeoutExpired:
+                          record["timed_out"] = True
+                          os.killpg(proc.pid, signal.SIGTERM)
+                          try:
+                              proc.wait(timeout=2)
+                          except subprocess.TimeoutExpired:
+                              os.killpg(proc.pid, signal.SIGKILL)
+                              proc.wait(timeout=2)
+                          code = 124
+                      except BaseException:
+                          os.killpg(proc.pid, signal.SIGTERM)
+                          try:
+                              proc.wait(timeout=2)
+                          except subprocess.TimeoutExpired:
+                              os.killpg(proc.pid, signal.SIGKILL)
+                              proc.wait(timeout=2)
+                          raise
+              except FileNotFoundError:
+                  code = 127
+                  log_path.write_text("executable is not available: " + argv[0] + "\n")
+              record["exit_code"] = code
+              record["elapsed_s"] = round(time.monotonic() - START - record["started_s"], 3)
+              record["log"] = log_path.name
+              STATE["commands"].append(record)
+              save_json("summary.json", STATE)
+              print(json.dumps({"step": name, "exit_code": code, "elapsed_s": record["elapsed_s"]}), flush=True)
+              text = log_path.read_text(errors="replace")
+              if required and code != 0:
+                  raise ProbeFailure(name + " failed; see " + log_path.name)
+              return code, text
+          
+          
+          def guard():
+              expected = {
+                  "GITHUB_ACTIONS": "true",
+                  "RUNNER_ENVIRONMENT": "github-hosted",
+                  "RUNNER_OS": "Linux",
+                  "GITHUB_REPOSITORY": EXPECTED_REPOSITORY,
+                  "GITHUB_REF": EXPECTED_REF,
+              }
+              for key, value in expected.items():
+                  if os.environ.get(key) != value:
+                      raise ProbeFailure("refusing to run outside the reviewed disposable GitHub runner: " + key)
+              if not os.environ.get("GITHUB_RUN_ID", "").isdigit():
+                  raise ProbeFailure("invalid run ID")
+              if not os.environ.get("GITHUB_RUN_ATTEMPT", "").isdigit():
+                  raise ProbeFailure("invalid run attempt")
+          
+          
+          def probe():
+              global RUN, NETWORK, CLUSTER, KUBECONFIG, NETWORK_CREATED, CLUSTER_ATTEMPTED
+              guard()
+              RUN = "sre-pf-" + os.environ["GITHUB_RUN_ID"] + "-" + os.environ["GITHUB_RUN_ATTEMPT"]
+              NETWORK = RUN + "-net"
+              CLUSTER = RUN
+              work = Path(os.environ["RUNNER_TEMP"]) / RUN
+              work.mkdir(parents=True, exist_ok=False)
+              KUBECONFIG = work / "kubeconfig"
+              STATE["identity"] = {
+                  key: os.environ.get(key) for key in (
+                      "GITHUB_REPOSITORY", "GITHUB_REF", "GITHUB_SHA", "GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT",
+                      "RUNNER_OS", "RUNNER_ARCH", "RUNNER_ENVIRONMENT", "ImageOS", "ImageVersion",
+                  )
+              }
+              STATE["resource_names"] = {"cluster": CLUSTER, "network": NETWORK}
+              STATE["machine"] = {"platform": platform.platform(), "cpu_count": os.cpu_count()}
+              mem = {}
+              for line in Path("/proc/meminfo").read_text().splitlines():
+                  parts = line.split()
+                  if parts[0] in ("MemTotal:", "MemAvailable:", "SwapTotal:", "SwapFree:"):
+                      mem[parts[0][:-1]] = int(parts[1]) * 1024
+              disk = shutil.disk_usage(Path.cwd())
+              STATE["machine"].update({"memory_bytes": mem, "disk_total_bytes": disk.total, "disk_free_bytes": disk.free})
+              command("uname", ["uname", "-a"])
+              command("lscpu", ["lscpu"])
+              command("disk", ["df", "-B1", "/", "/var/lib/docker"])
+              command("cgroup_mount", ["findmnt", "-no", "FSTYPE,OPTIONS", "/sys/fs/cgroup"])
+              command("inotify_limits", ["sysctl", "fs.inotify.max_user_instances", "fs.inotify.max_user_watches"])
+              command("passwordless_sudo_check", ["sudo", "-n", "true"])
+              command("gpu", ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"], timeout=5)
+              for name, args in (
+                  ("docker_version", ["docker", "version", "--format", "Client={{.Client.Version}} Server={{.Server.Version}}"]),
+                  ("kind_version", ["kind", "version"]),
+                  ("kubectl_version", ["kubectl", "version", "--client", "--output=json"]),
+              ):
+                  command(name, args, required=True)
+              command("docker_info", [
+                  "docker", "info", "--format",
+                  '{"ServerVersion":{{json .ServerVersion}},"NCPU":{{json .NCPU}},"MemTotal":{{json .MemTotal}},'
+                  '"Driver":{{json .Driver}},"CgroupDriver":{{json .CgroupDriver}},"CgroupVersion":{{json .CgroupVersion}},'
+                  '"DockerRootDir":{{json .DockerRootDir}},"SecurityOptions":{{json .SecurityOptions}}}',
+              ], required=True)
+              STATE["minimum_probe_resources"] = {"cpu": 2, "memory_bytes": 7 * 1024**3, "disk_free_bytes": 10 * 1024**3}
+              if os.cpu_count() < 2 or mem["MemAvailable"] < 7 * 1024**3 or disk.free < 10 * 1024**3:
+                  raise ProbeFailure("insufficient resources for the minimal host probe; full SREGym has not been attempted")
+              # All resources below are confined to this disposable runner and unique run names.
+              _, existing = command("network_preexistence", ["docker", "network", "ls", "--filter", "name=^" + NETWORK + "$", "--format", "{{.ID}}"], required=True)
+              if existing.strip():
+                  raise ProbeFailure("unique network already exists; refusing to touch it")
+              _, existing = command("cluster_preexistence", ["docker", "ps", "-aq", "--filter", "label=io.x-k8s.kind.cluster=" + CLUSTER], required=True)
+              if existing.strip():
+                  raise ProbeFailure("unique cluster already exists; refusing to touch it")
+              _, existing = command("container_preexistence", ["docker", "ps", "-aq", "--filter", "name=^" + RUN + "-(server|client|privilege)$"], required=True)
+              if existing.strip():
+                  raise ProbeFailure("a probe container name already exists; refusing to touch it")
+              STATE["mutation_scope_initialized"] = True
+              save_json("summary.json", STATE)
+              command("network_create", ["docker", "network", "create", "--label", "sregym.preflight=" + RUN, NETWORK], required=True)
+              NETWORK_CREATED = True
+              command("probe_image_pull", ["docker", "pull", PROBE_IMAGE], timeout=45, required=True)
+              _, image = command("probe_image_identity", ["docker", "image", "inspect", "--format", '{{json .Id}}', PROBE_IMAGE], required=True)
+              image_id = json.loads(image)
+              command("probe_image_digest", ["docker", "image", "inspect", "--format", '{{json .RepoDigests}}', PROBE_IMAGE], required=True)
+              server = RUN + "-server"
+              client = RUN + "-client"
+              privilege = RUN + "-privilege"
+              OWN_CONTAINERS.extend((server, client, privilege))
+              command("network_server", ["docker", "run", "-d", "--name", server, "--label", "sregym.preflight=" + RUN,
+                  "--network", NETWORK, "--network-alias", "probe-peer", image_id, "sh", "-ec",
+                  "mkdir -p /www; printf 'sregym-preflight' > /www/index.html; exec httpd -f -p 8080 -h /www"], required=True)
+              command("network_client", ["docker", "run", "--rm", "--name", client, "--label", "sregym.preflight=" + RUN,
+                  "--network", NETWORK, image_id, "timeout", "10", "sh", "-ec",
+                  'nslookup probe-peer; attempt=0; while :; do attempt=$((attempt+1)); echo "readiness_attempt=$attempt"; '
+                  'if value=$(wget -T 1 -qO- http://probe-peer:8080) && [ "$value" = sregym-preflight ]; '
+                  'then echo network_ready; exit 0; fi; sleep 0.2; done'], required=True)
+              # Auxiliary namespace operations can fail for reasons that do not prevent
+              # KIND itself. Record them, but let the actual cluster lifecycle decide
+              # whether this runner supports the tested KIND path.
+              rc, _ = command("private_cgroup_and_mount", ["docker", "run", "--rm", "--name", privilege,
+                  "--label", "sregym.preflight=" + RUN, "--privileged", "--cgroupns=private", "--network", "none", image_id,
+                  "sh", "-ec", "grep '^CapEff:' /proc/self/status; test -w /sys/fs/cgroup/cgroup.procs; "
+                  "mkdir /sys/fs/cgroup/sre-preflight; rmdir /sys/fs/cgroup/sre-preflight; "
+                  "mkdir /tmp/mount-probe; mount -t tmpfs -o size=1m tmpfs /tmp/mount-probe; umount /tmp/mount-probe"])
+              STATE["privileged_auxiliary_probe_passed"] = rc == 0
+              command("node_image_pull", ["docker", "pull", NODE_IMAGE], timeout=170, required=True)
+              command("node_image_identity", ["docker", "image", "inspect", "--format", '{{json .RepoDigests}}', NODE_IMAGE], required=True)
+              config = work / "kind.yaml"
+              config.write_text('kind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\nnetworking:\n  apiServerAddress: "127.0.0.1"\nnodes:\n  - role: control-plane\n')
+              (RESULTS / "executed-kind.yaml").write_text(config.read_text())
+              CLUSTER_ATTEMPTED = True
+              STATE["cluster_creation_attempted"] = True
+              save_json("summary.json", STATE)
+              kind_env = {"KIND_EXPERIMENTAL_DOCKER_NETWORK": NETWORK}
+              command("kind_create", ["kind", "create", "cluster", "--name", CLUSTER, "--image", NODE_IMAGE,
+                  "--config", str(config), "--kubeconfig", str(KUBECONFIG), "--wait", "100s"], timeout=170, required=True, extra_env=kind_env)
+              kube = ["kubectl", "--kubeconfig", str(KUBECONFIG), "--context", "kind-" + CLUSTER]
+              command("nodes_ready", kube + ["wait", "--for=condition=Ready", "nodes", "--all", "--timeout=45s"], timeout=50, required=True)
+              _, nodes_text = command("nodes", kube + ["get", "nodes", "-o", "json"], required=True)
+              nodes = json.loads(nodes_text)["items"]
+              if len(nodes) != 1 or not all(any(c["type"] == "Ready" and c["status"] == "True" for c in n["status"]["conditions"]) for n in nodes):
+                  raise ProbeFailure("the one-node probe cluster did not reach the expected state")
+              command("coredns_ready", kube + ["-n", "kube-system", "rollout", "status", "deployment/coredns", "--timeout=45s"], timeout=50, required=True)
+              command("system_pods", kube + ["get", "pods", "-A", "-o", "wide"], required=True)
+              STATE["probe_passed"] = True
+          
+          
+          def cleanup():
+              """Delete only exact resources created by this run, then verify absence."""
+              details = {"attempted": bool(RUN), "errors": []}
+              if not RUN or not STATE["mutation_scope_initialized"]:
+                  STATE["cleanup"] = {"attempted": False, "no_resources_created": True}
+                  STATE["cleanup_verified"] = True
+                  return
+              try:
+                  if CLUSTER_ATTEMPTED:
+                      if not STATE["probe_passed"] and KUBECONFIG and KUBECONFIG.exists():
+                          command("failed_cluster_pods", ["kubectl", "--kubeconfig", str(KUBECONFIG), "--context", "kind-" + CLUSTER, "get", "pods", "-A", "-o", "wide"], timeout=8, cleanup=True)
+                      command("kind_delete", ["kind", "delete", "cluster", "--name", CLUSTER, "--kubeconfig", str(KUBECONFIG)], timeout=55, cleanup=True,
+                              extra_env={"KIND_EXPERIMENTAL_DOCKER_NETWORK": NETWORK})
+                  # A failed KIND cleanup may leave nodes; the no-collision guard and
+                  # persisted creation-attempt flag establish this run's ownership.
+                  if CLUSTER_ATTEMPTED:
+                      rc, nodes = command("remaining_own_nodes", ["docker", "ps", "-aq", "--filter", "label=io.x-k8s.kind.cluster=" + CLUSTER], timeout=5, cleanup=True)
+                      if rc == 0 and nodes.strip():
+                          command("remove_own_nodes", ["docker", "rm", "-f", *nodes.split()], timeout=15, cleanup=True)
+                  rc, owned = command("remaining_probe_containers", ["docker", "ps", "-aq", "--filter", "label=sregym.preflight=" + RUN], timeout=5, cleanup=True)
+                  if rc == 0 and owned.strip():
+                      command("remove_probe_containers", ["docker", "rm", "-f", *owned.split()], timeout=15, cleanup=True)
+                  rc, owned_network = command("owned_network", ["docker", "network", "ls", "--filter", "name=^" + NETWORK + "$", "--filter", "label=sregym.preflight=" + RUN, "--format", "{{.ID}}"], timeout=5, cleanup=True)
+                  if rc == 0 and owned_network.strip():
+                      command("network_delete", ["docker", "network", "rm", NETWORK], timeout=10, cleanup=True)
+                  checks = []
+                  for name, argv in (
+                      ("verify_no_nodes", ["docker", "ps", "-aq", "--filter", "label=io.x-k8s.kind.cluster=" + CLUSTER]),
+                      ("verify_no_probe_containers", ["docker", "ps", "-aq", "--filter", "label=sregym.preflight=" + RUN]),
+                      ("verify_no_network", ["docker", "network", "ls", "--filter", "name=^" + NETWORK + "$", "--format", "{{.ID}}"]),
+                  ):
+                      rc, value = command(name, argv, timeout=5, cleanup=True)
+                      checks.append({"check": name, "exit_code": rc, "absent": rc == 0 and not value.strip()})
+                  details["checks"] = checks
+                  STATE["cleanup_verified"] = all(check["absent"] for check in checks)
+                  if KUBECONFIG:
+                      KUBECONFIG.unlink(missing_ok=True)
+                      details["ephemeral_kubeconfig_removed"] = not KUBECONFIG.exists()
+              except BaseException as exc:
+                  details["errors"].append(type(exc).__name__ + ": " + str(exc))
+                  STATE["cleanup_verified"] = False
+              STATE["cleanup"] = details
+          
+          
+          def main():
+              RESULTS.mkdir(exist_ok=True)
+              (RESULTS / "executed-preflight.py").write_text(Path(__file__).read_text())
+              signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(ProbeFailure("termination requested")))
+              try:
+                  probe()
+              except BaseException as exc:
+                  STATE["error"] = type(exc).__name__ + ": " + str(exc)
+              finally:
+                  signal.signal(signal.SIGTERM, signal.SIG_IGN)
+                  cleanup()
+                  STATE["elapsed_s"] = round(time.monotonic() - START, 3)
+                  STATE["passed"] = STATE["probe_passed"] and STATE["cleanup_verified"]
+                  save_json("summary.json", STATE)
+                  manifest = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(RESULTS.iterdir()) if p.is_file() and p.name != "MANIFEST.json"}
+                  save_json("MANIFEST.json", manifest)
+                  print(json.dumps({k: STATE[k] for k in ("passed", "probe_passed", "cleanup_verified", "native_problem_executed", "native_oracle_executed", "elapsed_s")}), flush=True)
+              return 0 if STATE["passed"] else 1
+          
+          
+          if __name__ == "__main__":
+              sys.exit(main())
+          PREFLIGHT_PY
+          python3 preflight.py
+      - name: Fallback cleanup of exact resources owned by this run
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os,pathlib,subprocess
+          p=pathlib.Path('results');p.mkdir(exist_ok=True)
+          s=p/'summary.json';state=json.loads(s.read_text()) if s.exists() else {}
+          fallback={'attempted':not state.get('cleanup_verified',False),'verified':state.get('cleanup_verified',False),'commands':[]}
+          def run(args,t=8):
+              try:
+                  r=subprocess.run(args,capture_output=True,text=True,timeout=t)
+                  d={'argv':args,'exit_code':r.returncode,'stdout':r.stdout,'stderr':r.stderr}
+              except Exception as e:d={'argv':args,'exit_code':125,'error':str(e),'stdout':''}
+              fallback['commands'].append(d);return d
+          if fallback['attempted'] and state.get('mutation_scope_initialized',False):
+              assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
+              assert os.environ.get('GITHUB_REF')=='refs/heads/sre-host-preflight-20261116'
+              r='sre-pf-'+os.environ['GITHUB_RUN_ID']+'-'+os.environ['GITHUB_RUN_ATTEMPT']
+              nodes=run(['docker','ps','-aq','--filter','label=io.x-k8s.kind.cluster='+r])
+              if state.get('cluster_creation_attempted') and nodes['exit_code']==0 and nodes['stdout'].strip():
+                  run(['docker','rm','-f',*nodes['stdout'].split()],25)
+              owned=run(['docker','ps','-aq','--filter','label=sregym.preflight='+r])
+              if owned['exit_code']==0 and owned['stdout'].strip():
+                  run(['docker','rm','-f',*owned['stdout'].split()],15)
+              net=r+'-net'
+              found=run(['docker','network','ls','--filter','name=^'+net+'$','--filter','label=sregym.preflight='+r,'--format','{{.ID}}'])
+              if found['exit_code']==0 and found['stdout'].strip():run(['docker','network','rm',net])
+              checks=[run(['docker','ps','-aq','--filter','label=io.x-k8s.kind.cluster='+r]),run(['docker','ps','-aq','--filter','label=sregym.preflight='+r]),run(['docker','network','ls','--filter','name=^'+net+'$','--format','{{.ID}}'])]
+              fallback['verified']=all(x['exit_code']==0 and not x['stdout'].strip() for x in checks)
+              (pathlib.Path(os.environ['RUNNER_TEMP'])/r/'kubeconfig').unlink(missing_ok=True)
+          (p/'cleanup-fallback.json').write_text(json.dumps(fallback,indent=2)+'\n')
+          verdict={'host_probe_passed':bool(state.get('probe_passed') and fallback.get('verified')),'initial_probe_passed':bool(state.get('probe_passed')),'privileged_auxiliary_probe_passed':state.get('privileged_auxiliary_probe_passed'),'initial_cleanup_verified':bool(state.get('cleanup_verified')),'final_cleanup_verified':bool(fallback.get('verified')),'native_problem_executed':False,'native_oracle_executed':False,'full_sregym_deployment_verified':False}
+          (p/'final-verdict.json').write_text(json.dumps(verdict,indent=2)+'\n')
+          PY
+      - name: Seal evidence after cleanup
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib,hashlib,json
+          p=pathlib.Path('results');p.mkdir(exist_ok=True)
+          m={str(x.relative_to(p)):hashlib.sha256(x.read_bytes()).hexdigest() for x in sorted(p.rglob('*')) if x.is_file() and x.name!='MANIFEST.json'}
+          (p/'MANIFEST.json').write_text(json.dumps(m,indent=2)+'\n')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: sre-host-preflight-${{ github.run_id }}-${{ github.run_attempt }}
+          path: results/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Require capability and cleanup success without claiming native task success
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,pathlib,sys
+          p=pathlib.Path('results/final-verdict.json')
+          verdict=json.loads(p.read_text()) if p.exists() else {}
+          print(json.dumps(verdict))
+          sys.exit(0 if verdict.get('host_probe_passed') else 1)
+          PY
