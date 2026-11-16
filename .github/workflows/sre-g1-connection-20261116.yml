@@ -1,0 +1,44 @@
+name: G1 original filtered read connection
+on:
+  push:
+    branches: [sre-g1-connection-20261116]
+    paths: [g1-smoke/**, .github/workflows/sre-g1-connection-20261116.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-g1-connection-20261116
+  cancel-in-progress: false
+jobs:
+  original-g1-smoke:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-g1-connection-20261116'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Read only the reviewed experiment package
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: /g1-smoke/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Run one bounded original G1 read connection
+        timeout-minutes: 84
+        run: python3 -B g1-smoke/run_remote_smoke.py
+      - name: Verify cleanup after success failure or timeout
+        if: always()
+        timeout-minutes: 2
+        run: python3 -B g1-smoke/cleanup_owned.py --scope g1-results/ownership.json --full
+      - name: Seal final outcome without inferring recovery success
+        if: always()
+        timeout-minutes: 1
+        run: python3 -B g1-smoke/seal_remote_evidence.py
+      - name: Preserve evidence including failed attempts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 3
+        with:
+          name: sre-g1-connection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: g1-results/
+          if-no-files-found: error
+          retention-days: 14

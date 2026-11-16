@@ -1,0 +1,37 @@
+api_keys:
+  openai: ''
+  gemini: ''
+  groq: ''
+  anthropic: ''
+  huggingface:
+    auth_token: ''
+    cache_dir: ''
+llms:
+  models:
+  - name: local-qwen3-8b-q4km
+    backend: vllm
+    hostname: http://127.0.0.1:19080/v1
+    api_key: local-only
+  router:
+    strategy: sequential
+  log_mode: console
+  use_context_manager: false
+memory:
+  log_mode: console
+  provider: in-house
+  auto_extract: false
+  auto_inject: false
+storage:
+  root_dir: /workspace/scratch/0d0dbbae188a/g1_stage/integration/storage
+  use_vector_db: false
+  vector_db_backend: chroma
+tool:
+  mcp_server_script_path: /workspace/scratch/0d0dbbae188a/g1_stage/integration/optional_desktop_mcp_disabled.py
+scheduler:
+  log_mode: console
+agent_factory:
+  log_mode: console
+  max_workers: 4
+server:
+  host: 127.0.0.1
+  port: 19082

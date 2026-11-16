@@ -1,0 +1,130 @@
+# Global Configuration for AIOS
+
+# API Keys Configuration
+api_keys:
+  openai: ""    # OpenAI API key
+  gemini: ""    # Google Gemini API key
+  groq: ""      # Groq API key
+  anthropic: "" # Anthropic API key
+  huggingface:
+    auth_token: ""  # Your HuggingFace auth token for authorized models
+    cache_dir: ""   # Your cache directory for saving huggingface models
+
+# LLM Configuration
+llms:
+  models:
+
+    # OpenAI Models
+    # - name: "gpt-4o-mini"
+    #   backend: "openai"
+
+    # - name: "gpt-4o"
+    #   backend: "openai"
+
+
+    # Google Models
+    # - name: "gemini-2.0-flash"
+    #   backend: "gemini"
+
+
+    # Anthropic Models
+    # - name: "claude-3-opus"
+    #   backend: "anthropic"
+
+    # Ollama Models
+    - name: "qwen3:1.7b"
+      backend: "ollama"
+      hostname: "http://localhost:11434" # Make sure to run ollama server
+
+    - name: "qwen3:4b"
+      backend: "ollama"
+      hostname: "http://localhost:11434"
+
+    # HuggingFace Models
+    # - name: "meta-llama/Llama-3.1-8B-Instruct"
+    #   backend: "huggingface"
+    #   max_gpu_memory: {0: "48GB"}  # GPU memory allocation
+    #   eval_device: "cuda:0"  # Device for model evaluation
+
+    # vLLM Models
+    # To use vllm as backend, you need to install vllm and run the vllm server https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html
+    # An example command to run the vllm server is:
+    # vllm serve meta-llama/Llama-3.2-3B-Instruct --port 8091
+    # - name: "meta-llama/Llama-3.1-8B-Instruct"
+    #  backend: "vllm"
+    #  hostname: "http://localhost:8091"
+
+  router:
+    strategy: "sequential"
+    bootstrap_url: "https://drive.google.com/file/d/1SF7MAvtnsED7KMeMdW3JDIWYNGPwIwL7/view"
+
+  log_mode: "console" # choose from [console, file]
+  use_context_manager: false
+
+memory:
+  log_mode: "console" # choose from [console, file]
+  provider: "in-house"  # Options: in-house, mem0, zep
+
+  # Personalization settings (all opt-in, disabled by default)
+  # auto_extract: saves conversation turns as memories after each chat LLM call
+  # auto_inject: retrieves relevant memories and prepends them before each chat LLM call
+  auto_extract: false
+  auto_inject: false
+  relevance_threshold: 0.5     # Minimum similarity score for memory injection
+  max_injected_memories: 5     # Max memories to inject per LLM call
+  max_memory_tokens: 1500      # Token budget for injected memory block
+
+  # Memory write barrier — holds user_id-scoped retrievals until in-flight
+  # create_memory operations for the same user_id commit. Defaults are coded
+  # in MemoryWriteBarrier.__init__, so omitting this section is safe.
+  write_barrier:
+    enabled: true        # set false to disable the barrier
+    timeout_ms: 5000     # max wait per retrieval
+
+  # Mem0 provider configuration (used when provider: "mem0")
+  mem0:
+    api_key: ""  # Optional: for Mem0 cloud
+    user_id: "default"
+    # LLM config for Mem0 fact extraction. When omitted or empty, the
+    # kernel automatically uses the same model as the assistant agent
+    # (propagated from the runtime LLMQuery.llms field). Set this only
+    # if you want Mem0 to use a *different* model from the assistant.
+    # llm:
+    #   provider: "ollama"
+    #   config:
+    #     model: "qwen2.5:7b"
+    #     ollama_base_url: "http://localhost:11434"
+    embedder:
+      provider: "ollama"
+      config:
+        model: "nomic-embed-text"
+        ollama_base_url: "http://localhost:11434"
+    vector_store:
+      provider: "chroma"
+      config:
+        collection_name: "mem0_memories"
+        # path: ".mem0/chroma"  # ChromaDB persistence directory (default: .mem0/chroma)
+
+  # Zep provider configuration (used when provider: "zep")
+  zep:
+    api_key: ""  # Zep Cloud API key, or leave empty for self-hosted
+    base_url: "http://localhost:8000"  # For self-hosted Zep; remove for Zep Cloud
+    session_id: "default"
+storage:
+  root_dir: "root"
+  use_vector_db: true
+
+tool:
+  # Optional. If omitted, AIOS defaults to aios/tool/mcp_server.py.
+  mcp_server_script_path: "aios/tool/mcp_server.py"
+
+scheduler:
+  log_mode: "console" # choose from [console, file]
+
+agent_factory:
+  log_mode: "console" # choose from [console, file]
+  max_workers: 64
+
+server:
+  host: "localhost"
+  port: 8000
