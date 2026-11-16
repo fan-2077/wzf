@@ -216,7 +216,7 @@ jobs:
                   "mkdir -p /www; printf 'sregym-preflight' > /www/index.html; exec httpd -f -p 8080 -h /www"], required=True)
               command("network_client", ["docker", "run", "--rm", "--name", client, "--label", "sregym.preflight=" + RUN,
                   "--network", NETWORK, image_id, "timeout", "10", "sh", "-ec",
-                  'nslookup probe-peer; attempt=0; while :; do attempt=$((attempt+1)); echo "readiness_attempt=$attempt"; '
+                  'nslookup -type=A probe-peer. 127.0.0.11; attempt=0; while :; do attempt=$((attempt+1)); echo "readiness_attempt=$attempt"; '
                   'if value=$(wget -T 1 -qO- http://probe-peer:8080) && [ "$value" = sregym-preflight ]; '
                   'then echo network_ready; exit 0; fi; sleep 0.2; done'], required=True)
               # Auxiliary namespace operations can fail for reasons that do not prevent
