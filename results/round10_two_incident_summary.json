@@ -1,0 +1,82 @@
+{
+  "round": 10,
+  "date": "2026-11-16",
+  "scope": "Eight vehicles, two newly injected simultaneous signal-controller faults, plus the retained background hold at intersection_2_3; one fixed public demand trace and one network; deterministic native CityFlow only.",
+  "pinned_sources": {
+    "CityFlow": "81ee0f47659ca66177a71f81676691c58ee89184",
+    "CoLLMLight": "ce204a90a238e206fa5673b6922aab3a6a9fc597"
+  },
+  "events": [
+    {
+      "intersection": "intersection_1_3",
+      "phase": 1,
+      "start": 705,
+      "duration_seconds": 540
+    },
+    {
+      "intersection": "intersection_3_3",
+      "phase": 1,
+      "start": 705,
+      "duration_seconds": 540
+    }
+  ],
+  "vehicles": 8,
+  "combinations": 256,
+  "all_combinations_complete": true,
+  "all_routes_verified": true,
+  "all_destinations_reached": true,
+  "all_faults_enforced": true,
+  "queue_cap_relative_to_all_wait": 0.05,
+  "all_256_feasible": true,
+  "all_wait": {
+    "mask": "00000000",
+    "sum_arrival_sim_seconds": 12723,
+    "mean_queue": 90.76633333333334
+  },
+  "singleton_local_choices": {
+    "vehicle_order": [
+      "flow_1259_0",
+      "flow_1449_0",
+      "flow_1460_0",
+      "flow_1674_0",
+      "flow_1239_0",
+      "flow_1450_0",
+      "flow_1464_0",
+      "flow_2051_0"
+    ],
+    "actions": [
+      "wait",
+      "wait",
+      "reroute",
+      "wait",
+      "wait",
+      "wait",
+      "reroute",
+      "wait"
+    ],
+    "display_mask": "01000100",
+    "sum_arrival_sim_seconds": 12138,
+    "delta_vs_all_wait": -585
+  },
+  "joint_optimum": {
+    "display_mask": "01000010",
+    "reroute_vehicles": [
+      "flow_1449_0",
+      "flow_1464_0"
+    ],
+    "sum_arrival_sim_seconds": 12111,
+    "mean_queue": 90.953,
+    "delta_vs_all_wait": -612,
+    "improvement_over_singleton_local_seconds": 27
+  },
+  "bit_mapping_note": "Displayed masks are format(integer_mask, '08b'); vehicle index 0 is the least-significant/rightmost bit. The local-choice mask was recomputed with this mapping.",
+  "wall_seconds": 311.46815116100004,
+  "limitations": [
+    "One fixed demand trace and one road network; no cross-network generalization.",
+    "The local-best combination is still better than all-wait; joint optimization improves it by only 27 simulated seconds.",
+    "All 256 options were exhaustively evaluated, so a deterministic solver fully solves this task.",
+    "No LLM, AIOS, multi-agent, subagent, or 20% serial/parallel speedup result.",
+    "The two target faults coexist with the retained background hold at intersection_2_3."
+  ],
+  "interpretation": "The simultaneous two-intersection event creates a small but measurable difference between singleton-local choices and the exhaustive joint optimum. This is evidence of coupled effects in this one case, not evidence that multi-agent collaboration is necessary."
+}
