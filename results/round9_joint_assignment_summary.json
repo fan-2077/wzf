@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-16",
+  "task": "Joint wait/reroute assignment for four vehicles sharing one road network and one dynamic signal fault",
+  "source_commits": {
+    "CityFlow": "81ee0f47659ca66177a71f81676691c58ee89184",
+    "CoLLMLight": "ce204a90a238e206fa5673b6922aab3a6a9fc597"
+  },
+  "individual_pairs": {
+    "vehicles": 4,
+    "durations_seconds": [
+      300,
+      540,
+      780
+    ],
+    "native_rollouts": 24,
+    "all_routes_and_destinations_verified": true,
+    "all_faults_verified": true
+  },
+  "joint_assignments": {
+    "vehicles": 4,
+    "combinations": 16,
+    "native_rollouts": 16,
+    "all_routes_and_destinations_verified": true,
+    "all_faults_verified": true,
+    "queue_cap_relative_to_all_wait": 0.05,
+    "all_combinations_feasible": true,
+    "all_wait": {
+      "mask": "0000",
+      "sum_arrival_sim_seconds": 6633,
+      "mean_queue": 88.07
+    },
+    "independent_local_best_combination": {
+      "mask": "0110",
+      "sum_arrival_sim_seconds": 6769,
+      "delta_vs_all_wait": 136
+    },
+    "joint_best": {
+      "mask": "0100",
+      "reroute_only": "flow_1449_0",
+      "sum_arrival_sim_seconds": 6519,
+      "mean_queue": 87.32833333333333,
+      "delta_vs_all_wait": -114
+    }
+  },
+  "key_interaction": {
+    "vehicle": "flow_1460_0",
+    "reroute_alone_arrival": 1707,
+    "wait_alone_arrival": 1802,
+    "reroute_when_flow_1449_also_rerouted": 2082
+  },
+  "limitations": [
+    "One road network, one fixed demand file, one seed and one event location.",
+    "No LLM calls, no AIOS runtime calls, no independent subagent runs.",
+    "No proof of multi-agent necessity or 20% end-to-end speedup.",
+    "A deterministic exhaustive solver solves this 16-combination task.",
+    "Seed changes do not create independent demand samples for this fixed trace."
+  ],
+  "scope": "Deterministic native simulator evidence only; no real traffic infrastructure controlled."
+}
