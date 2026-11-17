@@ -1,0 +1,26 @@
+{
+  "actual_queue_configuration_qualified": false,
+  "allowed_operations": [
+    "observe"
+  ],
+  "business_operations": 0,
+  "collection_complete_scope": "required original capture bytes/JSON and declared source completeness; does not imply actual Rails Redis or SMTP terminal qualification",
+  "collection_order": [
+    "native qualification and read-only API",
+    "runtime contract",
+    "public recovery documents",
+    "database state",
+    "completed archive checks",
+    "complete original history",
+    "complete guarded public audit",
+    "explicitly scoped diagnostic queue inventory"
+  ],
+  "common_bridge_directory": "b0_stage/common_bridge/repair_candidate_v1",
+  "common_bridge_manifest_sha256": "cec472fc37330fcea88f9daccd0c0f0d714dd34cf0a1e6e6e90bbc5a96d89723",
+  "entry": "initial_qualification.main()",
+  "mode": "native_readonly_qualification",
+  "no_Rails_business_configuration_in_readonly_mode": true,
+  "schema": "b0-readonly-repair-policy-v2",
+  "shared_full_strategy_manifest_sha256": "26ed517e8a13cccd8a321c4af43333cd66313d7d45210a103448b1c0000b6a31",
+  "submit_calls": 0
+}

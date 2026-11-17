@@ -1,0 +1,65 @@
+{
+  "actual_business_actions": 0,
+  "all_programs_observe": true,
+  "business_actions_enabled": false,
+  "deployed_files": [
+    {
+      "bytes": 75824,
+      "path": "strategy/catalog_readonly_v4.py",
+      "sha256": "f4cac3eb211cb18c7755960088aae22e09e75f577c8295bf5f477cccb1378159"
+    },
+    {
+      "bytes": 11286,
+      "path": "strategy/common_io.py",
+      "sha256": "227f19b06b4ee07b1241a890085e7df5be38481a0f667607074264961202855d"
+    },
+    {
+      "bytes": 9982,
+      "path": "strategy/initial_qualification.py",
+      "sha256": "6eee7d7497fd4032b0b12afb1a6664fb83b076da2ebe0d1e8eb337af210bf466"
+    }
+  ],
+  "entry": "initial_qualification.main()",
+  "full_strategy_source_manifest_sha256": "26ed517e8a13cccd8a321c4af43333cd66313d7d45210a103448b1c0000b6a31",
+  "programs": {
+    "archive_check": {
+      "body_shell_sha256": "ff3bb13ea94cf626e0e7dc6dd0c06a09db2412a72a53a82ded6f49fac986e2f7",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "database_state": {
+      "body_shell_sha256": "225788fde7781490e8f5a8c75760dc5cd92378616c878a54fed7d81734eb2c88",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "history_logs": {
+      "body_shell_sha256": "eb4216e5d6a0ca6def74eb3eb022255c5bbf5acd90a085d81c7c4c7fe2a062d1",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "public_audit": {
+      "body_shell_sha256": "70f5c2307f1362eca9e96cdbc9d85fb3b8994a5b874895f83d96865dc1e08a4f",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "queue_inventory": {
+      "body_shell_sha256": "3a577cc9aa76e0ee25f4c1284d5b2c0bbdd2daa7811f94c5008a37627128d2b1",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "recovery_files": {
+      "body_shell_sha256": "e0f0fe25043a7b900975ec16873b3ecf041cce8def0b4b6ae6faff5f63d761f0",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "runtime_contract": {
+      "body_shell_sha256": "e74852a4d45c1f0cd2ced4803cb699e5a3e32ccf6997c33f97f9b3b18c0e9ca5",
+      "operation": "observe",
+      "target": "gitlab"
+    }
+  },
+  "schema": "b0-readonly-strategy-deployment-binding-v2",
+  "source_manifest_sha256": "f70230abad6dbfb44416c1fb184a62f8b90b4a8597ed4bd0ef2046fead43cfdb",
+  "source_version": "initial_qualification_package_v2",
+  "status": "frozen_for_combined_review_not_published"
+}

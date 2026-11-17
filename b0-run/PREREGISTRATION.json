@@ -1,0 +1,66 @@
+{
+  "schema": "b0-public-evidence-repair-preregistration-v1",
+  "date_local": "2026-11-17",
+  "timezone": "Asia/Shanghai",
+  "mode": "native_readonly_qualification",
+  "branch_ref": "refs/heads/sre-b0-read-repair-20261117",
+  "parent_real_run": 44088895964,
+  "parent_raw_zip_sha256": "33a696cded28c3d62e6eae764eddb7ba2b328f80915942a3b90da0f8fe4351f0",
+  "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
+  "task": "gitlab_notification_intermittent_replicated",
+  "profile": "full",
+  "deploy_loki": false,
+  "fresh_original_instance": true,
+  "allowed_operations": [
+    "observe"
+  ],
+  "business_operations_enabled": false,
+  "solver_submit_enabled": false,
+  "original_evaluation_expected": false,
+  "full_baseline_result": false,
+  "formal_competition_result": false,
+  "specific_observed_problems": [
+    "Complete multiline PostgreSQL JSON was incorrectly reduced to its first marked line.",
+    "Small chunks amplified immutable capture retrieval to thousands of native calls; complete history was not retrieved.",
+    "The actual override redis.yml was empty; it did not establish the active Sidekiq Redis database.",
+    "A host deadline exception skipped normal result ingestion despite retained late solver diagnostics."
+  ],
+  "repair_decisions": [
+    "Consume exactly one complete marked JSON value and reject trailing content.",
+    "Use lossless compressed complete public payloads, bounded decompression and original-length/hash validation.",
+    "Collect complete public history after completed archive checks and before audit and queue diagnostics.",
+    "Read published Redis fallback configuration for diagnosis; full business queue use still requires actual Rails Queues params.",
+    "Retain late solver documents separately without promoting runtime or business verdict."
+  ],
+  "common_chain_changes": {
+    "chunk_bytes": 6144,
+    "source_manifest_sha256": "cec472fc37330fcea88f9daccd0c0f0d714dd34cf0a1e6e6e90bbc5a96d89723",
+    "original_response_limit_characters": 10000,
+    "real_qualification_required": [
+      "one complete 6144-byte chunk",
+      "nonempty final tail chunk",
+      "complete original known output",
+      "same action duplicate start executes body once"
+    ],
+    "preserved": [
+      "original native MCP",
+      "each chunk target identity before and after",
+      "complete original length and SHA256",
+      "registered original action and capture identity",
+      "business precondition and unknown-lock semantics"
+    ],
+    "known_pattern_bytes": 6656,
+    "known_observer_json_output": "Actual encoded byte length depends on PID and UID; require one full 6144-byte block and nonempty tail, total <=12288, exact original known content."
+  },
+  "budgets_unchanged": {
+    "agent_timeout_seconds": 3600,
+    "max_native_calls": 10000,
+    "max_ledger_checks": 4096,
+    "cpu": 4,
+    "memory_bytes": 8589934592,
+    "model_calls": 0
+  },
+  "original_reference_cleanup_unmodified": true,
+  "cleanup_failure_interpretation": "Original reference repair and final owned-infrastructure removal remain separate recorded outcomes.",
+  "next_decision": "Use original complete public material and independent chain review to determine full B0 eligibility; do not infer impossibility from collection or evidence gaps."
+}

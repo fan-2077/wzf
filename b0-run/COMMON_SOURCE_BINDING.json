@@ -1,0 +1,26 @@
+{
+  "actual_native_qualification": "required on this new attempt; local shell results do not substitute",
+  "business_disabled_by_execution_plan": true,
+  "chunk_bytes": 6144,
+  "files": {
+    "lifecycle.py": {
+      "bytes": 4834,
+      "sha256": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c"
+    },
+    "native_bridge.py": {
+      "bytes": 62369,
+      "sha256": "015fac3c922d89702a5cd9f8eb2fc3037cebd1342ffc2554c9e4c93d4cb7ac26"
+    },
+    "registry_v2.py": {
+      "bytes": 40042,
+      "sha256": "41e2cf9267ab7339ac0bc8264b58153eef1f48a6754b435a1227a14082f6c81a"
+    },
+    "target_shell.py": {
+      "bytes": 12385,
+      "sha256": "3cabcf21065bc3f6a31c095b6bd923d3b314058418883fa64f602e214fc05349"
+    }
+  },
+  "source_candidate": "common_bridge/repair_candidate_v1",
+  "source_manifest_sha256": "cec472fc37330fcea88f9daccd0c0f0d714dd34cf0a1e6e6e90bbc5a96d89723",
+  "unchanged_original_response_limit_characters": 10000
+}

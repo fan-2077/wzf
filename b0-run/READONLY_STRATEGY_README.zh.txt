@@ -1,0 +1,7 @@
+第二轮只读采集修订包
+
+入口仍是initial_qualification.main()，无参数。仅七个固定observe程序体，业务与原裁判调用均为零。使用完整v4同一解码器、运行库/HTTP/队列/历史无损压缩、归档gzip完整JSON与真实事故总截止时间。完整history在audit/queue之前取得。
+
+collection_complete仅说明声明的原始材料完整可解析；actual_queue_configuration_qualified始终为false，静态resque文件与诊断DB选择不能给业务赋权。historical_smtp_qualification仍留空，日志采集完成也不能代替历史终态与覆盖资格。qualified_read_chain只按真实native限定字段。
+
+共同执行桥使用repair_candidate_v1（每块6144字节），与后续完整B0同一源码。完整策略v4清单摘要：26ed517e8a13cccd8a321c4af43333cd66313d7d45210a103448b1c0000b6a31。已有真实第一轮证据不修改、不回填。

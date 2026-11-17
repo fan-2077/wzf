@@ -1,0 +1,12 @@
+{
+  "schema": "public-actions-v2-execution-plan-v1",
+  "mode": "native_readonly_qualification",
+  "branch_ref": "refs/heads/sre-b0-read-repair-20261117",
+  "allowed_operations": [
+    "observe"
+  ],
+  "agent_entry": "initial_qualification",
+  "reference_informed": true,
+  "formal_competition_result": false,
+  "purpose_zh": "依据首场真实失败修复完整JSON解析及无损传输，优先采集完整公共历史材料；保持业务写入和最终评测禁用。"
+}

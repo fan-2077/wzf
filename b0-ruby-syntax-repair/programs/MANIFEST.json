@@ -1,0 +1,18 @@
+{
+  "programs": [
+    {
+      "bytes": 15732,
+      "path": "background_contract.rb",
+      "sha256": "f1aa27a5d2bd8eb5d88153a83ea893ac9fe08c37c0ce43a589062e738a7e9973"
+    },
+    {
+      "bytes": 8331,
+      "path": "runtime_contract.rb",
+      "sha256": "128cf16273ca4260e28791ffd3569dcd81a0f2706a310c9b31e2d2c241c9bb3c"
+    }
+  ],
+  "schema": "b0-ruby-syntax-repair-v1",
+  "scope": "parse_only_no_Rails_execution_no_business_qualification",
+  "strategy_catalog_sha256": "a5bca7b7734a7807b0e630efe3ff565656b99dcd2bcf12fa98f89dfd024e850b",
+  "strategy_manifest_sha256": "26ed517e8a13cccd8a321c4af43333cd66313d7d45210a103448b1c0000b6a31"
+}
