@@ -29,16 +29,20 @@ jobs:
         if: always()
         timeout-minutes: 2
         run: python3 -B g1-smoke/cleanup_owned.py --scope g1-results/ownership.json --full
-      - name: Seal final outcome without inferring recovery success
+      - name: Seal and export complete owned evidence after cleanup
+        id: seal
         if: always()
         timeout-minutes: 1
         run: python3 -B g1-smoke/seal_remote_evidence.py
       - name: Preserve evidence including failed attempts
-        if: always()
+        if: always() && steps.seal.outputs.evidence_paths_ready == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         timeout-minutes: 3
         with:
           name: sre-g1-connection-${{ github.run_id }}-${{ github.run_attempt }}
-          path: g1-results/
+          path: |
+            ${{ runner.temp }}/sre-g1-export-${{ github.run_id }}-${{ github.run_attempt }}/evidence.tar.gz
+            ${{ runner.temp }}/sre-g1-export-${{ github.run_id }}-${{ github.run_attempt }}/EXPORT_STATUS.json
           if-no-files-found: error
+          include-hidden-files: false
           retention-days: 14

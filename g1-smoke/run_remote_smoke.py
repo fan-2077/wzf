@@ -172,8 +172,10 @@ def main():
                                     and infra.STATE.get("source_inputs_unchanged") is True
                                     and not infra.STATE.get("error") and not infra.STATE.get("cleanup_error"))
         infra.save("g1-execution-summary.json", infra.STATE)
-        files = {str(p.relative_to(infra.RESULTS)): sha(p) for p in infra.RESULTS.rglob("*") if p.is_file() and p != infra.RESULTS / "ARTIFACT_MANIFEST.json"}
-        infra.save("ARTIFACT_MANIFEST.json", {"files": files, "scope": "original G1 execution evidence"})
+        # Private agent evidence is inventoried only by the reviewed post-cleanup
+        # exporter. Never follow links or silently skip unreadable folders here.
+        infra.save("evidence-inventory-pending.json", {"complete": False,
+                   "scope": "final strict evidence inventory is deferred to the post-cleanup exporter"})
     return 0 if infra.STATE.get("passed") else 1
 
 

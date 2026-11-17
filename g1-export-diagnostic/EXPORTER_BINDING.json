@@ -1,0 +1,9 @@
+{
+  "schema": "g1-exporter-binding-v1",
+  "files": {
+    "g1-smoke/export_owned_evidence.py": "1fc463781bd47260a1543fecc47839e8f426bea81aeac751fbae00e777a04580",
+    "g1-smoke/seal_remote_evidence.py": "576140f043663d9403ac43c90b5a7d1dd852765a03fe8404ae91bbf5e080e138"
+  },
+  "scope": "The exact same reviewed export helpers used by the original G1 workflow; no copies or alternative export algorithms.",
+  "native_business_or_model_execution": false
+}

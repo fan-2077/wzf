@@ -1,0 +1,62 @@
+name: SRE G1 privileged export diagnostic only
+
+on:
+  push:
+    branches: [sre-g1-export-diagnostic-20261117]
+    paths:
+      - .github/workflows/sre-g1-export-diagnostic-20261117.yml
+      - g1-export-diagnostic/**
+      - g1-smoke/seal_remote_evidence.py
+      - g1-smoke/export_owned_evidence.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sre-g1-export-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  qualify-export-boundary:
+    name: Synthetic export / ${{ matrix.case }}
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-g1-export-diagnostic-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        case: [private-tree, unsafe-link]
+    steps:
+      - name: Read only the reviewed exporter and synthetic diagnostic
+        id: checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: |
+            /g1-export-diagnostic/
+            /g1-smoke/seal_remote_evidence.py
+            /g1-smoke/export_owned_evidence.py
+          sparse-checkout-cone-mode: false
+      - name: Exercise the actual privileged export on private synthetic evidence
+        id: diagnostic
+        timeout-minutes: 5
+        run: python3 -I -S -B g1-export-diagnostic/diagnose.py --case '${{ matrix.case }}'
+      - name: Upload only explicitly validated diagnostic files
+        if: always() && steps.checkout.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 2
+        with:
+          name: sre-g1-export-diagnostic-${{ matrix.case }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sre-g1-export-diagnostic-${{ matrix.case }}-${{ github.run_id }}-${{ github.run_attempt }}/upload/DIAGNOSTIC_RESULT.json
+            ${{ steps.diagnostic.outputs.validated_status_path }}
+            ${{ steps.diagnostic.outputs.validated_archive_path }}
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 14
+      - name: Remove only this job's marked synthetic source tree
+        if: always() && steps.checkout.outcome == 'success'
+        timeout-minutes: 1
+        run: python3 -I -S -B g1-export-diagnostic/diagnose.py --case '${{ matrix.case }}' --cleanup
