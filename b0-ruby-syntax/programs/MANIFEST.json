@@ -1,0 +1,41 @@
+{
+  "programs": [
+    {
+      "bytes": 5149,
+      "path": "runtime_contract.rb",
+      "sha256": "2f574e9d9ee35fb24d9c2d61a9b48cac2c8eba1669e46261b190a4314c015953"
+    },
+    {
+      "bytes": 6568,
+      "path": "history_logs.rb",
+      "sha256": "7911ee5b365324d089507adade982d7b38325f7e2e8c5619b6c817c1c14845a1"
+    },
+    {
+      "bytes": 4205,
+      "path": "identity_authorization.rb",
+      "sha256": "cf97058732509e855476b28e63883eeeff13d50027daccafcee51799e4d437c8"
+    },
+    {
+      "bytes": 5030,
+      "path": "http_completion.rb",
+      "sha256": "1af01040cd9e2cf0ec4f719b72631ce747e9edbf1e021fd69fc7110d3927bb34"
+    },
+    {
+      "bytes": 4427,
+      "path": "service_inventory.rb",
+      "sha256": "29d9fa547c1b487719e0c91db2032d19269a08ab96adf1d0ecfa054fa11cce3a"
+    },
+    {
+      "bytes": 6432,
+      "path": "service_control.rb",
+      "sha256": "8448fda4f302927957d11f8fa0d3ece39d25b8addda80850343708c04ad2d4f5"
+    },
+    {
+      "bytes": 16044,
+      "path": "notification_send.rb",
+      "sha256": "7307e23506e643bbe70b0eac17c0a44dc0ba916ba3878134849de89620e3d043"
+    }
+  ],
+  "schema": "b0-ruby-syntax-candidate-v1",
+  "scope": "parse_only_no_Rails_execution_no_business_qualification"
+}
