@@ -1,0 +1,421 @@
+{
+  "fixed_task_public_source_manifest": "g1_retry_stage/public_actions/SOURCE_MANIFEST.json",
+  "fixed_task_public_sources": "g1_retry_stage/public_actions_sources/sregym/service/apps/gitlab/",
+  "private_runtime_inputs_used": false,
+  "qualification": "source-level reasoning only; actual loaded source/owner binding required",
+  "schema": "b0-public-upstream-source-locators-v1",
+  "sources": [
+    {
+      "bytes": 36644,
+      "path": "b0_stage/strategy/sources/net-smtp-0.5.1.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517",
+      "url": "https://github.com/ruby/net-smtp/blob/v0.5.1/lib/net/smtp.rb"
+    },
+    {
+      "bytes": 35433,
+      "path": "b0_stage/strategy/sources/net-smtp-0.4.0.1.rb",
+      "runtime_contract_candidate": false,
+      "sha256": "5d48623ec390e07b379f32c1f57591126bda709d04f378f2217f009959dffa16",
+      "url": "https://github.com/ruby/net-smtp/blob/v0.4.0.1/lib/net/smtp.rb"
+    },
+    {
+      "bytes": 11770,
+      "path": "b0_stage/strategy/sources/net-protocol-0.2.2.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "3d011dfa382fa5cc90e3619f2dc56c47e2a29e25081d90515bfc1da80771ba88",
+      "url": "https://github.com/ruby/net-protocol/blob/v0.2.2/lib/net/protocol.rb"
+    },
+    {
+      "bytes": 7682,
+      "path": "b0_stage/strategy/sources/mail-smtp-2.9.0.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "14596f84aee964e30fb262caf65730cdb5f926956a3612c78f7cff28484f7459",
+      "url": "https://github.com/mikel/mail/blob/2.9.0/lib/mail/network/delivery_methods/smtp.rb"
+    },
+    {
+      "bytes": 6143,
+      "path": "b0_stage/strategy/sources/mail-smtp-2.8.1.rb",
+      "runtime_contract_candidate": false,
+      "sha256": "cc92b4387ca6c10d61331484eebf45f47afc860f1b57ee7d659f91f9fed80da1",
+      "url": "https://github.com/mikel/mail/blob/2.8.1/lib/mail/network/delivery_methods/smtp.rb"
+    },
+    {
+      "bytes": 1815,
+      "path": "b0_stage/strategy/sources/mail-smtp-connection-2.9.0.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "26a2ea105b2f3c00f05d31d8848e94346f8d2a963d22326d3a74e5dfbc2d61a5",
+      "url": "https://github.com/mikel/mail/blob/2.9.0/lib/mail/network/delivery_methods/smtp_connection.rb"
+    },
+    {
+      "bytes": 67882,
+      "path": "b0_stage/strategy/sources/mail-message-2.9.0.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "62aec80d17112b198cd3cc9f7820e95e043c41fb279ce3edd3d6fb15da721dba",
+      "url": "https://github.com/mikel/mail/blob/2.9.0/lib/mail/message.rb"
+    },
+    {
+      "bytes": 6375,
+      "path": "b0_stage/strategy/sources/Rails-7.2.3.1-message_delivery.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "599657ce3dddf8fd22665aea50ee299d4df5e2c566b22566ae114ac2806131af",
+      "url": "https://github.com/rails/rails/blob/v7.2.3.1/actionmailer/lib/action_mailer/message_delivery.rb"
+    },
+    {
+      "bytes": 140041,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-Gemfile.lock",
+      "runtime_contract_candidate": true,
+      "sha256": "12257cc0af8a603974d95d84445406c83e00b0cdbb0d538a8ac0779b98c906c5",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/Gemfile.lock"
+    },
+    {
+      "bytes": 27239,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-issues.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "06cb42f4cdde9a0ac1cf7cc11dfeb089de52da7e3b954709f27311b7e2e4571a",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/api/issues.rb"
+    },
+    {
+      "bytes": 6053,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-create_service.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "8cc0fa10b9db97a57c9e150bdca18bd752a24c636feb5e1704ab577ce35ff0fc",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/services/issues/create_service.rb"
+    },
+    {
+      "bytes": 5808,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-issues-base-service.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "c3f44b3c6b61d089e174f4a183227a2c8e2516cf4e756408002806037b3ba12b",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/services/issues/base_service.rb"
+    },
+    {
+      "bytes": 22072,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-issuable_base_service.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "379fe82293adb1988de0db0dd8ef44895d6459b018b70cb7c28efbd77ea309bc",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/services/issuable_base_service.rb"
+    },
+    {
+      "bytes": 10749,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-notify.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "cb2f63bab9042a36ff9bac9eb93ce83689d30238f80ce55ca322bd80d2711029",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/mailers/notify.rb"
+    },
+    {
+      "bytes": 6301,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-emails-issues.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "22960e4879f28927011fa01784be95cdafde16658fe9dbdb14d88434a27b591e",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/mailers/emails/issues.rb"
+    },
+    {
+      "bytes": 32851,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-sidekiq-api.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "0370bde2d73f166c53633804a54027bf1d448bd6cc2038a5cdc287bdb8bb4f8b",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq/lib/sidekiq/api.rb"
+    },
+    {
+      "bytes": 9611,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-base-reliable-fetch.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "05042b331bda2bdbc8e14d2462f357416da51cbbcca77ff9b57d54f5ff264bd8",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq-reliable-fetch/lib/sidekiq/base_reliable_fetch.rb"
+    },
+    {
+      "bytes": 1134,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-interrupted-set.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "ed328fbf75308acbb33ee25b865f333b320fde94aecc869e01a3117b7e1064f2",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq-reliable-fetch/lib/sidekiq/interrupted_set.rb"
+    },
+    {
+      "bytes": 708,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-sidekiq-fetch.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "a2f5c9ac0926a634813678744b39c035b71c226e756805f62d2dc0a2d2cafb91",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq-reliable-fetch/lib/sidekiq/reliable_fetch.rb"
+    },
+    {
+      "bytes": 1096,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-semi_reliable_fetch.rb",
+      "review_source": "b0_stage/review/UPSTREAM_SOURCE_LOCATORS.json",
+      "runtime_contract_candidate": true,
+      "sha256": "f7bee9ee0dc6ca90acaf5270315b0389d0f72a4909475c0debed5d392fcbd8b1",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq-reliable-fetch/lib/sidekiq/semi_reliable_fetch.rb"
+    },
+    {
+      "bytes": 7216,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-sidekiq-initializer.rb",
+      "review_source": "b0_stage/review/UPSTREAM_SOURCE_LOCATORS.json",
+      "runtime_contract_candidate": true,
+      "sha256": "ae4a73d4447c2ac8a1998a8baceea9d0c55965742f682b5fed823428eb37a3d6",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/config/initializers/sidekiq.rb"
+    },
+    {
+      "bytes": 8358,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-sidekiq-processor.rb",
+      "review_source": "b0_stage/review/UPSTREAM_SOURCE_LOCATORS.json",
+      "runtime_contract_candidate": true,
+      "sha256": "94821033c323767de1518ab34f7083ccd64dac761922f3132771d24bba4073d7",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq/lib/sidekiq/processor.rb"
+    },
+    {
+      "bytes": 3871,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-sidekiq-manager.rb",
+      "review_source": "b0_stage/review/UPSTREAM_SOURCE_LOCATORS.json",
+      "runtime_contract_candidate": true,
+      "sha256": "d987a7b23a44472e47c010f02630e9d06c03a85dd10fa2c9968ca43ee60722d4",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq/lib/sidekiq/manager.rb"
+    },
+    {
+      "bytes": 1401,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-sidekiq-job_logger.rb",
+      "review_source": "b0_stage/review/UPSTREAM_SOURCE_LOCATORS.json",
+      "runtime_contract_candidate": true,
+      "sha256": "92b493966c5b9c0fd64ef0462923b3d515aa1780b936ba4cd723de5f4ad38853",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/vendor/gems/sidekiq/lib/sidekiq/job_logger.rb"
+    },
+    {
+      "bytes": 5128,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-sidekiq-structured_logger.rb",
+      "review_source": "b0_stage/review/UPSTREAM_SOURCE_LOCATORS.json",
+      "runtime_contract_candidate": true,
+      "sha256": "f1db323070029462e7c7cba56dd7abb7ff83b2e6bd21e71b798bf162a7dea68a",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/gitlab/sidekiq_logging/structured_logger.rb"
+    },
+    {
+      "bytes": 1860,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-sidekiq-json_formatter.rb",
+      "review_source": "b0_stage/review/UPSTREAM_SOURCE_LOCATORS.json",
+      "runtime_contract_candidate": true,
+      "sha256": "600d58650098aea2b28b7224f8ca98e78a7d5b3f6590fb5db8bc0674867f6e9f",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/gitlab/sidekiq_logging/json_formatter.rb"
+    },
+    {
+      "bytes": 1063,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-new_issue_worker.rb",
+      "review_source": "b0_stage/review/NORMAL_BACKGROUND_SOURCE_CONTRACT.json",
+      "runtime_contract_candidate": true,
+      "sha256": "1bc96a75425b4155ff8afe1fdb2df6ca50537b7437bb63c41fb21d2ce4e8fb9c",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/workers/new_issue_worker.rb"
+    },
+    {
+      "bytes": 36806,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-notification_service.rb",
+      "review_source": "b0_stage/review/NORMAL_BACKGROUND_SOURCE_CONTRACT.json",
+      "runtime_contract_candidate": true,
+      "sha256": "f90f0bec8e02fe93f3609ce6e01cb927a7bf1cdbed753e15ac7f84c515a1a0aa",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/services/notification_service.rb"
+    },
+    {
+      "bytes": 1426,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-notification_recipients_build_service.rb",
+      "review_source": "b0_stage/review/NORMAL_BACKGROUND_SOURCE_CONTRACT.json",
+      "runtime_contract_candidate": true,
+      "sha256": "775785c478b90038ec61e9eb603657c8d5eb5f198735c78b17dda8439d56ede5",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/services/notification_recipients/build_service.rb"
+    },
+    {
+      "bytes": 6201,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-notification_recipient.rb",
+      "review_source": "b0_stage/review/NORMAL_BACKGROUND_SOURCE_CONTRACT.json",
+      "runtime_contract_candidate": true,
+      "sha256": "75ead4f72b7376e0670737b322f1c1e075921e857154dc2d39a07474e4b1e233",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/models/notification_recipient.rb"
+    },
+    {
+      "bytes": 2912,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-builder-default.rb",
+      "review_source": "b0_stage/review/NORMAL_BACKGROUND_SOURCE_CONTRACT.json",
+      "runtime_contract_candidate": true,
+      "sha256": "868a84a5fe9234a9962176d7d621a2d8389101614a72e5dc22ed6b1945220d82",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/services/notification_recipients/builder/default.rb"
+    },
+    {
+      "bytes": 6186,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-builder-base.rb",
+      "review_source": "b0_stage/review/NORMAL_BACKGROUND_SOURCE_CONTRACT.json",
+      "runtime_contract_candidate": true,
+      "sha256": "0f2703569ce77a5bad911a19ea4b9915e9816fa33e8c2ed2198f35fc71a7b696",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/services/notification_recipients/builder/base.rb"
+    },
+    {
+      "bytes": 682,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-models-notification_reason.rb",
+      "review_source": "b0_stage/review/NORMAL_BACKGROUND_SOURCE_CONTRACT.json",
+      "runtime_contract_candidate": true,
+      "sha256": "7527589447b5eb3dcd0acc17e945046d02a99a316d1ae884716ef631bec81918",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/models/notification_reason.rb"
+    },
+    {
+      "bytes": 2322,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-smtp_settings.rb.sample",
+      "review_source": "b0_stage/strategy/SMTP_INITIALIZER_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "67464291236d5aeed6f1daee83c8259e591c03b9f5fa1b2659c623f4e8bb8fba",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/config/initializers/smtp_settings.rb.sample"
+    },
+    {
+      "bytes": 1450,
+      "path": "b0_stage/strategy/sources/Omnibus-18.11.12-ce.0-smtp_settings.rb.erb",
+      "review_source": "b0_stage/strategy/SMTP_INITIALIZER_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "6e3bd209fbf21d7e6e48ef5bf2327a755578990947fea3bb98bb99d86fa99e72",
+      "url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/files/gitlab-cookbooks/gitlab/templates/default/smtp_settings.rb.erb"
+    },
+    {
+      "bytes": 73927,
+      "path": "b0_stage/strategy/sources/Omnibus-18.11.12-ce.0-default.rb",
+      "review_source": "b0_stage/strategy/SMTP_INITIALIZER_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "954a6a2498c572c77d08dfb64de77a3e829d5356fa1ce11dfaed953950f2c9c1",
+      "url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/files/gitlab-cookbooks/gitlab/attributes/default.rb"
+    },
+    {
+      "bytes": 28016,
+      "path": "b0_stage/strategy/sources/Omnibus-18.11.12-ce.0-gitlab-rails.rb",
+      "review_source": "b0_stage/strategy/SMTP_INITIALIZER_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "718a7831c074c3c39e280cdd2c7360ae9d7a6b86eac3da84ab96e8146acd2550",
+      "url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/files/gitlab-cookbooks/gitlab/recipes/gitlab-rails.rb"
+    },
+    {
+      "bytes": 2686,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-application_mailer.rb",
+      "review_source": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "4c169abb60e4663203bb86b209de3abe6c807e82b88cbc3356fa4b44b2a8306a",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/app/mailers/application_mailer.rb"
+    },
+    {
+      "bytes": 2956,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-production.rb",
+      "review_source": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "ae0d8a7638332ed5fa7e2975d18c351c8ee8d295b3eea8cfff3a08d83119ea0e",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/config/environments/production.rb"
+    },
+    {
+      "bytes": 2007,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-exception_log_formatter.rb",
+      "review_source": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "e84de1b2b9dde5c16fe0c0640ddf213d41855ddc3886268fcd45b7c1074facef",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/gitlab/exception_log_formatter.rb"
+    },
+    {
+      "bytes": 237,
+      "path": "b0_stage/review/reference_sources/GitLab-18.11.12-retry_error.rb",
+      "review_source": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "66abf4e5208521b8e5f34cec049fdb6009ba4767bdcf2ac5ba7efffc0ce435b5",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/gitlab/sidekiq_middleware/retry_error.rb"
+    },
+    {
+      "bytes": 1500,
+      "path": "b0_stage/review/reference_sources/Rails-7.2.3.1-mail_delivery_job.rb",
+      "review_source": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "e552c5d074a160fe76d77237b53e23cd2ad756aa592711cc1f72bbae7a438b63",
+      "url": "https://github.com/rails/rails/blob/v7.2.3.1/actionmailer/lib/action_mailer/mail_delivery_job.rb"
+    },
+    {
+      "bytes": 786,
+      "path": "b0_stage/review/reference_sources/Rails-7.2.3.1-rescuable.rb",
+      "review_source": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json",
+      "runtime_contract_candidate": false,
+      "scope": "historical_error_propagation_source_research_not_implemented_runtime_qualification",
+      "sha256": "18c3b22cc5ac73c1eca9327d2903bd22ecb85211e9fccb3fdd7c8fe003885421",
+      "url": "https://github.com/rails/rails/blob/v7.2.3.1/actionmailer/lib/action_mailer/rescuable.rb"
+    },
+    {
+      "bytes": 9197,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-redis_wrapper.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "d36e2cdca8aeac64d89b3c3105f098b9903b03c64e87eac40ad993786e95450b",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/gitlab/redis/wrapper.rb"
+    },
+    {
+      "bytes": 3527,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-redis_queues.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "c9c27177a0626302d083acb4320cf14be73bf8e95040408f12cf6eb1e6b76a4a",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/gitlab/redis/queues.rb"
+    },
+    {
+      "bytes": 2993,
+      "path": "b0_stage/strategy/sources/GitLab-18.11.12-redis_config_generator.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "0bf2add7e69e835489600ede8059483aad1b5bd85b2073a39316170f5c37b7b3",
+      "url": "https://github.com/gitlabhq/gitlabhq/blob/v18.11.12/lib/gitlab/redis/config_generator.rb"
+    },
+    {
+      "bytes": 2225,
+      "path": "b0_stage/strategy/sources/Omnibus-18.11.12-ce.0-resque.yml.erb",
+      "runtime_contract_candidate": true,
+      "sha256": "4ad83143cac6e3df98213079ee5e7b33e2a34706b32fb7f9eeee5ff239e62c67",
+      "url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/files/gitlab-cookbooks/gitlab/templates/default/resque.yml.erb"
+    },
+    {
+      "bytes": 1265,
+      "path": "b0_stage/strategy/sources/Omnibus-18.11.12-ce.0-redis_helper.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "4552245ddd3d605cc172618a9410417d11b0b2b2ff6a4628169740ff1c68b410",
+      "url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/files/gitlab-cookbooks/package/libraries/helpers/redis_helper.rb"
+    },
+    {
+      "bytes": 940,
+      "path": "b0_stage/strategy/sources/Omnibus-18.11.12-ce.0-redis_helper_gitlab_rails.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "b9c905b9b4cdf1189e6dbc5f59064dc7124d236cf027663d1fe9e76a7925a843",
+      "url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/files/gitlab-cookbooks/package/libraries/helpers/redis_helper/gitlab_rails.rb"
+    },
+    {
+      "bytes": 5553,
+      "path": "b0_stage/strategy/sources/Omnibus-18.11.12-ce.0-redis_helper_base.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "fa0e4d0e10367a1050cdf1052d40234dfc7f43e298a0292e69e57f6d6f109e95",
+      "url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/files/gitlab-cookbooks/package/libraries/helpers/redis_helper/base.rb"
+    },
+    {
+      "bytes": 3021,
+      "path": "b0_stage/strategy/sources/Redis-store-1.11.0-factory.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "d4e3cd2a6d50c45162156362a152665bb688ac1c91143ee0cb7d00cb60015c8e",
+      "url": "https://github.com/redis-store/redis-store/blob/v1.11.0/lib/redis/store/factory.rb"
+    },
+    {
+      "bytes": 5713,
+      "path": "b0_stage/strategy/sources/Redis-client-0.26.4-config.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "d8cfbfc07954663fd1ec2eb11fca38b825c17b9aaf1c0e55ca5d138ecf1a6e60",
+      "url": "https://github.com/redis-rb/redis-client/blob/v0.26.4/lib/redis_client/config.rb"
+    },
+    {
+      "bytes": 19143,
+      "path": "b0_stage/strategy/sources/Redis-client-0.26.4-main.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "c9779c773dd0370e207dc8c5db19a4c03cce731a69b78c7e7febff9ac027573e",
+      "url": "https://github.com/redis-rb/redis-client/blob/v0.26.4/lib/redis_client.rb"
+    },
+    {
+      "bytes": 1450,
+      "path": "b0_stage/strategy/sources/Redis-client-0.26.4-url_config.rb",
+      "runtime_contract_candidate": true,
+      "sha256": "70796489afdc9baa113f0481e65da687716400ab0a7b3a2998f426ec20f93af3",
+      "url": "https://github.com/redis-rb/redis-client/blob/v0.26.4/lib/redis_client/url_config.rb"
+    }
+  ]
+}

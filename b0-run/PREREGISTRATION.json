@@ -1,0 +1,193 @@
+{
+  "actual_five_changed_Ruby_syntax": {
+    "artifact_id": 14346486080,
+    "artifact_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71",
+    "commit": "b2e93d7e176c7003604dd83f4ff71ca3e99e5606",
+    "exact_program_count": 5,
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
+    "run_id": 44122275623
+  },
+  "actual_image_probe": {
+    "clock_and_all_source_bytes_retained": true,
+    "original_checker_result": "failure",
+    "prior_failure_not_overwritten": true,
+    "reason": "wrong version field assumption; actual format2 uses locked_version/described_version/display_version",
+    "run_id": 44120325876,
+    "runit_metadata_contract": "explicit format2, all three versions2.1.2, original source archive SHA256 bound"
+  },
+  "actual_queue_configuration_amendment": {
+    "basis": "actual loaded Rails Queues params and fixed source-bound connection-free Redis client configuration normalization",
+    "no_client_pool_or_command_created": true,
+    "no_default_guessing": true,
+    "timing": "after database restoration and issue replay, before queue inventory/prune/send"
+  },
+  "baseline": "B0",
+  "budgets": {
+    "agent_cpu": 4,
+    "agent_memory_bytes": 8589934592,
+    "agent_seconds_from_original_first_visibility": 3600,
+    "aggregate_ledger_lifecycle_checks": 4096,
+    "aggregate_native_calls": 10000,
+    "maximum_send_attempts_per_public_intent": 8,
+    "model_calls": 0
+  },
+  "capture_transport": {
+    "chunk_bytes": 6144,
+    "common_repair_manifest_sha256": "5ab1fa2f08cc08a1dfe84299b78977a60f250ee7dffd2a29598afd06c91263dd",
+    "complete_json_parser": true,
+    "complete_original_http_pages_logs_queues_retained": true,
+    "decoded_size_hash_and_complete_stream_required": true,
+    "lossless_compression_allowed_in_full_candidate": true,
+    "lossless_formats": [
+      "zlib+base64",
+      "gzip+base64"
+    ],
+    "original_stdout_capture_binding_preserved": true,
+    "same_for_all_later_arms": true,
+    "same_mechanism_available_to_every_arm": true,
+    "unchanged_original_tool_response_limit_characters": 10000
+  },
+  "common_capabilities": [
+    "observe",
+    "restore_database",
+    "replay_issue",
+    "send_notification",
+    "service_control",
+    "queue_prune",
+    "final_submit"
+  ],
+  "common_schema_revision": {
+    "historical_SMTP_rules_changed": false,
+    "production_strategy_changed": false,
+    "registry_sha256": "a548c6b6d63169a12d60a41b8e002cd20c67e571d6aa7ffede6685c0125d8b42",
+    "scope": "Exact start two-field and stop four-field registration schema; native transport, locks and dispatch invariants unchanged",
+    "source_manifest_sha256": "5ab1fa2f08cc08a1dfe84299b78977a60f250ee7dffd2a29598afd06c91263dd"
+  },
+  "date_local": "2026-11-18",
+  "definition_zh": "参考实现已知的确定性公共工具脚本；运行时仅依据该实例的公开采集证据作决策。",
+  "deploy_loki": false,
+  "engineering_stage_decision": {
+    "current_configuration_cannot_reconstruct_missing_historical_trace": true,
+    "decision_zh": "进入真实完整恢复链工程资格；优先取得停止屏障、原数据库恢复、正常API重放和实际Rails配置四类尚缺实物证据。每一步仍由本场公开材料与冻结程序判据决定；历史SMTP不具备终态资格则停止冲突动作，不预设本场结果。",
+    "engineering_gap_not_policy_failure_or_single_agent_impossibility": true,
+    "evidence_commit": "181106006ed027864dae42894a9d77c9ed4cf708",
+    "evidence_run_id": 44108907911,
+    "expected_useful_evidence": [
+      "actual service stop and writer barrier",
+      "original volume database restoration and backend terminal",
+      "normal authorized API issue replay with correlated completion",
+      "actual loaded Rails and queue configuration"
+    ],
+    "historical_gate_unchanged": true,
+    "observed_gap_zh": "此前完整公开日志中的17个旧任务各有start/fail，异常被两层SMTPConnectionError包装，内层异常原因栈未保留；接受审计仅记录接受，不能证明缺失请求已结束。",
+    "original_evidence_sha256": "fc115cf1318c93cc0c199c92a6c9ac093f7a52c160e0e99ed12e807400aee09e",
+    "preincident_passive_observer_not_added_in_this_run": true,
+    "schema": "b0-actual-evidence-stage-decision-v1",
+    "valid_B0_requires_one_original_full_evaluation_and_complete_evidence": true
+  },
+  "fresh_original_instance_required": true,
+  "known_policy_failure_path": {
+    "allowed": true,
+    "case": "known_missing_after_retry_budget",
+    "conditions_zh": [
+      "所有实际发送均有合格终态与因果完整审计；有限重试后相关投递仍明确缺失。",
+      "不存在未知效果、仍可能提交的相关在途请求或可重放的旧相关作业。",
+      "没有已识别的错投或重复，正常服务已经恢复，所需自检全部完成。"
+    ],
+    "does_not_prove_single_agent_inability": true,
+    "oracle_may_be_invoked_once_to_record_true_failure": true,
+    "public_checks_complete": true,
+    "public_checks_passed": false
+  },
+  "original_full_oracle_required": true,
+  "outcome_classes": {
+    "engineering_or_evidence_incomplete": "Required capability, permission, current evidence, original terminal, source binding, or complete artifact is missing.",
+    "valid_business_success": "Complete actual execution evidence, original oracle success, cleanup and independent raw review pass.",
+    "valid_policy_failure": "Complete actual attempt with original oracle false; known policy failure remains distinct from engineering failure."
+  },
+  "policy_zh": [
+    "先取得本实例真实共同原生链路和完整公开材料，选择公开目录中首个实际摘要和归档目录检查均有效的 completed 归档。",
+    "停止实际写入服务，并核实数据库后台会话与本方冲突请求已结束；数据库恢复仅等待实际资源依赖。",
+    "恢复原数据库与原卷，单独记录模式重置和归档恢复，核查实际数据库后端终态和新数据世代。",
+    "通过一种实际合法的正常事项接口补回缺失业务，不直接修改内部编号。",
+    "在删除旧邮件任务或任何通知发送前，先取得完整历史日志并逐项核清相关SMTP终态；未知仍阻断邮件动作、后台发送恢复和最终提交。随后核查当前身份、授权、完整队列及正常后台通知源契约，只删除精确匹配的旧任务。",
+    "通过真实应用邮件栈执行单一公开意图；每轮取得全部实际发送子事务终态及同账本的因果完整审计。",
+    "明确未接受才允许下一轮有界重试；已接受、未知、错投、重复均不继续发送。",
+    "恢复正常服务并完成公开自检后，最多一次调用原始提交接口，保留真实原判定器结果。"
+  ],
+  "profile": "full",
+  "protected_provider_inputs_available_to_solver": false,
+  "reference_informed": true,
+  "reporting_constraints_zh": [
+    "保留所有真实尝试及其失败材料，不把只读资格或语法检查计作完整B0。",
+    "工作流绿色可以只表示完整有效尝试；必须单列原始业务结果。",
+    "一次独立核验通过的B0成功即表明该实例存在集中式公开解法，不延迟承认这一点。",
+    "失败、未知、超预算或工程缺口均不能证明单智能体无法解决。",
+    "本轮没有多智能体速度优势或正式比赛合格结论；后续速度比较必须使用同一多智能体策略的串行与并行版本。"
+  ],
+  "restore_dependency_amendment": {
+    "history_still_blocks": [
+      "queue_prune",
+      "send_notification",
+      "sidekiq_start",
+      "final_submit"
+    ],
+    "legacy_done_branch": "disabled_without_actual_Rails_error_propagation_qualification",
+    "reason_zh": "固定SMTP尾部只可能追加独立邮件账本，已停止并结束的应用数据库写入者不再与其共享写入资源；这不构成SMTP终态证明。",
+    "source_review": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json"
+  },
+  "retry_amendment": {
+    "enabled": true,
+    "private_fault_period_or_count_used": false,
+    "unknown_or_accepted_effect_can_retry": false,
+    "why_zh": "不主动禁用公开证据允许的合法恢复路径；并非依私有故障周期选择重试次数。"
+  },
+  "same_capabilities_for_later_arms": true,
+  "schema": "first-public-B0-preregistration-v1",
+  "service_stop_revision": {
+    "actual_old_exit1_cause_inferred": false,
+    "all_arms_same": true,
+    "clock": "original launcher boot_id + active ns/time + raw timens_offsets SHA; host/agent/target require time_for_children==time, equal identity and deadline within original incident and120s action budget",
+    "control": "one gitlab-ctl stop per original registered action; no retry or kill fallback",
+    "historical_SMTP_terminal_claimed": false,
+    "nonzero_command_exit": "retained unchanged; may settle applied only with complete independently checked postcondition; signal, missing certificate or expiry remains unknown",
+    "original_framework_cleanup_modified": false,
+    "postcondition": "original control child reaped; same service directory and runsv PID/starttime; exact20-byte state PID0 DOWN0 and not-W_UP; original descendants, actual independent session and labelled service workers absent from complete /proc enumeration",
+    "preparation": "within the same original deadline, read-only samples wait for two matching actual running independent sessions before the one control call; no already-down shortcut",
+    "source_model": "actual runit explicit manifest fields, fixed installed GitLab/Puma/OmnibusCtl sources, generated chpst-P launch and TERM hook, actual SID independent of supervisor/observer",
+    "source_review": "b0_stage/review/SERVICE_STOP_FINITE_MODEL_REVIEW.json",
+    "source_review_sha256": "f2f598bfd905ea59155283b622631fe4cafa3fe8757d28038d88b968139f917b",
+    "start_semantics_relaxed": false
+  },
+  "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
+  "source_repository": "https://github.com/SREGym/SREGym",
+  "status": "full_chain_engineering_qualification_source_frozen_pending_release",
+  "strategy_manifest_sha256": "25283615194db13b0f0f51e3e624dce43c3874bc9428b05354ffdc767dd7778f",
+  "submission_protocol": {
+    "agent_business_success": null,
+    "final_result_source": "original Conductor Mitigation.success retained before reference cleanup",
+    "host_binding": [
+      "attempt_id",
+      "action_id",
+      "native_call_id",
+      "accepted_response_sha256",
+      "original_result_source_sha256"
+    ],
+    "http_acknowledgement_is_business_success": false,
+    "maximum_original_submit_requests": 1,
+    "normal_agent_state_after_acknowledgement": "accepted_pending_evaluation",
+    "normal_controller_status_after_acknowledgement": "awaiting_original_host_evaluation",
+    "raw_binding_independently_verified_after_export": true,
+    "repeat_after_unknown_or_accepted_acknowledgement": false
+  },
+  "task": "gitlab_notification_intermittent_replicated",
+  "timezone": "Asia/Shanghai",
+  "timing": {
+    "all_read_wait_coordination_retry_costs_included": true,
+    "end": "unique original evaluate:mitigation end monotonic timestamp",
+    "formal_speed_comparison": false,
+    "pre_incident_build_and_environment_setup_recorded_separately": true,
+    "start": "original stage:mitigation start monotonic timestamp"
+  }
+}

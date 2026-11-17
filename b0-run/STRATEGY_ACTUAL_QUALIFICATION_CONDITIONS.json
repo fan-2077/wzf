@@ -1,0 +1,94 @@
+{
+  "schema": "b0-full-candidate-actual-qualification-conditions-v5",
+  "candidate_status": "complete_chain_engineering_qualification_candidate_not_real_B0",
+  "required_before_dependent_actions": [
+    {
+      "stage": "before_business",
+      "condition": "actual common native chain/target binding and standalone runtime sources",
+      "status": "repaired readonly44108907911-1 qualified native chain and complete standalone public collection; new5-body Ruby syntax and service source/clock probes pending"
+    },
+    {
+      "stage": "before_restore",
+      "condition": "same-action one-stop certificate for each service including current supervisor, independent session and process scope; original host/agent/target clock identity; no conflicting PostgreSQL backend; selected complete archive",
+      "status": "new service source/runtime/clock qualification and actual stop certificates must be acquired by engineering run"
+    },
+    {
+      "stage": "after_restore",
+      "condition": "actual owned pg_restore backend samples, synchronous commands, same postmaster, absence of owned backends, valid restored data",
+      "status": "must be established by first real registered restore; no full rehearsal required"
+    },
+    {
+      "stage": "after_each_replay",
+      "condition": "current admin, actual normal API201 explicit iid/content, correlated API completion log and fresh GET",
+      "status": "actual first B0 produces evidence"
+    },
+    {
+      "stage": "after_restore_and_replay_before_queues",
+      "condition": "actual Rails Queues.params and loaded client pure configuration normalization identify actual main-queue Redis host/port/db; auth/TLS/sentinels/cluster/extra shards/namespace refused",
+      "status": "implemented; next full attempt must bind actual values; current readonly static resque diagnostics never qualify business"
+    },
+    {
+      "stage": "before_prune_send",
+      "condition": "current actual authorization, complete queues including reliable-fetch working/interrupted, exact old payload/public intent mapping; complete fresh original historical logs qualify every relevant old SMTP attempt after restored actual context is available",
+      "status": "actual complete public log has17 double-wrapped failures without original SMTP stack and7 queued JIDs without log; existing narrow rules not widened; every full-run actual prerequisite still required"
+    },
+    {
+      "stage": "each_send",
+      "condition": "actual Rails-loaded methods plus observer ownership, each DATA/body/flush/final response boundary, causal same-ledger full public audit",
+      "status": "source parser implemented; actual first B0 produces evidence"
+    },
+    {
+      "stage": "normal_background",
+      "condition": "actual Default receiver inherited method binding and normal source reason domain; preserve unrelated jobs",
+      "status": "actual first B0 produces evidence"
+    },
+    {
+      "stage": "final",
+      "condition": "complete public checks; normal services; unique ACK receipt; original host evaluation only",
+      "status": "two-stage shared API integrated, no actual submit"
+    }
+  ],
+  "narrow_historical_rules": [
+    "EOFError at pinned Net::SMTP final DATA recv_response source frame with full backtrace",
+    "exact fixed Issue.find failure before mail rendering/SMTP",
+    "historical done branch disabled; static production default alone does not qualify actual error propagation"
+  ],
+  "known_deliberate_gaps": [
+    "historical unmatched start or missing original job coverage",
+    "queued job with no captured start still needs actual fresh-instance log coverage qualification",
+    "unrecognized PG/SMTP traceback remains unknown",
+    "actual Rails method override/source mismatch blocks send",
+    "body reached but write/flush timeout/reset lacks terminal",
+    "ApplicationMailer::SMTPConnectionError with cause_class=EOFError alone does not supply the original final-DATA traceback",
+    "historical done requires actual effective error configuration and rescue-handler/source binding before this branch could be enabled",
+    "already-down service with no prior session scope is not automatically a stop certificate",
+    "explicit actual service source or clock qualification mismatch blocks control",
+    "initial Sidekiq crash-loop window may require read-only preparation; original deadline never resets"
+  ],
+  "not_required": [
+    "no proof that all arbitrary global traffic ceased",
+    "no private provider socket/thread/database introspection",
+    "no repeated complete recovery rehearsal",
+    "no extra full oracle probe"
+  ],
+  "local_evidence": [
+    "validation/FIXED_EVIDENCE_LOCAL_RESULTS.json",
+    "../common_bridge/validation/ACTUAL_FACADE_SERIAL_INTERFACE_LOCAL.json",
+    "validation/SERVICE_STOP_CERTIFICATE_LOCAL.json"
+  ],
+  "actual_business_actions": 0,
+  "actual_oracle_calls": 0,
+  "actual_readonly_history_findings": {
+    "attempt_id": "44108907911-1",
+    "complete_log_bytes": 1626081,
+    "public_async_start_fail_pairs": 17,
+    "outer_class_and_cause": "ApplicationMailer::SMTPConnectionError",
+    "original_cause_backtrace_present": false,
+    "accepted": 9,
+    "missing": 21,
+    "queued_public_JIDs_without_log": 7,
+    "public_sync_receipts_without_job_ID": 6,
+    "historical_provider_terminal_qualified": false,
+    "report": "../real_read_repair_analysis/REAL_REPAIRED_HISTORY_DECISION.json"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "public-actions-v2-execution-plan-v1",
+  "mode": "public_b0",
+  "branch_ref": "refs/heads/sre-b0-public-20261117",
+  "allowed_operations": [
+    "observe",
+    "restore_database",
+    "replay_issue",
+    "send_notification",
+    "service_control",
+    "queue_prune",
+    "final_submit"
+  ],
+  "agent_entry": "controller",
+  "reference_informed": true,
+  "formal_competition_result": false,
+  "purpose_zh": "在全新原始故障实例上执行完整恢复链工程资格，逐项验证停止屏障、数据库恢复、合法接口重放和实际运行契约；历史SMTP门不放宽。只有全部条件成立才允许一次原始完整评估，否则如实归为工程或证据不完整。"
+}

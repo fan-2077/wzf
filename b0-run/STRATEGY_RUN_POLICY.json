@@ -1,0 +1,124 @@
+{
+  "schema": "b0-public-deterministic-policy-v5",
+  "status": "frozen_engineering_qualification_candidate_not_executed",
+  "baseline": "reference_informed_deterministic_public_B0",
+  "fixed_task": "gitlab_notification_intermittent_replicated",
+  "fixed_SREGym_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
+  "decision_inputs": [
+    "complete agent-readable recovery catalog",
+    "complete acknowledged issue and notification journals",
+    "actual public application runtime source/method observations",
+    "public full queues and Sidekiq logs",
+    "current public issue identity and recipient authorization",
+    "full paginated public delivery audit",
+    "registered original action evidence",
+    "opaque launcher ledger continuity guard"
+  ],
+  "forbidden_inputs": [
+    "private provider database or fault state",
+    "hidden fault counts or periods",
+    "private oracle inputs",
+    "privileged reference recovery macro",
+    "prior successful recovery transcript"
+  ],
+  "issue_creation_mode": "explicit_public_iid_via_normal_GitLab_API_one_POST_per_missing_public_issue",
+  "archive_policy": "first public completed catalog entry with actual matching SHA256 and successful pg_restore --list",
+  "queue_policy": "exact public receipt and structured original job identity, raw payload digest, occurrence count and zset score; preserve other jobs including ordinary NewIssueWorker",
+  "notification_policy": "real Notify.new_issue_email(...).deliver_now with actual loaded Rails stack, every SMTP session and DATA body observed; current identity/authorization rechecked inside send",
+  "uniform_budgets": {
+    "agent_timeout_seconds": 3600,
+    "max_native_calls": 10000,
+    "max_ledger_guard_requests": 4096,
+    "max_send_attempts_per_intent": 8,
+    "final_submit_max": 1,
+    "service_stop_action_seconds": 120
+  },
+  "retry_revision": {
+    "supersedes": "first-attempt one-explicit-send simplification in NEXT_STAGE_EXECUTION_SPEC",
+    "authorization": "root accepted explicit versioned bounded-retry revision in this session",
+    "reason_zh": "只在前次所有实际SMTP子事务效果终态已核清、同账本因果完整公开审计确证未投递时，才允许新动作编号重试；避免用人为禁止已知安全重试削弱确定性基线。",
+    "Q24_status": "used_path_semantics_implemented_actual_retry_evidence_pending",
+    "same_for_all_arms": true,
+    "depends_on_fault_period": false,
+    "accepted_rule": "latch acceptance and forbid fresh send",
+    "unknown_rule": "preserve original exclusion; no new business effects"
+  },
+  "known_failure_final_path": {
+    "public_checks_complete": true,
+    "public_checks_passed": false,
+    "policy_outcome": "known_missing_after_retry_budget",
+    "requires": [
+      "exactly the uniform registered send budget for each still missing intent",
+      "every attempt terminal and settled_not_applied for recipient-visible delivery",
+      "no unresolved related historical attempt",
+      "no related replayable queue job",
+      "current identity/content/authorization valid",
+      "normal services restored and normal worker reason contract bound"
+    ],
+    "action": "one original oracle submission to establish actual failure; never claim agent checks are oracle success"
+  },
+  "stop_without_new_business": [
+    "unresolved/unknown original request",
+    "incomplete or unqualified historical evidence",
+    "wrong or duplicate incident delivery",
+    "conflicting public identity",
+    "ledger or target lifecycle invalidation",
+    "unqualified actual runtime"
+  ],
+  "effect_scope_note": "Notification nonapplication means recipient-visible delivery absent with no still-appendable request; ordinary SentNotification application records may already exist and are preserved.",
+  "final_submission": "Original submit acknowledgement remains accepted_pending_evaluation. The original host Conductor alone records Mitigation.success. No repeated submit, cleanup oracle, or invented boolean.",
+  "capture_codec": "One complete JSON value after exactly one marker, rejecting non-whitespace suffix; lossless zlib+base64 or gzip+base64; all original bytes retained, length/SHA/eof/no extra stream checked, decoded bound64MiB.",
+  "local_validation_is_not_native_qualification": true,
+  "actual_business_actions": 0,
+  "actual_oracle_calls": 0,
+  "restore_resource_dependency_revision": {
+    "authorization": "root accepted reviewed resource-specific dependency correction in this session",
+    "before_restore": [
+      "actual Sidekiq/Puma process stop",
+      "no remaining conflicting PostgreSQL backend",
+      "no unresolved original database/Rails action",
+      "selected complete public archive identity"
+    ],
+    "historical_SMTP_qualification_still_required_before": [
+      "queue_prune",
+      "new/retried incident notification send",
+      "normal Sidekiq restart",
+      "original final submission"
+    ],
+    "reason_zh": "固定SMTP提供者只追加独立邮箱账本，不再访问应用PostgreSQL；实际数据库写入者与会话已停后，可先恢复数据库。此项不将遗留SMTP未知效果变为终态。",
+    "historical_done_rule": "disabled_until_actual_Rails_error_propagation_contract_is_bound",
+    "source_note": "b0_stage/review/HISTORICAL_MAIL_ERROR_SOURCE_NOTE.json"
+  },
+  "actual_queue_configuration_revision": {
+    "reason": "real read-only attempt showed empty redis.yml and a missed resque.yml fallback; static-file default cannot qualify business Redis DB",
+    "source": "actual Rails Gitlab::Redis::Queues.params after restore/replay",
+    "normalization": "actual loaded RedisClient::Config values without creating a client/pool or issuing commands; preserve explicit nonzero db",
+    "guard": "common facade binds complete queue capture to this actual configuration; no unsupported shape is admitted",
+    "readonly": "resque source is public diagnostic only, separately labelled from business qualification"
+  },
+  "empirical_repair_basis": {
+    "attempt_id": "44088895964-1",
+    "business_operations": 0,
+    "oracle_calls": 0,
+    "database_stdout_bytes": 1055,
+    "database_parser_bug": "valid multiline json_agg split at first line",
+    "history_capture": "incomplete, no qualified related SMTP terminal",
+    "readonly_repair": "full history before audit/queue; exact archive payload compressed; no skipped evidence"
+  },
+  "next_run_classification": "complete_recovery_chain_engineering_qualification; valid B0 only if every actual gate and original host evaluation later complete",
+  "service_stop_revision": {
+    "source_review": "b0_stage/review/SERVICE_STOP_FINITE_MODEL_REVIEW.json",
+    "source_review_sha256": "f2f598bfd905ea59155283b622631fe4cafa3fe8757d28038d88b968139f917b",
+    "control": "one gitlab-ctl stop per original registered action; no retry or kill fallback",
+    "preparation": "within the same original deadline, read-only samples wait for two matching actual running independent sessions before the one control call; no already-down shortcut",
+    "postcondition": "original control child reaped; same service directory and runsv PID/starttime; exact20-byte state PID0 DOWN0 and not-W_UP; original descendants, actual independent session and labelled service workers absent from complete /proc enumeration",
+    "nonzero_command_exit": "retained unchanged; may settle applied only with complete independently checked postcondition; signal, missing certificate or expiry remains unknown",
+    "clock": "original launcher boot_id + active ns/time + raw timens_offsets SHA; host/agent/target require time_for_children==time, equal identity and deadline within original incident and120s action budget",
+    "source_model": "actual runit explicit manifest fields, fixed installed GitLab/Puma/OmnibusCtl sources, generated chpst-P launch and TERM hook, actual SID independent of supervisor/observer",
+    "all_arms_same": true,
+    "start_semantics_relaxed": false,
+    "historical_SMTP_terminal_claimed": false,
+    "original_framework_cleanup_modified": false,
+    "actual_old_exit1_cause_inferred": false
+  }
+}

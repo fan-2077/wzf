@@ -1,0 +1,6 @@
+# Separate native transport worker; do not install into the frozen AIOS venv.
+# Matches SREGym 148dded7ca2737ded1085e7dc7bbf2a8fcfe7861 uv.lock.
+mcp==1.9.4
+httpx==0.28.1
+anyio==4.9.0
+pydantic==2.11.5
