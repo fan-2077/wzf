@@ -1,41 +1,47 @@
 {
   "programs": [
     {
-      "bytes": 5149,
-      "path": "runtime_contract.rb",
-      "sha256": "2f574e9d9ee35fb24d9c2d61a9b48cac2c8eba1669e46261b190a4314c015953"
+      "bytes": 8677,
+      "path": "background_contract.rb",
+      "sha256": "4489a7d2a3478f4877991fb487f2dea30a870f56917687f8d572680d4f334689"
     },
     {
-      "bytes": 6568,
+      "bytes": 6823,
       "path": "history_logs.rb",
-      "sha256": "7911ee5b365324d089507adade982d7b38325f7e2e8c5619b6c817c1c14845a1"
+      "sha256": "ea719eae72d7f99137866f6efaf4754b53007a7753f58d4a1381e029b9ad5140"
     },
     {
-      "bytes": 4205,
-      "path": "identity_authorization.rb",
-      "sha256": "cf97058732509e855476b28e63883eeeff13d50027daccafcee51799e4d437c8"
-    },
-    {
-      "bytes": 5030,
+      "bytes": 5285,
       "path": "http_completion.rb",
-      "sha256": "1af01040cd9e2cf0ec4f719b72631ce747e9edbf1e021fd69fc7110d3927bb34"
+      "sha256": "009c945be67de8968e323a42b65492c14f4a2d4539d1f7fe38ed5acc753b5406"
     },
     {
-      "bytes": 4427,
-      "path": "service_inventory.rb",
-      "sha256": "29d9fa547c1b487719e0c91db2032d19269a08ab96adf1d0ecfa054fa11cce3a"
+      "bytes": 4460,
+      "path": "identity_authorization.rb",
+      "sha256": "4873331a4438b0375559989704a6b71631f803826a94ccb86c6102e86d7bb300"
     },
     {
-      "bytes": 6432,
-      "path": "service_control.rb",
-      "sha256": "8448fda4f302927957d11f8fa0d3ece39d25b8addda80850343708c04ad2d4f5"
-    },
-    {
-      "bytes": 16044,
+      "bytes": 17489,
       "path": "notification_send.rb",
-      "sha256": "7307e23506e643bbe70b0eac17c0a44dc0ba916ba3878134849de89620e3d043"
+      "sha256": "45d56b9002987b6e523fb9d718c9bf7f7571553c63ac92af244a7635dd590084"
+    },
+    {
+      "bytes": 5971,
+      "path": "runtime_contract.rb",
+      "sha256": "7898f0636211a615a62a6de58753ef75b7e36c10d10ad81e576d224c3ac604dc"
+    },
+    {
+      "bytes": 6687,
+      "path": "service_control.rb",
+      "sha256": "f7fc844b5bf0039f099c451f94aebfb11fd89a571855c9d78694c75b0085424c"
+    },
+    {
+      "bytes": 4682,
+      "path": "service_inventory.rb",
+      "sha256": "23f91e648abbbb89bde3b23fe9ba42090594ad2988805f0feff6041d95d39d08"
     }
   ],
-  "schema": "b0-ruby-syntax-candidate-v1",
-  "scope": "parse_only_no_Rails_execution_no_business_qualification"
+  "schema": "b0-ruby-syntax-candidate-final-v1",
+  "scope": "parse_only_no_Rails_execution_no_business_qualification",
+  "strategy_manifest_sha256": "a01c15b8f5708f491fe4d06546a165d4a3ebfa1488513cbd7653352fc728f85b"
 }

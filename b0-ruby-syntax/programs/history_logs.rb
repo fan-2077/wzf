@@ -3,10 +3,14 @@ require 'digest'
 require 'base64'
 require 'open3'
 require 'socket'
+require 'zlib'
 
 module B0
   def self.emit(value)
-    puts 'B0_RESULT:' + JSON.generate(value, ascii_only: true)
+    raw=JSON.generate(value, ascii_only: true)
+    puts 'B0_RESULT_ZLIB:' + JSON.generate({'encoding'=>'zlib+base64','uncompressed_bytes'=>raw.bytesize,
+      'uncompressed_sha256'=>Digest::SHA256.hexdigest(raw),
+      'data_base64'=>Base64.strict_encode64(Zlib::Deflate.deflate(raw))},ascii_only:true)
   end
 
   def self.sha(value)

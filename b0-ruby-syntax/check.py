@@ -49,13 +49,13 @@ def main():
         assert os.environ.get('GITHUB_ACTIONS')=='true'
         assert os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
         assert re.fullmatch(r'[0-9]+',RESULT['run_id'] or '')
-        assert RESULT['ref']=='refs/heads/sre-b0-ruby-syntax-20261117'
+        assert RESULT['ref']=='refs/heads/sre-b0-ruby-final-20261117'
         assert RESULT['attempt']=='1'
         raw=(HERE/'programs/MANIFEST.json').read_bytes()
-        assert hashlib.sha256(raw).hexdigest()=='3b60b93f58af118474c08321880d222a5a4fce1d419344995d1984f532b67b3c'
+        assert hashlib.sha256(raw).hexdigest()=='93b78998ff9de1e63835f4d6e5826d3c6ca12df997e548bb0f7054d82f79e2f5'
         manifest=json.loads(raw)
         rows=manifest['programs']
-        assert len(rows)==7 and len({r['path'] for r in rows})==7
+        assert len(rows)==8 and len({r['path'] for r in rows})==8
         assert set(p.name for p in (HERE/'programs').iterdir())=={'MANIFEST.json'}|{r['path'] for r in rows}
         for row in rows:
             assert re.fullmatch(r'[a-z_]+\.rb',row['path'])
@@ -71,7 +71,7 @@ def main():
         assert rc==0 and not (set(raw.decode('utf-8','replace').splitlines()) & expected_names), 'owned names already occupied'
         RESULT['expected_container_names']=sorted(expected_names)
         RESULT['all_expected_names_absent_before_any_run']=True
-        RESULT['ownership_scope']='exclusive GitHub-hosted job; all eight names checked before any container launch'
+        RESULT['ownership_scope']='exclusive GitHub-hosted job; all nine names checked before any container launch'
         image='gitlab/gitlab-ce:18.11.12-ce.0'
         rc,_=command('pull_image',['docker','pull',image],timeout=480)
         assert rc==0, 'image pull failed'

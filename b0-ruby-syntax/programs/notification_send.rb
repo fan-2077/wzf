@@ -3,10 +3,14 @@ require 'digest'
 require 'base64'
 require 'open3'
 require 'socket'
+require 'zlib'
 
 module B0
   def self.emit(value)
-    puts 'B0_RESULT:' + JSON.generate(value, ascii_only: true)
+    raw=JSON.generate(value, ascii_only: true)
+    puts 'B0_RESULT_ZLIB:' + JSON.generate({'encoding'=>'zlib+base64','uncompressed_bytes'=>raw.bytesize,
+      'uncompressed_sha256'=>Digest::SHA256.hexdigest(raw),
+      'data_base64'=>Base64.strict_encode64(Zlib::Deflate.deflate(raw))},ascii_only:true)
   end
 
   def self.sha(value)
@@ -193,6 +197,12 @@ module B0SMTPObserver
     end
     raise B0SMTP::ContractMismatch,'only_encoded_message_data_is_qualified' unless msgstr.is_a?(String) && !block
     B0SMTP.verify_message(Mail.read_from_string(msgstr))
+    qualified_io=@socket.instance_of?(Net::InternetMessageIO) && B0SMTP.io_map[@socket.object_id].equal?(self) &&
+      @socket.method(:write_message).owner==B0MessageIOObserver && @socket.method(:writeline).owner==B0MessageIOObserver
+    raise B0SMTP::ContractMismatch,'actual_DATA_io_not_covered_by_fixed_observer' unless qualified_io
+    B0SMTP.event('qualified_data_io',{'session_id'=>session['session_id'],'io_object_id'=>@socket.object_id,
+      'io_class'=>@socket.class.to_s,'write_message_owner'=>@socket.method(:write_message).owner.to_s,
+      'writeline_owner'=>@socket.method(:writeline).owner.to_s})
     B0SMTP.allowed_data_entries+=1
     @b0_data_active=true
     @b0_message_written=false
@@ -291,11 +301,16 @@ identity=B0.identity(r)
 raise 'send_time_authorization_or_content_mismatch' unless identity['matches']
 B0SMTP.intent=r
 expected={
+  'smtp_tcp_socket'=>[Net::SMTP,:tcp_socket,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
+  'smtp_message_io'=>[Net::SMTP,:new_internet_message_io,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
+  'smtp_start'=>[Net::SMTP,:do_start,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
+  'smtp_get_response'=>[Net::SMTP,:get_response,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
   'smtp_data'=>[Net::SMTP,:data,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
   'smtp_recv'=>[Net::SMTP,:recv_response,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
   'smtp_sendmail'=>[Net::SMTP,:sendmail,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
   'smtp_finish'=>[Net::SMTP,:do_finish,'30eb817bda9db0aaa4eee10a0a90d40db6593221b004332a8dbd0f935f907517'],
   'message_writer'=>[Net::InternetMessageIO,:write_message,'3d011dfa382fa5cc90e3619f2dc56c47e2a29e25081d90515bfc1da80771ba88'],
+  'wire_writer'=>[Net::BufferedIO,:writeline,'3d011dfa382fa5cc90e3619f2dc56c47e2a29e25081d90515bfc1da80771ba88'],
   'smtp_delivery'=>[Mail::SMTP,:deliver!,'14596f84aee964e30fb262caf65730cdb5f926956a3612c78f7cff28484f7459'],
   'smtp_connection'=>[Mail::SMTPConnection,:deliver!,'26a2ea105b2f3c00f05d31d8848e94346f8d2a963d22326d3a74e5dfbc2d61a5'],
   'mail_deliver'=>[Mail::Message,:deliver,'62aec80d17112b198cd3cc9f7820e95e043c41fb279ce3edd3d6fb15da721dba'],
