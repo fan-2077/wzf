@@ -1,0 +1,10 @@
+{
+  "schema": "public-actions-v2-execution-plan-v1",
+  "mode": "native_readonly_qualification",
+  "branch_ref": "refs/heads/sre-b0-read-qualification-20261117",
+  "allowed_operations": ["observe"],
+  "agent_entry": "initial_qualification",
+  "reference_informed": true,
+  "formal_competition_result": false,
+  "purpose_zh": "通过真实公共原生链路收集固定程序资格、实际运行库、完整历史日志与队列；业务写入和最终裁判均禁用。"
+}

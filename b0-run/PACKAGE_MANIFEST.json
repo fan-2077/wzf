@@ -1,0 +1,29 @@
+{
+  "files": {
+    "Dockerfile": "28bfba1e253062880ffaaca7c58b10e6a18f4567bd85fac144f88a9213030866",
+    "cleanup_owned.py": "3d73529eddf8d14e06e4a0aafb0277d0f4051fbb946e50bb2b48b69c0ede501a",
+    "execution_plan.json": "15f5749905c3e426676e53171f3f66a911eb6d35e96d7a3a1bfbc79005df5842",
+    "export_owned_evidence.py": "65d151311255f8dcacc14189db5372a549c02dfceee7361be7ea1ceec6224d2d",
+    "host_ingress.py": "44a3f0d7a92f71bc3f2e8964b08ad2cdbec9d01ab77561c2768bd043b6d6fa99",
+    "host_lifecycle.py": "b29f6e5b52f71bffe07ca62706b0c9ecd0406b1522712eddc59b90bd14fa5468",
+    "native_b0_entry.py": "26e39bc936c9ba7fa6335e6346d92105697770c92f890abfe8b29a3e5c61fc09",
+    "native_host_runtime.py": "d8c379bb6ed4d4cf598ccf990c9e34f5f481d1837f6d7b3ce75289c609c95e54",
+    "payload/common_bridge/lifecycle.py": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c",
+    "payload/common_bridge/native_bridge.py": "acf3bbf7fce8ca7eba3c0a08198a4f09c35e73b03e96e6330618cac34e88c4eb",
+    "payload/common_bridge/registry_v2.py": "8024f979ea2e5d53d1d0f58246d945e801ac10940d7770e37dcb25467ef6319a",
+    "payload/common_bridge/target_shell.py": "2d973c9acdc1a754f3a96cb6f1fa4e6841c6b694a26ccbda3291f2255409fa8a",
+    "payload/integration/agent_entry.py": "cc7686697efe0995c906ee9900ab0d2ab61a2d89d153ff77141752f3fb83afe8",
+    "payload/native_adapter/native_transport.py": "3d82e99ce1aa4ff8ee54a5f7643e43249fd90616cbeb09e232d36788bcbab7f5",
+    "payload/native_adapter/requirements-native.txt": "3c06e77da7991a77843226396b636ad1831b3a259e762ce22fa9d64e8dcf32cc",
+    "payload/probes/native_boundary_probe.py": "bad77eede4e3d096124fedc36c17d3c66b58c40a4e98c6d2285e3ec33c56b99c",
+    "payload/strategy/catalog_readonly.py": "4a4c27854e08573f1b3737245b3aa64b101c6995bd29a9a1369b1ff24b6f1cb5",
+    "payload/strategy/common_io.py": "913e2639e72b3f5d705eb6591a522981cdd199aff613d8308a4f64b931e9c504",
+    "payload/strategy/initial_qualification.py": "c2fd4758c47a74e48ae927920eb4a614a7aba480cf9b1b96d98e95148b026e61",
+    "run_remote_baseline.py": "419c1cb3e296133367a676cd0b52afd406bd46e2773d45a8c610df83d3a4e102",
+    "runtime_boundary.py": "5962d02f3aefb7adb3090442bcac4ba33cafa84de94aa540f06c5dc725120d52",
+    "seal_remote_evidence.py": "3c3d8d1180aec1ed6e29f574520ee9fbbcc0c5995ad042eab655b6bce61f5ddc"
+  },
+  "mode": "native_readonly_qualification",
+  "schema": "b0-reviewed-package-v1",
+  "source_parent_commit": "71d8f596f17debe9d6d1bb3d42e14196a9c16862"
+}

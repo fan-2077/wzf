@@ -1,0 +1,48 @@
+name: B0 shared public read field qualification
+on:
+  push:
+    branches: [sre-b0-read-qualification-20261117]
+    paths: [b0-run/**, .github/workflows/sre-b0-read-qualification-20261117.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-b0-read-qualification-20261117
+  cancel-in-progress: false
+jobs:
+  original-readonly-qualification:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-b0-read-qualification-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - name: Read only the reviewed qualification package
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: /b0-run/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Collect real public read evidence on one fresh original incident
+        timeout-minutes: 144
+        run: python3 -B b0-run/run_remote_baseline.py
+      - name: Verify this run cleanup on all outcomes
+        if: always()
+        timeout-minutes: 2
+        run: python3 -B b0-run/cleanup_owned.py --scope b0-results/ownership.json --full
+      - name: Seal complete owned evidence after cleanup
+        id: seal
+        if: always()
+        timeout-minutes: 2
+        run: python3 -B b0-run/seal_remote_evidence.py
+      - name: Preserve complete evidence including failed attempts
+        if: always() && steps.seal.outputs.evidence_paths_ready == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 3
+        with:
+          name: sre-b0-read-qualification-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sre-b0-export-${{ github.run_id }}-${{ github.run_attempt }}/evidence.tar.gz
+            ${{ runner.temp }}/sre-b0-export-${{ github.run_id }}-${{ github.run_attempt }}/EXPORT_STATUS.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 14
