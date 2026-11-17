@@ -1,0 +1,34 @@
+{
+  "baseline_strategy_manifest_sha256": "26ed517e8a13cccd8a321c4af43333cd66313d7d45210a103448b1c0000b6a31",
+  "programs": [
+    {
+      "bytes": 27885,
+      "path": "background_contract.rb",
+      "sha256": "3db1bae70c9f5281a3cbb23b37171e043b512d9e0495648f63474d1e07cbf99d"
+    },
+    {
+      "bytes": 16613,
+      "path": "identity_authorization.rb",
+      "sha256": "aa57051303a03b9daae8d20d0cb38ffecd9d638372e36d65fe39c166b578f35f"
+    },
+    {
+      "bytes": 29642,
+      "path": "notification_send.rb",
+      "sha256": "0fa475989867d6a6ea840f2d77b2e53347e8002aad1f920326414ae2444a962a"
+    },
+    {
+      "bytes": 26336,
+      "path": "service_control.rb",
+      "sha256": "c39f15d63add45fa68049495515f695d80c0b3ff49defd7b07bb36f4f77303b9"
+    },
+    {
+      "bytes": 17342,
+      "path": "service_inventory.rb",
+      "sha256": "2977520367d452aa09381fc21ccb434c9684cc276ddbf298e4b3d66422ba7ad4"
+    }
+  ],
+  "schema": "b0-five-service-ruby-syntax-v1",
+  "scope": "Only five final changed Ruby bodies parsed with ruby -c; no clock/source probes or body execution",
+  "strategy_catalog_sha256": "7bca2f27627a7e4afc9d9f89e24ed50077ba6e1323dda92dd469b3e259a68c7c",
+  "strategy_manifest_sha256": "40ff0c547e57bf98e0190bb1f35458f595c1f77d490292e5c44c1122f6504335"
+}
