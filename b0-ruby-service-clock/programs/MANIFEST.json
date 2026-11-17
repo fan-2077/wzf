@@ -1,0 +1,110 @@
+{
+  "fixed_source_contract": [
+    {
+      "expected_sha256": null,
+      "name": "version_manifest",
+      "path_or_pattern": "/opt/gitlab/version-manifest.json",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": "67fe92f3596fbe0cbfd9b82a4150ac1443bc885316087aa87388097e43f09697",
+      "name": "sidekiq_cluster_cli",
+      "path_or_pattern": "/opt/gitlab/embedded/service/gitlab-rails/sidekiq_cluster/cli.rb",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": "14236db6614fe36b179f5eac86b57457feca9e1e2344316763d23de52bb3e9a2",
+      "name": "sidekiq_cluster",
+      "path_or_pattern": "/opt/gitlab/embedded/service/gitlab-rails/sidekiq_cluster/sidekiq_cluster.rb",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": "12f2ca711d6093446f34712a15a278428bd70f4eb2dc299092745a3eb9bd7d40",
+      "name": "process_supervisor",
+      "path_or_pattern": "/opt/gitlab/embedded/service/gitlab-rails/lib/gitlab/process_supervisor.rb",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": "9e0c860e6b95578ae087c13fe38ef3243472fbb8b74075261a47d8131bd0785e",
+      "name": "process_management",
+      "path_or_pattern": "/opt/gitlab/embedded/service/gitlab-rails/lib/gitlab/process_management.rb",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": "024e8c21b4e4201794cc040244ced2295da22e7152caa2ab66b3b6d9d1284eeb",
+      "name": "metrics_server",
+      "path_or_pattern": "/opt/gitlab/embedded/service/gitlab-rails/metrics_server/metrics_server.rb",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": "e4beaf3fc6894583ead8bd4e42dde1cec525037c872511b76dad76e933e4076d",
+      "name": "puma_cluster",
+      "path_or_pattern": "/opt/gitlab/embedded/lib/ruby/gems/*/gems/puma-7.2.0/lib/puma/cluster.rb",
+      "unique_glob": true
+    },
+    {
+      "expected_sha256": "50d421e29a29c0671217772556cc542b91b95f0dfe365015e05ce008b96e2bfc",
+      "name": "omnibus_ctl",
+      "path_or_pattern": "/opt/gitlab/embedded/lib/ruby/gems/*/gems/omnibus-ctl-0.6.12/lib/omnibus-ctl.rb",
+      "unique_glob": true
+    },
+    {
+      "expected_sha256": "a414f5b6c2709e0ca8ee4faffb9117de41ed9d35aa4967873f04c2382475c235",
+      "name": "puma_run_template",
+      "path_or_pattern": "/opt/gitlab/embedded/cookbooks/gitlab/templates/default/sv-puma-run.erb",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": "861fc54c66d6333a1f69693868d5e0dcaf65d5588a66cf73f6c956b8ffb070d4",
+      "name": "sidekiq_run_template",
+      "path_or_pattern": "/opt/gitlab/embedded/cookbooks/gitlab/templates/default/sv-sidekiq-run.erb",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": null,
+      "name": "sv",
+      "path_or_pattern": "/opt/gitlab/embedded/bin/sv",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": null,
+      "name": "runsv",
+      "path_or_pattern": "/opt/gitlab/embedded/bin/runsv",
+      "unique_glob": false
+    },
+    {
+      "expected_sha256": null,
+      "name": "chpst",
+      "path_or_pattern": "/opt/gitlab/embedded/bin/chpst",
+      "unique_glob": false
+    }
+  ],
+  "omnibus_ctl_installed_source_derivation": {
+    "build_definition_sha256": "f2841ce4e87865924ebb8e7168083a2c70cb32149070449a031e7cce1985f929",
+    "build_definition_url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/config/software/omnibus-ctl.rb",
+    "patch_sha256": "78345f5229cd7a4d563c4fc7347f99454095ec0c9d1eb20440c97fae097e16dc",
+    "patch_url": "https://github.com/gitlabhq/omnibus-gitlab/blob/18.11.12+ce.0/config/patches/omnibus-ctl/skip-license-acceptance.patch",
+    "patched_source_bytes": 30747,
+    "patched_source_sha256": "50d421e29a29c0671217772556cc542b91b95f0dfe365015e05ce008b96e2bfc",
+    "removed_exact_bytes": 66,
+    "scope": "Fixed package build removes exactly one reconfigure license-check line; no stop source change",
+    "source_bytes": 30813,
+    "source_sha256": "6937ac0316c52253ac6246cc27fba32b878b2b99670e0b6262a91db9cbc41ba8"
+  },
+  "probes": [
+    {
+      "bytes": 1385,
+      "path": "clock_identity_probe.rb",
+      "sha256": "509eda6c89203d8ff2ceb39e4363fe6a367ff1aae0a79ab0cc7cf1d75405207e"
+    },
+    {
+      "bytes": 4444,
+      "path": "fixed_sources_probe.rb",
+      "sha256": "a5f825ac839d05098dea162e87d44663b437e16c7fdd9364b2adbde24f34687f"
+    }
+  ],
+  "programs": [],
+  "schema": "b0-service-clock-probes-v3",
+  "scope": "Two fixed read-only probes; changed business Ruby bodies are not yet present or qualified",
+  "syntax_binding_status": "pending_frozen_strategy_v5"
+}

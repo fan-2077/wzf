@@ -1,0 +1,35 @@
+name: B0 fixed image clock and source probes
+on:
+  push:
+    branches: [sre-b0-service-clock-20261117]
+    paths: [b0-ruby-service-clock/**, .github/workflows/sre-b0-service-clock-20261117.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-b0-service-clock-20261117
+  cancel-in-progress: false
+jobs:
+  readonly-probes:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-b0-service-clock-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Read frozen probe input
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: /b0-ruby-service-clock/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Read clock identity and fixed image sources without starting services
+        timeout-minutes: 15
+        run: python3 -B b0-ruby-service-clock/check.py
+      - name: Preserve exact inputs and complete probe outputs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sre-b0-service-clock-${{ github.run_id }}-${{ github.run_attempt }}
+          path: b0-ruby-service-clock-result/
+          if-no-files-found: error
+          retention-days: 14
