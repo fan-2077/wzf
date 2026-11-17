@@ -117,6 +117,14 @@ def inspect_agent_container(name, expected_image_id, agent_logs, expected_cert_v
               for m in raw.get("Mounts", [])]
     host = raw["HostConfig"]
     config = raw["Config"]
+    cap_add_raw = host.get("CapAdd")
+    # Docker accepts both spellings. Remove at most one exact prefix; malformed
+    # values and every additional capability must continue to fail closed.
+    cap_add_normalized = (
+        {cap.removeprefix("CAP_") for cap in cap_add_raw}
+        if isinstance(cap_add_raw, list) and all(isinstance(cap, str) for cap in cap_add_raw)
+        else None
+    )
     network_name = host.get("NetworkMode")
     n = subprocess.run(["docker", "network", "inspect", network_name],
                        capture_output=True, text=True, timeout=10, check=True)
@@ -137,7 +145,7 @@ def inspect_agent_container(name, expected_image_id, agent_logs, expected_cert_v
         "not_privileged": host.get("Privileged") is False,
         "no_new_privileges": any(x.startswith("no-new-privileges") for x in host.get("SecurityOpt", [])),
         "capabilities_dropped": "ALL" in (host.get("CapDrop") or []),
-        "only_reviewed_added_capability": set(host.get("CapAdd") or []) == {"DAC_OVERRIDE"},
+        "only_reviewed_added_capability": cap_add_normalized == {"DAC_OVERRIDE"},
         "exact_memory_limit": host.get("Memory") == 8 * 1024**3,
         "exact_cpu_limit": host.get("NanoCpus") == 4_000_000_000,
         "only_reviewed_mounts": all(m["Destination"] in allowed_destinations for m in mounts),
@@ -151,6 +159,9 @@ def inspect_agent_container(name, expected_image_id, agent_logs, expected_cert_v
             "mounts": mounts, "environment_names_only": sorted(env_names),
             "network_mode": host.get("NetworkMode"), "memory_limit": host.get("Memory"),
             "nano_cpus": host.get("NanoCpus"),
+            "capabilities": {"CapAdd": cap_add_raw, "CapDrop": host.get("CapDrop"),
+                             "CapAdd_present": "CapAdd" in host, "CapDrop_present": "CapDrop" in host,
+                             "CapAdd_normalized": sorted(cap_add_normalized) if cap_add_normalized is not None else None},
             "network": {k: network.get(k) for k in ("Id", "Name", "Internal", "Driver", "EnableIPv6")}}
 
 

@@ -1,0 +1,63 @@
+name: SRE G1 capability representation diagnostic
+on:
+  push:
+    branches: [sre-g1-capability-diagnostic-20261117]
+    paths:
+      - .github/workflows/sre-g1-capability-diagnostic-20261117.yml
+      - capability-diagnostic/diagnose.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sre-g1-capability-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  inspect-capability-spellings:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-g1-capability-diagnostic-20261117'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout diagnostic only
+        id: checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+          sparse-checkout: /capability-diagnostic/
+          sparse-checkout-cone-mode: false
+      - name: Create and start two isolated capability probes
+        timeout-minutes: 6
+        run: >-
+          python3 capability-diagnostic/diagnose.py
+          --mode run
+          --owner '${{ github.run_id }}-${{ github.run_attempt }}'
+          --commit '${{ github.sha }}'
+          --output '${{ runner.temp }}/g1-capability-evidence'
+      - name: Independently remove this run's diagnostic containers
+        if: always() && steps.checkout.outcome == 'success'
+        timeout-minutes: 1
+        run: >-
+          python3 capability-diagnostic/diagnose.py
+          --mode cleanup
+          --owner '${{ github.run_id }}-${{ github.run_attempt }}'
+          --output '${{ runner.temp }}/g1-capability-evidence'
+      - name: Seal complete and failed evidence
+        if: always() && steps.checkout.outcome == 'success'
+        timeout-minutes: 1
+        run: >-
+          python3 capability-diagnostic/diagnose.py
+          --mode seal
+          --owner '${{ github.run_id }}-${{ github.run_attempt }}'
+          --output '${{ runner.temp }}/g1-capability-evidence'
+      - name: Upload diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 1
+        with:
+          name: sre-g1-capability-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/g1-capability-evidence
+          if-no-files-found: error
+          retention-days: 14
