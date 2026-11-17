@@ -13,6 +13,8 @@ def main():
         return json.loads(p.read_text()) if p.is_file() else {}
     run = read("g1-execution-summary.json")
     cleanup = read("workflow-fallback-cleanup.json")
+    native = run.get("native_g1_result") or {}
+    agent = native.get("agent_result") or {}
     verdict = {"scope": "unscored original G1 read connection",
                "remote_smoke_pass": run.get("smoke_pass") is True,
                "runner_cleanup_verified": run.get("cleanup_verified") is True,
@@ -20,7 +22,10 @@ def main():
                "workflow_fallback_cleanup_verified": cleanup.get("passed") is True,
                "source_inputs_unchanged": run.get("source_inputs_unchanged") is True,
                "no_execution_or_cleanup_error": not run.get("error") and not run.get("cleanup_error")
-                                                and not run.get("extra_cleanup_error"),
+                                                and not run.get("extra_cleanup_error")
+                                                and not native.get("error") and not agent.get("error")
+                                                and native.get("cleanup_passed") is not False
+                                                and not (agent.get("cleanup") or {}).get("cleanup_errors"),
                "agent_recovery_success": None,
                "formal_competition_result": False,
                "timing_comparison": False}

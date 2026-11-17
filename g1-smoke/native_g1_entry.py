@@ -188,7 +188,7 @@ async def main():
         bridge = get_container_host_bind_address()
         os.environ.update(API_BIND_HOST=bridge, API_PORT="8000", MCP_SERVER_PORT="9954",
                           AGENT_LOGS_DIR=str(agent_logs))
-        policy = InternetPolicy.from_mode("filtered", agent_name=AGENT, model_id=None,
+        policy = InternetPolicy.from_mode("filtered", agent_name=None, model_id=None,
                                          additional_allowed_endpoints=())
         config = ConductorConfig(deploy_loki=False, internet_policy=policy,
                                  k8s_proxy_listen_host=bridge, k8s_proxy_listen_port=16443,
