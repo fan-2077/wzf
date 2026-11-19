@@ -1,0 +1,94 @@
+{
+  "available_to_all_later_comparison_arms": true,
+  "base_commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
+  "business_fix_code_review_sha256": "d257c9fe1b25d6b3a18cf87e26ff0efd8bef9fe832e22e85830b4c0fba68ed5a",
+  "candidate_version": "public_result_candidate_v2",
+  "changed_generated_programs": [
+    "background_contract",
+    "identity_authorization",
+    "notification_send",
+    "service_control",
+    "service_inventory"
+  ],
+  "changes": [
+    {
+      "effect": "Use the installed wrapper NO_PRIVILEGE_DROP=1 option for the three existing Rails programs to retain the original authorized root execution identity.",
+      "file": "payload/strategy/catalog.py"
+    },
+    {
+      "effect": "Before the original writer_barrier_not_current exception, emit compressed actual failed observations and uid/euid/gid/egid. The barrier success predicate is byte-identical.",
+      "file": "payload/strategy/programs/service_supervision.rb"
+    },
+    {
+      "effect": "Call the existing LedgerGuard reason final_submit; keep all original current-source, target, ledger, owned-action and lock preconditions.",
+      "file": "payload/strategy/common_facade.py"
+    }
+  ],
+  "current_candidate_native_business_execution": "pending",
+  "current_candidate_original_result": null,
+  "evidence": {
+    "artifact_id": 14512790830,
+    "artifact_sha256": "2c53edeb0b0be610d31c9e52999f97e9c82474b0e3f65d7020bfd8aa98d4a0a7",
+    "checks_passed": 14,
+    "cleanup_verified": true,
+    "commit": "81406ab782f30156316ceb6b6e6eafb8d8597896",
+    "default_wrapper": {
+      "active_barrier": false,
+      "errors": "EACCES on two root runsv cwd links",
+      "process_scan_complete": false,
+      "stopped_barrier": false,
+      "uid": 998
+    },
+    "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "independent_review_sha256": "ec384d0d3cf56071e397435b6c4c3e48dc0a8e3d4298a35fa2b30de1d14c7ac5",
+    "retain_original_root": {
+      "active_barrier": false,
+      "process_scan_complete": true,
+      "stopped_barrier": true,
+      "uid": 0
+    },
+    "run_id": 44490180494,
+    "run_url": "https://github.com/fan-2077/wzf/actions/runs/44490180494",
+    "scope": "Actual fixed-image wrapper and isolated real runsv service fixtures; Rails application and business effects were not started. Confirms the permission mechanism, not unrecorded internal predicates in the prior failed run.",
+    "wrapper_sha256": "fab022de950858249d0ef68c02b443ef00c026b0d4b3d93c4c65c5dac7814fd9"
+  },
+  "final_admission_contract_validation": {
+    "actual_registry_and_guard_used": true,
+    "external_probe_and_host_responder_are_fixtures": true,
+    "module": "tests/test_final_admission_contract.py",
+    "review_sha256": "94c1346a2e15517c50e436207ee7eaabffdf5ca1e7c28ca147f228cbec3fbad5",
+    "scope": "Local interface/state tests only; no business or original evaluation qualification",
+    "tests": 5
+  },
+  "host_branch_binding": {
+    "files": [
+      "native_b0_entry.py",
+      "cleanup_owned.py",
+      "export_owned_evidence.py"
+    ],
+    "new": "refs/heads/sre-b0-public-result-v2-20261119",
+    "old": "refs/heads/sre-b0-public-result-20261118",
+    "only_change_to_each_host_file": "literal branch identity replacement",
+    "original_oracle_and_business_budgets_unchanged": true
+  },
+  "permissions": "No new tool capability or external permission; the wrapper retains the root identity already supplied by the unchanged original native tool.",
+  "prior_original_artifact_sha256": "aed96ca79549109291d7d8ba251646286124ab72e9b381fd54c4dae8920143d4",
+  "prior_original_evaluations": 0,
+  "prior_outcome": "Engineering failure at identity_authorization writer barrier; final admission separately rejected a local guard reason before IPC. No prior original submission or score is rewritten.",
+  "prior_raw_original_success": null,
+  "prior_run_id": 44476033731,
+  "protocol_id": "public_result_v1",
+  "schema": "b0-public-result-v2-engineering-amendment-v1",
+  "unchanged": [
+    "original task and oracle",
+    "all budgets after incident first visibility",
+    "17 program operations and targets",
+    "service stop success predicate",
+    "notification retry and settlement rules",
+    "single original submit limit",
+    "all started attempts denominator",
+    "common bridge source files"
+  ],
+  "unchanged_generated_program_count": 12
+}

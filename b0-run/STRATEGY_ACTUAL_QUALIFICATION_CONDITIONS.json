@@ -1,13 +1,72 @@
 {
-  "schema": "b0-public-result-actual-qualification-conditions-v1",
-  "protocol_id": "public_result_v1",
-  "status": "implementation_candidate_no_new_native_experiment",
+  "accepted_intent_read_skip": "Only exact current-scope/current-ledger/current-intent permanent verified positives can suppress that intent send loop. Unknown owned actions or locks still block. Real execution and performance effect of this optimization require the new run.",
+  "actual_new_business_executions": 0,
+  "actual_new_original_evaluations": 0,
+  "candidate_version": "public_result_candidate_v2",
+  "evidence_read_boundary": "native/agent and public fixed source only; no private provider/host state",
+  "independent_diagnostics": [
+    "Historical SMTP certificate remains qualified/unqualified/unknown/not_evaluated; no field is forced true.",
+    "Normal service/public selfchecks may be known_fail or incomplete and are recorded before a single original evaluation when execution is ready."
+  ],
   "inherited_actual_evidence": {
-    "v6_full_run": "44125067108",
     "native_and_service_restore_scope": "real native chain, three service controls and one restore were independently verified in that earlier run; new run must rebind its own targets and captures",
+    "public_result_v1": {
+      "database_restores": 1,
+      "notification_sends": 0,
+      "original_evaluations": 0,
+      "real_native_requests": 1706,
+      "replayed_issues": 30,
+      "run_id": 44476033731,
+      "source_and_target_rebinding_required": true,
+      "terminal_actions": 114
+    },
     "replay_scope": "actual POST201 and GET200 created one issue, but old client-ID completion lookup was empty; old action remains unresolved",
-    "ruby_syntax": "all current fixed programs unchanged from v6; five final changed Ruby bodies exact actual syntax run44122275623, remaining three actual inputs inherited unchanged; syntax is not business success"
+    "ruby_syntax": "Earlier syntax evidence applies only to earlier frozen inputs. This candidate changes five generated Ruby bodies, all of which must compile in the exact fixed image before the original business run.",
+    "v6_full_run": "44125067108",
+    "writer_permission_probe": {
+      "artifact_id": 14512790830,
+      "artifact_sha256": "2c53edeb0b0be610d31c9e52999f97e9c82474b0e3f65d7020bfd8aa98d4a0a7",
+      "checks_passed": 14,
+      "cleanup_verified": true,
+      "commit": "81406ab782f30156316ceb6b6e6eafb8d8597896",
+      "default_wrapper": {
+        "active_barrier": false,
+        "errors": "EACCES on two root runsv cwd links",
+        "process_scan_complete": false,
+        "stopped_barrier": false,
+        "uid": 998
+      },
+      "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
+      "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+      "independent_review_sha256": "ec384d0d3cf56071e397435b6c4c3e48dc0a8e3d4298a35fa2b30de1d14c7ac5",
+      "retain_original_root": {
+        "active_barrier": false,
+        "process_scan_complete": true,
+        "stopped_barrier": true,
+        "uid": 0
+      },
+      "run_id": 44490180494,
+      "run_url": "https://github.com/fan-2077/wzf/actions/runs/44490180494",
+      "scope": "Actual fixed-image wrapper and isolated real runsv service fixtures; Rails application and business effects were not started. Confirms the permission mechanism, not unrecorded internal predicates in the prior failed run.",
+      "wrapper_sha256": "fab022de950858249d0ef68c02b443ef00c026b0d4b3d93c4c65c5dac7814fd9"
+    }
   },
+  "known_deliberate_gaps": [
+    "No proof of all historical third-party SMTP requests being terminal when logs do not support it.",
+    "No causal attribution from same-intent acceptance to the current send.",
+    "No global guarantee that no historical request can append in the future.",
+    "Missing, conflicting, partial or ambiguous current owned terminal evidence remains unknown and blocks submission."
+  ],
+  "new_real_conditions_pending": [
+    "exact five changed Ruby body compilation in the fixed image",
+    "actual complete writer observations inside the loaded Rails application",
+    "actual response-assigned API completion lookup on the new instance",
+    "actual notification send and atomic snapshot settlement path",
+    "normal service restoration after this protocol reconciliation",
+    "unique original evaluation and original host raw result",
+    "independent complete artifact/protocol/cleanup review"
+  ],
+  "protocol_id": "public_result_v1",
   "required_before_dependent_actions": [
     "Actual common native chain, current public target/ledger identity, frozen source binding and source/clock qualification.",
     "Original same-action writer stop and database backend barrier before restore.",
@@ -18,25 +77,6 @@
     "Each original own notification plus all actual SMTP subtransactions terminal before atomic snapshot_closed; complete guarded post-terminal audit and causal attribution unknown.",
     "All own actions/effects and locks closed, current source/target/ledger qualification, no prior final action before original evaluation."
   ],
-  "independent_diagnostics": [
-    "Historical SMTP certificate remains qualified/unqualified/unknown/not_evaluated; no field is forced true.",
-    "Normal service/public selfchecks may be known_fail or incomplete and are recorded before a single original evaluation when execution is ready."
-  ],
-  "new_real_conditions_pending": [
-    "response-assigned API completion lookup on actual new run",
-    "actual notification send and atomic snapshot settlement path",
-    "normal service restoration after this protocol's reconciliation",
-    "unique original evaluation and original host raw result",
-    "independent complete artifact/protocol/cleanup review"
-  ],
-  "known_deliberate_gaps": [
-    "No proof of all historical third-party SMTP requests being terminal when logs do not support it.",
-    "No causal attribution from same-intent acceptance to the current send.",
-    "No global guarantee that no historical request can append in the future.",
-    "Missing, conflicting, partial or ambiguous current owned terminal evidence remains unknown and blocks submission."
-  ],
-  "evidence_read_boundary": "native/agent and public fixed source only; no private provider/host state",
-  "actual_new_business_executions": 0,
-  "actual_new_original_evaluations": 0,
-  "accepted_intent_read_skip": "Only exact current-scope/current-ledger/current-intent permanent verified positives can suppress that intent send loop. Unknown owned actions or locks still block. Real execution and performance effect of this optimization require the new run."
+  "schema": "b0-public-result-actual-qualification-conditions-v1",
+  "status": "v2_candidate_pending_same_run_fixed_image_syntax_and_original_business_execution"
 }

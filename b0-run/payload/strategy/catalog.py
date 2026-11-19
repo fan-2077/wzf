@@ -46,7 +46,7 @@ def ruby(name, rails=False):
     supervision=source('service_supervision.rb')+'\n' if name in {
         'service_inventory.rb','service_control.rb','identity_authorization.rb','background_contract.rb','notification_send.rb'} else ''
     text=source('ruby_common.rb')+'\n'+supervision+source(name)
-    program=('gitlab-rails runner ' if rails else '/opt/gitlab/embedded/bin/ruby -e ')
+    program=('NO_PRIVILEGE_DROP=1 gitlab-rails runner ' if rails else '/opt/gitlab/embedded/bin/ruby -e ')
     return 'B0_ARGUMENTS="$1" '+program+shlex.quote(text)
 
 runtime_source = ('require "json"\nB0_EXPECTED_APPLICATION_SOURCES = JSON.parse('+json.dumps(json.dumps(APPLICATION_SOURCES,sort_keys=True,separators=(',',':')))+')\n'+source('redis_config_diagnostics.rb')+'\n'+source('runtime_contract.rb'))

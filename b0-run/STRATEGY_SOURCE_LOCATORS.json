@@ -433,5 +433,32 @@
       "sha256": "70796489afdc9baa113f0481e65da687716400ab0a7b3a2998f426ec20f93af3",
       "url": "https://github.com/redis-rb/redis-client/blob/v0.26.4/lib/redis_client/url_config.rb"
     }
-  ]
+  ],
+  "writer_wrapper_observation": {
+    "artifact_id": 14512790830,
+    "artifact_sha256": "2c53edeb0b0be610d31c9e52999f97e9c82474b0e3f65d7020bfd8aa98d4a0a7",
+    "checks_passed": 14,
+    "cleanup_verified": true,
+    "commit": "81406ab782f30156316ceb6b6e6eafb8d8597896",
+    "default_wrapper": {
+      "active_barrier": false,
+      "errors": "EACCES on two root runsv cwd links",
+      "process_scan_complete": false,
+      "stopped_barrier": false,
+      "uid": 998
+    },
+    "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "independent_review_sha256": "ec384d0d3cf56071e397435b6c4c3e48dc0a8e3d4298a35fa2b30de1d14c7ac5",
+    "retain_original_root": {
+      "active_barrier": false,
+      "process_scan_complete": true,
+      "stopped_barrier": true,
+      "uid": 0
+    },
+    "run_id": 44490180494,
+    "run_url": "https://github.com/fan-2077/wzf/actions/runs/44490180494",
+    "scope": "Actual fixed-image wrapper and isolated real runsv service fixtures; Rails application and business effects were not started. Confirms the permission mechanism, not unrecorded internal predicates in the prior failed run.",
+    "wrapper_sha256": "fab022de950858249d0ef68c02b443ef00c026b0d4b3d93c4c65c5dac7814fd9"
+  }
 }

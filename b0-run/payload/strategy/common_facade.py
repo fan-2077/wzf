@@ -622,7 +622,7 @@ class CommonFacade:
         # Recheck actual public target identity. Business success or the old
         # historical proof is not substituted for this execution boundary.
         identities={name:bridge._current_target(name) for name in sorted(bridge.targets)}
-        guard=bridge.guard.check('public_result_final_admission')
+        guard=bridge.guard.check('final_submit')
         require(guard.get('valid') is True and guard.get('ledger_epoch')==bridge.context['ledger_epoch'],
                 'original_evaluation_ledger_identity_not_continuous')
         snapshot=self.public_business_snapshot()

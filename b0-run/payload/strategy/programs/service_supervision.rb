@@ -207,7 +207,18 @@ module B0
     snapshot=process_snapshot
     live=snapshot['processes'].select { |row|row['service'] && row['state']!='Z' }
     stopped=statuses.all? { |row|row['qualified'] && row['state']=='down' && row['pid']==0 && row['state_code']==0 && row['desired_not_up'] }
-    raise 'writer_barrier_not_current' unless snapshot['source_complete'] && live.empty? && stopped
+    unless snapshot['source_complete'] && live.empty? && stopped
+      # Preserve the exact failed observations before raising. The caller's
+      # unsuccessful exit remains mandatory; this is never a success result.
+      B0.emit({'kind'=>'writer_barrier_failure','writer_barrier_passed'=>false,
+        'observer_identity'=>{'uid'=>Process.uid,'euid'=>Process.euid,'gid'=>Process.gid,'egid'=>Process.egid},
+        'statuses'=>statuses,'supervision_snapshots'=>snapshots,'process_snapshot'=>snapshot,
+        'live_service_processes'=>live,
+        'predicates'=>{'complete_process_snapshot'=>snapshot['source_complete'],
+          'no_live_service_processes'=>live.empty?,'services_stopped'=>stopped},
+        'historical_smtp_terminal_claimed'=>false})
+      raise 'writer_barrier_not_current'
+    end
     {'statuses'=>statuses,'process_snapshot'=>snapshot,'live_service_processes'=>live,
      'smtp_sockets'=>smtp_sockets,'historical_smtp_terminal_claimed'=>false,
      'prior_stop_session_certificate_required_by_common_facade'=>true}

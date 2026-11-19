@@ -1,7 +1,5 @@
 {
-  "schema": "public-result-v1-execution-plan-v1",
-  "mode": "public_b0",
-  "branch_ref": "refs/heads/sre-b0-public-result-20261118",
+  "agent_entry": "controller",
   "allowed_operations": [
     "observe",
     "restore_database",
@@ -11,10 +9,13 @@
     "queue_prune",
     "final_submit"
   ],
-  "agent_entry": "controller",
-  "reference_informed": true,
+  "baseline_variant": "B0-P",
+  "branch_ref": "refs/heads/sre-b0-public-result-v2-20261119",
+  "candidate_version": "public_result_candidate_v2",
   "formal_competition_result": false,
-  "purpose_zh": "在全新原始故障实例上测量公开确定性基线的原任务结果。本方动作必须真实结束且取得完整后置审计，历史证明与因果归属单独保留，不再作为额外成绩条件；唯一原始评估与全量失败材料不变。",
+  "mode": "public_b0",
   "protocol_id": "public_result_v1",
-  "baseline_variant": "B0-P"
+  "purpose_zh": "在全新原始故障实例上验证写入者观察权限与最终准入接口修复，测量公开确定性基线的原任务结果；保持原协议、预算、评估器和全量失败记录。",
+  "reference_informed": true,
+  "schema": "public-result-v1-execution-plan-v1"
 }

@@ -1,25 +1,14 @@
 {
-  "actual_five_changed_Ruby_syntax": {
-    "actual_business_actions": 0,
-    "actual_native_calls": 0,
-    "artifact_id": 14346486080,
-    "commit": "b2e93d7e176c7003604dd83f4ff71ca3e99e5606",
-    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
-    "passed": true,
-    "programs_passed": 5,
-    "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
-    "repo_digests": [
-      "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21"
-    ],
-    "ruby_version": "ruby 3.3.10 (2025-10-23 revision 343ea05002) [x86_64-linux]",
-    "run_id": 44122275623,
-    "schema": "b0-ruby-artifact-root-verification-v1",
-    "source_manifest_sha256": "9f96c661b714070ab044e6a3d23f66d08dd0e940b512d95ba9aea30ae2a523e8",
-    "verified_files": 23,
-    "zip_bytes": 46799,
-    "zip_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71"
-  },
-  "business_programs_byte_identical_to_full_v6": true,
+  "business_programs_byte_identical_to_full_v6": false,
+  "business_programs_byte_identical_to_public_v1": false,
+  "changed_generated_programs": [
+    "background_contract",
+    "identity_authorization",
+    "notification_send",
+    "service_control",
+    "service_inventory"
+  ],
+  "common_manifest_is_inherited": true,
   "common_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
   "common_source_hashes": {
     "lifecycle.py": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c",
@@ -27,21 +16,35 @@
     "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
     "target_shell.py": "3cabcf21065bc3f6a31c095b6bd923d3b314058418883fa64f602e214fc05349"
   },
+  "current_changed_Ruby_syntax": {
+    "business_execution_proved": false,
+    "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "programs": [
+      "background_contract",
+      "identity_authorization",
+      "notification_send",
+      "service_control",
+      "service_inventory"
+    ],
+    "script": "tools/check_b0_ruby_syntax.py",
+    "status": "pending_same_run_preincident_fixed_image_gate"
+  },
   "deployed_files": [
     {
-      "bytes": 8437,
+      "bytes": 9314,
       "path": "RUN_POLICY.json",
-      "sha256": "0920ebbcc8d5e2d552cbbee81d7ce1621d91b2c543d3ea4348814a9c70428869"
+      "sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6"
     },
     {
-      "bytes": 12444,
+      "bytes": 12464,
       "path": "catalog.py",
-      "sha256": "7bca2f27627a7e4afc9d9f89e24ed50077ba6e1323dda92dd469b3e259a68c7c"
+      "sha256": "caed181d0da839051c4521ccac395102c0abf8ee706302acc34e247b5fa2fffc"
     },
     {
-      "bytes": 46141,
+      "bytes": 46124,
       "path": "common_facade.py",
-      "sha256": "4d05d77edf2e55cfd41181b7b424e9b5cbdb376ca1bcbd6b5edfdb71722206ab"
+      "sha256": "ddf9dcc4cace57f64c3b0e8a00d469f589f408b3f178370e84adb5e8a2d10127"
     },
     {
       "bytes": 11286,
@@ -164,9 +167,9 @@
       "sha256": "de96a5002a3963d9db3e5e37a94fbec0bebdad3f4ee073066e6f6af564b3cef2"
     },
     {
-      "bytes": 12152,
+      "bytes": 12859,
       "path": "programs/service_supervision.rb",
-      "sha256": "084d7290bde3c8e4ffb1aa4e7335fd8596ece254243b753a72773105600f8f44"
+      "sha256": "d27fd92056c0724ae62a7d2f16036f94ea035e7e1ee994e4e4dc888a54a99f11"
     },
     {
       "bytes": 41457,
@@ -174,6 +177,28 @@
       "sha256": "5743819b1450d6a828c7ee86f5225aa1fe258a395a24627d7cc20461ab413a4d"
     }
   ],
+  "inherited_five_changed_Ruby_syntax": {
+    "actual_business_actions": 0,
+    "actual_native_calls": 0,
+    "applies_to_current_changed_bodies": false,
+    "artifact_id": 14346486080,
+    "commit": "b2e93d7e176c7003604dd83f4ff71ca3e99e5606",
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "passed": true,
+    "programs_passed": 5,
+    "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
+    "repo_digests": [
+      "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21"
+    ],
+    "ruby_version": "ruby 3.3.10 (2025-10-23 revision 343ea05002) [x86_64-linux]",
+    "run_id": 44122275623,
+    "schema": "b0-ruby-artifact-root-verification-v1",
+    "source_manifest_sha256": "9f96c661b714070ab044e6a3d23f66d08dd0e940b512d95ba9aea30ae2a523e8",
+    "verified_files": 23,
+    "zip_bytes": 46799,
+    "zip_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71"
+  },
+  "inherited_source_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79",
   "programs": {
     "archive_check": {
       "body_shell_sha256": "ff3bb13ea94cf626e0e7dc6dd0c06a09db2412a72a53a82ded6f49fac986e2f7",
@@ -186,7 +211,7 @@
       "target": "recovery_console"
     },
     "background_contract": {
-      "body_shell_sha256": "8c5fa71eb1dc91a92726db3fb1bb1ded2cea4555280cc4f3c580f4af7b38ace3",
+      "body_shell_sha256": "23766db5af22a722975bf7e61c95b60e2e943158d12467bfe211fee318743403",
       "operation": "observe",
       "target": "gitlab"
     },
@@ -206,7 +231,7 @@
       "target": "gitlab"
     },
     "identity_authorization": {
-      "body_shell_sha256": "066df963c83416050d3f6b49689c48f4d0987a901768cb8c2090f83726d7624a",
+      "body_shell_sha256": "0c2115fd0e887b498dffcba97821066fe95aa4158a2ff4751d9596a328095d79",
       "operation": "observe",
       "target": "gitlab"
     },
@@ -221,7 +246,7 @@
       "target": "application_client"
     },
     "notification_send": {
-      "body_shell_sha256": "a02579dad7d71c9739e93f30101f3be2dda733eac5b1094f4fc389498aef0b07",
+      "body_shell_sha256": "293876cc2aca219445f62ee3ed1cfe835f439f9edeb9435c7353d37408c371dc",
       "operation": "send_notification",
       "target": "gitlab"
     },
@@ -251,19 +276,21 @@
       "target": "gitlab"
     },
     "service_control": {
-      "body_shell_sha256": "7b4440be171f646e185b798e70cf817a2945790fd1da7531894562c18d2346c0",
+      "body_shell_sha256": "38460fabf2d90a5e38e4e2d6d37d92aeffd05cec7f8e1a2526e7c8ce801d945f",
       "operation": "service_control",
       "target": "gitlab"
     },
     "service_inventory": {
-      "body_shell_sha256": "dad54b9c31ac90f3bfbebef7178facf3c27f4bd9e0a7fdbfeb6b1c07ea854e08",
+      "body_shell_sha256": "1e7b4737c1a7edce030fa5715c166f393001e569aa0c2f74cc444603f1560f90",
       "operation": "observe",
       "target": "gitlab"
     }
   },
   "protocol_id": "public_result_v1",
-  "schema": "b0-public-result-frozen-source-binding-v1",
-  "source_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79",
-  "source_version": "public_result_candidate_v1",
-  "status": "independent_sources_frozen_pending_combined_release_review"
+  "schema": "b0-public-result-frozen-source-binding-v2",
+  "source_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
+  "source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
+  "source_version": "public_result_candidate_v2",
+  "status": "v2_sources_frozen_pending_actual_native_execution",
+  "unchanged_generated_program_count": 12
 }

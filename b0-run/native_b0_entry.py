@@ -69,7 +69,7 @@ def phase_timing(path,attempt):
 
 async def main():
     if (PLAN.get('mode') != 'public_b0' or PLAN.get('protocol_id') != PROTOCOL
-            or BRANCH != 'refs/heads/sre-b0-public-result-20261118'):
+            or BRANCH != 'refs/heads/sre-b0-public-result-v2-20261119'):
         raise RuntimeError('Independent public-result protocol and branch binding differ')
     expected={'GITHUB_ACTIONS':'true','RUNNER_ENVIRONMENT':'github-hosted',
               'GITHUB_REPOSITORY':'fan-2077/wzf','GITHUB_REF':BRANCH,'GITHUB_RUN_ATTEMPT':'1'}

@@ -1,13 +1,4 @@
 {
-  "actual_five_changed_Ruby_syntax": {
-    "artifact_id": 14346486080,
-    "artifact_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71",
-    "commit": "b2e93d7e176c7003604dd83f4ff71ca3e99e5606",
-    "exact_program_count": 5,
-    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
-    "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
-    "run_id": 44122275623
-  },
   "actual_image_probe": {
     "clock_and_all_source_bytes_retained": true,
     "original_checker_result": "failure",
@@ -22,9 +13,9 @@
     "no_default_guessing": true,
     "timing": "after database restoration and issue replay, before queue inventory/prune/send"
   },
-  "actual_strategy_policy_sha256": "0920ebbcc8d5e2d552cbbee81d7ce1621d91b2c543d3ea4348814a9c70428869",
+  "actual_strategy_policy_sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6",
   "baseline": "B0-P",
-  "branch_ref": "refs/heads/sre-b0-public-result-20261118",
+  "branch_ref": "refs/heads/sre-b0-public-result-v2-20261119",
   "budgets": {
     "agent_cpu": 4,
     "agent_memory_bytes": 8589934592,
@@ -34,6 +25,7 @@
     "maximum_send_attempts_per_public_intent": 8,
     "model_calls": 0
   },
+  "candidate_version": "public_result_candidate_v2",
   "capture_transport": {
     "chunk_bytes": 6144,
     "common_repair_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
@@ -80,14 +72,37 @@
     "prior_outcome": "No original evaluation; first actual POST201/freshGET200 action remained unclosed owing to correlation-ID mismatch.",
     "prior_run_id": 44125067108
   },
+  "current_changed_Ruby_syntax": {
+    "original_incident_clock_not_started": true,
+    "programs": [
+      "background_contract",
+      "identity_authorization",
+      "notification_send",
+      "service_control",
+      "service_inventory"
+    ],
+    "status": "pending_same_run_preincident_fixed_image_gate"
+  },
   "date_local": "2026-11-19",
-  "definition_zh": "参考实现已知的公开确定性结果基线；与旧保守证据策略独立冻结、另起原始故障实例。",
+  "definition_zh": "参考实现已知的公开确定性结果基线第二个工程候选；修复原工具身份保留与最终守卫接口，在新原始故障实例执行，原结果协议不变。",
   "deploy_loki": false,
   "draft_sha256": "1537e9f5dd6b90ce03c366067a36c90b06f010f11c05b4206f7c5beeabdcd454",
+  "engineering_amendment_path": "ENGINEERING_AMENDMENT.json",
+  "engineering_amendment_sha256": "1fdb26b4d038fb964fcd283b40bcb5a1a51c73cb9e0ea70e64f2553e49b71c69",
   "fresh_original_instance_required": true,
   "historical_terminal_required_for_original_result": false,
   "host_finite_counterexamples_sha256": "60f4a87c4080625ec802b1e8a45bfc5e0f9848a2d45b95ee4fb4a7a5410e2aa5",
-  "host_result_interface_sha256": "d49ff79645571c9700a5e396c5071dc7d10d51450f5389669435b17165770ab8",
+  "host_result_interface_sha256": "42ce2bb4e5d79992baefde3e03eb403b22e657e6d7e3b1ea25b0c6e5ef47bb39",
+  "inherited_five_changed_Ruby_syntax": {
+    "applies_to_current_changed_bodies": false,
+    "artifact_id": 14346486080,
+    "artifact_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71",
+    "commit": "b2e93d7e176c7003604dd83f4ff71ca3e99e5606",
+    "exact_program_count": 5,
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
+    "run_id": 44122275623
+  },
   "known_policy_failure_path": {
     "actual_failure_details": "Retained in public snapshot; execution exceptions remain errors and never convert to successful execution.",
     "allowed": true,
@@ -169,9 +184,20 @@
     "original_evaluation": "Retain exact original bool or null from host evidence before reference cleanup; never replace it with self-check or acceptance acknowledgement.",
     "public_business_snapshot": "pass, known_fail or incomplete; preserve accepted, missing, duplicate, wrong-recipient, issue, service and queue facts without defaulting absent evidence to pass."
   },
-  "resume_note_zh": "2026-11-19继续完成冻结与首次启动；分支名称中的20261118是已选版本标识，不作为实际执行日期。",
+  "resume_note_zh": "本候选为2026-11-19的新工程尝试；保留44476033731等全部旧运行，旧失败不改判。",
+  "retained_prior_public_result_attempt": {
+    "commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
+    "elapsed_incident_to_stop_seconds": 1127.52709,
+    "elapsed_is_success_time": false,
+    "final_admission_error": "Guard reason is a fixed local accounting label",
+    "first_error": "writer_barrier_not_current",
+    "original_evaluations": 0,
+    "raw_original_success": null,
+    "run_id": 44476033731,
+    "unrecorded_old_barrier_predicate_not_reconstructed": true
+  },
   "same_capabilities_for_later_comparison_arms": true,
-  "schema": "public-result-B0-P-preregistration-v1",
+  "schema": "public-result-B0-P-preregistration-v2",
   "service_stop_revision": {
     "actual_old_exit1_cause_inferred": false,
     "all_arms_same": true,
@@ -190,8 +216,9 @@
   "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
   "source_repository": "https://github.com/SREGym/SREGym",
   "started_attempt_denominator": "All starts of this declared profile, including failure, unknown, timeout and engineering gaps; prior different profiles reported separately and never erased.",
-  "status": "independent_public_result_candidate_pending_combination_review",
-  "strategy_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79",
+  "status": "v2_frozen_candidate_pending_actual_native_execution",
+  "strategy_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
+  "strategy_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
   "submission_protocol": {
     "agent_business_success": null,
     "final_result_source": "original Conductor Mitigation.success retained before reference cleanup",
