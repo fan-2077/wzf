@@ -1,0 +1,269 @@
+{
+  "actual_five_changed_Ruby_syntax": {
+    "actual_business_actions": 0,
+    "actual_native_calls": 0,
+    "artifact_id": 14346486080,
+    "commit": "b2e93d7e176c7003604dd83f4ff71ca3e99e5606",
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "passed": true,
+    "programs_passed": 5,
+    "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
+    "repo_digests": [
+      "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21"
+    ],
+    "ruby_version": "ruby 3.3.10 (2025-10-23 revision 343ea05002) [x86_64-linux]",
+    "run_id": 44122275623,
+    "schema": "b0-ruby-artifact-root-verification-v1",
+    "source_manifest_sha256": "9f96c661b714070ab044e6a3d23f66d08dd0e940b512d95ba9aea30ae2a523e8",
+    "verified_files": 23,
+    "zip_bytes": 46799,
+    "zip_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71"
+  },
+  "business_programs_byte_identical_to_full_v6": true,
+  "common_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
+  "common_source_hashes": {
+    "lifecycle.py": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c",
+    "native_bridge.py": "20fd308510179cbc2bab2ab1ad62a191b7d7d7de0ce63cf84d12ed8a2cce940f",
+    "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
+    "target_shell.py": "3cabcf21065bc3f6a31c095b6bd923d3b314058418883fa64f602e214fc05349"
+  },
+  "deployed_files": [
+    {
+      "bytes": 8437,
+      "path": "RUN_POLICY.json",
+      "sha256": "0920ebbcc8d5e2d552cbbee81d7ce1621d91b2c543d3ea4348814a9c70428869"
+    },
+    {
+      "bytes": 12444,
+      "path": "catalog.py",
+      "sha256": "7bca2f27627a7e4afc9d9f89e24ed50077ba6e1323dda92dd469b3e259a68c7c"
+    },
+    {
+      "bytes": 46141,
+      "path": "common_facade.py",
+      "sha256": "4d05d77edf2e55cfd41181b7b424e9b5cbdb376ca1bcbd6b5edfdb71722206ab"
+    },
+    {
+      "bytes": 11286,
+      "path": "common_io.py",
+      "sha256": "227f19b06b4ee07b1241a890085e7df5be38481a0f667607074264961202855d"
+    },
+    {
+      "bytes": 30184,
+      "path": "controller.py",
+      "sha256": "4effd2233a3cbd8a75b7f2bc55a5fc899fde57ecd0ef79d507f924c3664c070e"
+    },
+    {
+      "bytes": 10987,
+      "path": "history_qualification.py",
+      "sha256": "6c2330c245f53551f761417b27f150457309732c64d7bae6fdcc96c415dbeeda"
+    },
+    {
+      "bytes": 1660,
+      "path": "programs/archive_check.sh",
+      "sha256": "aed5fdddd7ba8f74a88f74d44762836479a98de0465eed107af04d0d6cd02826"
+    },
+    {
+      "bytes": 5375,
+      "path": "programs/archive_restore.sh",
+      "sha256": "ce008f2dc6b09a8440005981a4039d37afa2f9dfa8151bec54c1dfcd0b05293c"
+    },
+    {
+      "bytes": 11467,
+      "path": "programs/background_contract.rb",
+      "sha256": "f94c6a2c7f538cfb294e0c97fb8b0271ca79dc123ff00a3ed8b7f3bdf75336b0"
+    },
+    {
+      "bytes": 833,
+      "path": "programs/database_state.sh",
+      "sha256": "fcad97ab2ffc5873ab8c46d2c8b34c62fcea84f1ed5b6eafe832d79a17ecd62c"
+    },
+    {
+      "bytes": 2558,
+      "path": "programs/history_logs.rb",
+      "sha256": "c76144ad29cace4070991fe77c0019c39ba9beefadec9198fecd799daf6501f6"
+    },
+    {
+      "bytes": 2837,
+      "path": "programs/http_common.py",
+      "sha256": "83d1d971170bc67e67e38b29afacbdcd89a131cea75d68313116454eec73d98f"
+    },
+    {
+      "bytes": 1020,
+      "path": "programs/http_completion.rb",
+      "sha256": "aaf59405e78b81fdf552ef598932b8d069af5cedaa93f9fee5dfdb116f0da6b3"
+    },
+    {
+      "bytes": 195,
+      "path": "programs/identity_authorization.rb",
+      "sha256": "bb037eaa7e15510cfa47ac8121aefe31a7ea77fc1ae1be2275ce3ff1db0f232e"
+    },
+    {
+      "bytes": 571,
+      "path": "programs/issue_inventory.py",
+      "sha256": "2d1f88e68099d0adfa0a4666b2c4eab776e6265a2d7296c9479daa66eeecfcb0"
+    },
+    {
+      "bytes": 1409,
+      "path": "programs/issue_replay.py",
+      "sha256": "fcc52e3d636e7022623e8ed27caf33694b3dc92ced0f9082cf949dd0df974069"
+    },
+    {
+      "bytes": 13224,
+      "path": "programs/notification_send.rb",
+      "sha256": "96c11f22c15a3d7d77fed9fad51a00bdbd1a5883b8e66d564a0cbad76b949b75"
+    },
+    {
+      "bytes": 1738,
+      "path": "programs/public_audit.py",
+      "sha256": "d1766e285be4e99704b79317781da5f3e5e343b53cd338d4864716bba873dde7"
+    },
+    {
+      "bytes": 754,
+      "path": "programs/queue_inventory.py",
+      "sha256": "672658c56b5788320c8b54b7931dece693f6c7faafad7e091fe99008e2d5410d"
+    },
+    {
+      "bytes": 4493,
+      "path": "programs/queue_prune.py",
+      "sha256": "2c8b93a50c7674a33463b6c165b13d677bfcaf88342551cb6b32176c8ed54cc0"
+    },
+    {
+      "bytes": 866,
+      "path": "programs/recovery_files.sh",
+      "sha256": "c5cb343d061967176dec08f8a6bd88d0a73ae43b021bfc2fa4d1111c39df60d1"
+    },
+    {
+      "bytes": 6953,
+      "path": "programs/redis_common.py",
+      "sha256": "92c143921bf50c7c88edf6fde19ad1c022395b3248f5d01a50562f1fb3dbeb1f"
+    },
+    {
+      "bytes": 3216,
+      "path": "programs/redis_config_diagnostics.rb",
+      "sha256": "697c5c2f109015150a5557ad66819c586828522103c65ed1ae42783d7ce32253"
+    },
+    {
+      "bytes": 4264,
+      "path": "programs/ruby_common.rb",
+      "sha256": "6d4c27682ba3a5bed25f72dd69547120bb9acaedd5052d7214223dee613d4243"
+    },
+    {
+      "bytes": 3316,
+      "path": "programs/runtime_contract.rb",
+      "sha256": "d24f778bf65e70ecb32a979186c934c0679937a5919df4ba9719fd537a60e961"
+    },
+    {
+      "bytes": 9918,
+      "path": "programs/service_control.rb",
+      "sha256": "2e3806251993b13135c1d8ffc71b5a1fad3fd4d78e928764cf37fdab44e84544"
+    },
+    {
+      "bytes": 924,
+      "path": "programs/service_inventory.rb",
+      "sha256": "de96a5002a3963d9db3e5e37a94fbec0bebdad3f4ee073066e6f6af564b3cef2"
+    },
+    {
+      "bytes": 12152,
+      "path": "programs/service_supervision.rb",
+      "sha256": "084d7290bde3c8e4ffb1aa4e7335fd8596ece254243b753a72773105600f8f44"
+    },
+    {
+      "bytes": 41457,
+      "path": "proofs.py",
+      "sha256": "5743819b1450d6a828c7ee86f5225aa1fe258a395a24627d7cc20461ab413a4d"
+    }
+  ],
+  "programs": {
+    "archive_check": {
+      "body_shell_sha256": "ff3bb13ea94cf626e0e7dc6dd0c06a09db2412a72a53a82ded6f49fac986e2f7",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "archive_restore": {
+      "body_shell_sha256": "5771a1d44a8f9fbf7cd5f97f36311fb5df6852bfa9dcdf5fc4decbd990e310eb",
+      "operation": "restore_database",
+      "target": "recovery_console"
+    },
+    "background_contract": {
+      "body_shell_sha256": "8c5fa71eb1dc91a92726db3fb1bb1ded2cea4555280cc4f3c580f4af7b38ace3",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "database_state": {
+      "body_shell_sha256": "225788fde7781490e8f5a8c75760dc5cd92378616c878a54fed7d81734eb2c88",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "history_logs": {
+      "body_shell_sha256": "eb4216e5d6a0ca6def74eb3eb022255c5bbf5acd90a085d81c7c4c7fe2a062d1",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "http_completion": {
+      "body_shell_sha256": "c8f23489256cb9c634d31977364a467f86c443ead77b52e7bed0da22d3334468",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "identity_authorization": {
+      "body_shell_sha256": "066df963c83416050d3f6b49689c48f4d0987a901768cb8c2090f83726d7624a",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "issue_inventory": {
+      "body_shell_sha256": "c4a5bb15f4e98d70ccd4fbe546554e4b515c2c9fe4e4a6990cdaa04d49b152c4",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "issue_replay": {
+      "body_shell_sha256": "c3932bc6dc25094a326b6cb4c003b6ec225ec92668394ad440f32f63324c4229",
+      "operation": "replay_issue",
+      "target": "application_client"
+    },
+    "notification_send": {
+      "body_shell_sha256": "a02579dad7d71c9739e93f30101f3be2dda733eac5b1094f4fc389498aef0b07",
+      "operation": "send_notification",
+      "target": "gitlab"
+    },
+    "public_audit": {
+      "body_shell_sha256": "70f5c2307f1362eca9e96cdbc9d85fb3b8994a5b874895f83d96865dc1e08a4f",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "queue_inventory": {
+      "body_shell_sha256": "3a577cc9aa76e0ee25f4c1284d5b2c0bbdd2daa7811f94c5008a37627128d2b1",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "queue_prune": {
+      "body_shell_sha256": "4945b7daa5e76fa2de259396a88b233f7e30784751115367debb63c1f9741120",
+      "operation": "queue_prune",
+      "target": "application_client"
+    },
+    "recovery_files": {
+      "body_shell_sha256": "e0f0fe25043a7b900975ec16873b3ecf041cce8def0b4b6ae6faff5f63d761f0",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "runtime_contract": {
+      "body_shell_sha256": "e74852a4d45c1f0cd2ced4803cb699e5a3e32ccf6997c33f97f9b3b18c0e9ca5",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "service_control": {
+      "body_shell_sha256": "7b4440be171f646e185b798e70cf817a2945790fd1da7531894562c18d2346c0",
+      "operation": "service_control",
+      "target": "gitlab"
+    },
+    "service_inventory": {
+      "body_shell_sha256": "dad54b9c31ac90f3bfbebef7178facf3c27f4bd9e0a7fdbfeb6b1c07ea854e08",
+      "operation": "observe",
+      "target": "gitlab"
+    }
+  },
+  "protocol_id": "public_result_v1",
+  "schema": "b0-public-result-frozen-source-binding-v1",
+  "source_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79",
+  "source_version": "public_result_candidate_v1",
+  "status": "independent_sources_frozen_pending_combined_release_review"
+}

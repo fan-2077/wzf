@@ -1,0 +1,20 @@
+{
+  "schema": "public-result-v1-execution-plan-v1",
+  "mode": "public_b0",
+  "branch_ref": "refs/heads/sre-b0-public-result-20261118",
+  "allowed_operations": [
+    "observe",
+    "restore_database",
+    "replay_issue",
+    "send_notification",
+    "service_control",
+    "queue_prune",
+    "final_submit"
+  ],
+  "agent_entry": "controller",
+  "reference_informed": true,
+  "formal_competition_result": false,
+  "purpose_zh": "在全新原始故障实例上测量公开确定性基线的原任务结果。本方动作必须真实结束且取得完整后置审计，历史证明与因果归属单独保留，不再作为额外成绩条件；唯一原始评估与全量失败材料不变。",
+  "protocol_id": "public_result_v1",
+  "baseline_variant": "B0-P"
+}

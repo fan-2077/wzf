@@ -1,0 +1,42 @@
+{
+  "schema": "b0-public-result-actual-qualification-conditions-v1",
+  "protocol_id": "public_result_v1",
+  "status": "implementation_candidate_no_new_native_experiment",
+  "inherited_actual_evidence": {
+    "v6_full_run": "44125067108",
+    "native_and_service_restore_scope": "real native chain, three service controls and one restore were independently verified in that earlier run; new run must rebind its own targets and captures",
+    "replay_scope": "actual POST201 and GET200 created one issue, but old client-ID completion lookup was empty; old action remains unresolved",
+    "ruby_syntax": "all current fixed programs unchanged from v6; five final changed Ruby bodies exact actual syntax run44122275623, remaining three actual inputs inherited unchanged; syntax is not business success"
+  },
+  "required_before_dependent_actions": [
+    "Actual common native chain, current public target/ledger identity, frozen source binding and source/clock qualification.",
+    "Original same-action writer stop and database backend barrier before restore.",
+    "Actual synchronous restore/owned backend termination and database validity before replay.",
+    "Actual normal API response, correct server-assigned original request ID, exact API completion log and fresh matching issue read before replay closure.",
+    "Current identity/recipient permission and actual Rails Redis queue configuration before precise queue pruning or sending.",
+    "Complete queue/audit evidence and immutable public receipts; exact old raw job preservation.",
+    "Each original own notification plus all actual SMTP subtransactions terminal before atomic snapshot_closed; complete guarded post-terminal audit and causal attribution unknown.",
+    "All own actions/effects and locks closed, current source/target/ledger qualification, no prior final action before original evaluation."
+  ],
+  "independent_diagnostics": [
+    "Historical SMTP certificate remains qualified/unqualified/unknown/not_evaluated; no field is forced true.",
+    "Normal service/public selfchecks may be known_fail or incomplete and are recorded before a single original evaluation when execution is ready."
+  ],
+  "new_real_conditions_pending": [
+    "response-assigned API completion lookup on actual new run",
+    "actual notification send and atomic snapshot settlement path",
+    "normal service restoration after this protocol's reconciliation",
+    "unique original evaluation and original host raw result",
+    "independent complete artifact/protocol/cleanup review"
+  ],
+  "known_deliberate_gaps": [
+    "No proof of all historical third-party SMTP requests being terminal when logs do not support it.",
+    "No causal attribution from same-intent acceptance to the current send.",
+    "No global guarantee that no historical request can append in the future.",
+    "Missing, conflicting, partial or ambiguous current owned terminal evidence remains unknown and blocks submission."
+  ],
+  "evidence_read_boundary": "native/agent and public fixed source only; no private provider/host state",
+  "actual_new_business_executions": 0,
+  "actual_new_original_evaluations": 0,
+  "accepted_intent_read_skip": "Only exact current-scope/current-ledger/current-intent permanent verified positives can suppress that intent send loop. Unknown owned actions or locks still block. Real execution and performance effect of this optimization require the new run."
+}

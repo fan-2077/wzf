@@ -1,0 +1,92 @@
+{
+  "schema": "b0-public-result-notification-snapshot-contract-v1",
+  "protocol_id": "public_result_v1",
+  "status": "implemented_local_counterexamples_passed_pending_independent_release_review",
+  "launch_requirements": {
+    "protocol_id": "public_result_v1",
+    "budgets.max_send_attempts_per_intent": 8
+  },
+  "fixed_profile_binding": "Constant in frozen registry source, persisted in SQLite metadata, validated when registry opened, required in native launch context, included in all operation source bindings; no model-selected runtime profile.",
+  "bridge_terminal_api": "notification_terminal_verified(action_id, capture, verifier=trusted_owned_smtp_terminal_verifier)",
+  "bridge_begin_api": "begin_notification_audit(action_id)",
+  "bridge_snapshot_api": "finish_notification_snapshot(action_id, ticket, audit_capture, verifier=trusted_snapshot_classifier)",
+  "bridge_read_api": "read_notification_snapshot(action_id)",
+  "classifier_exact_fields": [
+    "protocol_id",
+    "complete",
+    "owned_action_terminal",
+    "intent_snapshot_state",
+    "causal_attribution_to_this_action",
+    "historical_terminal_proof",
+    "delivery_ids",
+    "wrong_delivery_ids",
+    "unattributed_issue_update_delivery_ids",
+    "ledger_lifecycle",
+    "snapshot_id",
+    "snapshot_total"
+  ],
+  "four_facts": {
+    "owned_action_terminal": "True only after the original registered action and actual SMTP subtransactions are verified terminal.",
+    "intent_snapshot_state": [
+      "accepted",
+      "missing",
+      "conflict"
+    ],
+    "causal_attribution_to_this_action": "unknown only in v1; acceptance is not attributed to this action.",
+    "historical_terminal_proof": {
+      "status": [
+        "qualified",
+        "unqualified",
+        "unknown",
+        "not_evaluated"
+      ],
+      "required_for_action_admission": false,
+      "evidence_handles": "Actual handles or empty if not evaluated/unknown",
+      "all_historical_effects_settled_claimed": false
+    }
+  },
+  "snapshot_state": "effect=snapshot_closed; execution=terminal; immutable notification_snapshot record on registry.poll; distinct from SETTLED effect set.",
+  "closed_state_constant": "CLOSED_ACTION_EFFECTS = SETTLED | {snapshot_closed}; SETTLED unchanged.",
+  "atomic_transaction": [
+    "verify original own-action terminal evidence and exact target",
+    "verify complete fixed public_audit settled read_only and dispatched after original terminal ticket",
+    "bind snapshot digest to original audit terminal capture and same ledger guards",
+    "record immutable four-fact snapshot and evidence",
+    "latch all observed positive delivery IDs if any",
+    "record conflict snapshot to inhibit all further sends in this physical scope and ledger",
+    "consume original audit ticket",
+    "change only this original action effect to snapshot_closed",
+    "delete only this action active resource locks",
+    "commit everything together"
+  ],
+  "forbidden": [
+    "close an owned execution that is still unknown",
+    "call the old strict notification effect settlement path in this profile",
+    "infer causal applied/not-applied from intent snapshot",
+    "replace historical unknown with a global terminal assertion",
+    "clear unknown action locks with a new action ID",
+    "redeliver an accepted intent",
+    "continue any notification send after observed snapshot conflict",
+    "exceed eight original dispatched sends per intent in same physical scope/ledger",
+    "resubmit an accepted or unknown original final evaluation"
+  ],
+  "final_evaluation": "The unchanged one-submit mechanism remains; profile registry permits final_submit with database_valid=false only when all prior locks are closed and the trusted profile final verifier approves execution readiness. The submission own pending lock is created afterwards and does not retrospectively mean pre-submit business unresolved.",
+  "crash_semantics": "SQLite snapshot evidence, positive latch, ticket consumption and lock deletion are one transaction. If redundant JSON export fails after commit, authoritative DB retains the snapshot; never re-dispatch. A whole-controller restart still cannot recreate an existing original attempt via bootstrap.",
+  "changed_sources": [
+    "registry_v2.py",
+    "native_bridge.py"
+  ],
+  "byte_identical_sources": [
+    "target_shell.py",
+    "lifecycle.py"
+  ],
+  "assumptions": [
+    "Trusted verifier and adapter remain deployment-only capabilities, not model-callable arbitrary callbacks.",
+    "Actual raw captures, current target/ledger guards and selected classifier source are separately qualified by the frozen native bridge.",
+    "A missing snapshot is only a bounded observation; unproven old requests may append later.",
+    "Registry conflict inhibition follows the draft stop-sending-on-known-conflict rule.",
+    "Eight-attempt limit is a protocol budget, not knowledge of hidden fault counts."
+  ],
+  "native_business_qualified": false,
+  "old_strict_candidate_modified": false
+}

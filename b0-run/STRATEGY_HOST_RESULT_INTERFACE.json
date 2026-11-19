@@ -1,0 +1,114 @@
+{
+  "schema": "b0-public-result-host-interface-v1",
+  "protocol_id": "public_result_v1",
+  "controller_schema": "b0-public-result-controller-v1",
+  "authoritative_admission": {
+    "controller_path": "evaluation_readiness",
+    "raw_path": "b0-common/calls/<submission_receipt.native_call_id>.request.json.preconditions",
+    "comparison": "canonical JSON semantic equality of the complete objects; no selected-field substitute",
+    "duplicate_controller_path": "execution_integrity.source_and_target_bindings",
+    "exact_fields": [
+      "qualified",
+      "protocol_id",
+      "execution_ready_for_original_evaluation",
+      "evidence_handles",
+      "generations",
+      "owned_execution_before_submit",
+      "target_identities",
+      "ledger_guard",
+      "original_oracle_only",
+      "prior_final_submission_count",
+      "public_snapshot_status",
+      "public_checks_complete",
+      "public_checks_passed",
+      "historical_terminal_required",
+      "historical_terminal_proof"
+    ]
+  },
+  "required_admission_values": {
+    "qualified": true,
+    "protocol_id": "public_result_v1",
+    "execution_ready_for_original_evaluation": true,
+    "original_oracle_only": true,
+    "prior_final_submission_count": 0,
+    "historical_terminal_required": false,
+    "owned_execution_before_submit.point": "before_original_submission",
+    "owned_execution_before_submit.all_owned_actions_closed": true,
+    "owned_execution_before_submit.owned_unresolved_action_ids": [],
+    "owned_execution_before_submit.unresolved_actions": [],
+    "owned_execution_before_submit.resource_locks": [],
+    "owned_execution_before_submit.final_submission_actions": [],
+    "ledger_guard.valid": true
+  },
+  "pre_submit_rules": [
+    "Recompute closure from original SQLite actions/evidence/locks before final dispatch.",
+    "A never-dispatched cancellation closes only execution=not_dispatched, dispatch_epoch=null, effect=settled_not_applied.",
+    "A dispatched unknown action cannot close or be excluded because public business state looks correct.",
+    "Bind original target identities, ledger epoch/guard, operation/source manifests and exact request/response digests."
+  ],
+  "controller_sections": {
+    "evaluation_readiness": "Exact pre-submit admission object, null if not obtained.",
+    "execution_integrity": "Controller boundary status verified/unqualified/unknown; true execution errors are unqualified even if a raw original evaluation is retained. Independent host artifact/protocol/cleanup review remains pending.",
+    "public_business_snapshot": "Observed public business state; status pass/known_fail/incomplete, accepted/missing/duplicates/wrong/unattributed, issue and service/queue/DB states, handles and incompleteness reasons.",
+    "additional_assurance": "Historical proof status qualified/unqualified/unknown/not_evaluated; retained diagnostics, unknown intents and immutable owned-terminal/snapshot records; never used as original-score gate.",
+    "original_evaluation": "Request status and count only; raw_mitigation_success=null in agent output. Original host owns the result.",
+    "already_accepted_intent_skips": "Real permanent public-acceptance records bound to current attempt scope/ledger and exact public receipt/semantic intent; evidence ID/capture and payload SHA retained. Skip suppresses work only, with no lock change or causal/no-duplicate claim."
+  },
+  "post_submit_pending": {
+    "allowed": "Exactly one original final_submit, action_id/attempt_id/native_call_id/response_sha256/state/submission_state match reread original acceptance evidence and raw files.",
+    "required_controller_flag": "execution_integrity.accepted_original_submission_raw_verified=true",
+    "must_recompute_on_host": true,
+    "not_allowed": "Any other read/write, wrong receipt, second final, reserved final or unknown original submission."
+  },
+  "result_columns": [
+    {
+      "name": "raw_original_success",
+      "value": "true|false|null",
+      "source": "unchanged original host Mitigation.success; preserve false and null exactly"
+    },
+    {
+      "name": "original_evaluation_status",
+      "value": "completed|accepted_pending_evaluation|not_requested|incomplete",
+      "source": "unique original request/host response linkage"
+    },
+    {
+      "name": "execution_integrity",
+      "value": "qualified|unqualified|unknown",
+      "source": "recomputed source/protocol/capture/action/lifecycle/cleanup evidence; not public_checks_passed"
+    },
+    {
+      "name": "public_snapshot_status",
+      "value": "pass|known_fail|incomplete",
+      "source": "controller public_business_snapshot plus original public captures"
+    },
+    {
+      "name": "historical_terminal_status",
+      "value": "qualified|unqualified|unknown|not_evaluated",
+      "source": "actual additional_assurance, no promotion of not-required to true"
+    },
+    {
+      "name": "qualified_original_success",
+      "value": "true|false|null; null while independent review is pending",
+      "source": "original raw true AND all nonhistorical protocol/source/execution/artifact/cleanup criteria; keep raw result even when unqualified"
+    }
+  ],
+  "errors": {
+    "known_failure_reason": "Explicit KnownBusinessFailure from verified complete public observations, including complete-audit wrong/duplicate/unattributed delivery; distinct from execution error. Ordinary known_fail final checks also have error=null.",
+    "error": "Unmatched evidence/capability/transport/capture failures, never erased because snapshot contains missing notifications.",
+    "final_admission_error": "Original final precondition failure, retained independently."
+  },
+  "denominators": {
+    "planned": "all preregistered attempts",
+    "started": "all attempts with original incident visibility; do not drop abstentions, known failures, errors or timeouts",
+    "evaluated": "subset with unique completed original evaluation",
+    "raw_successes": "count raw true over all started plus evaluated-only descriptive rate",
+    "qualified_successes": "count raw true with all nonhistorical qualification checks over all started",
+    "additional_assurance": "separate distribution over all started; no hidden denominator removal"
+  },
+  "time": {
+    "success": "original first visibility to unique original evaluation completion only",
+    "not_evaluated": "completion time null; retain elapsed stop/censor time and reason",
+    "budgets": "New prelaunch B0-P ceilings: 7200s and 30000 native calls, 4096 ledger checks, 8 sends/intent, 4CPU/8GiB. Future compared arms share these ceilings; no existing attempt clock is reset."
+  },
+  "observed_business_success_in_new_candidate": false
+}

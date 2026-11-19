@@ -1,0 +1,221 @@
+{
+  "actual_five_changed_Ruby_syntax": {
+    "artifact_id": 14346486080,
+    "artifact_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71",
+    "commit": "b2e93d7e176c7003604dd83f4ff71ca3e99e5606",
+    "exact_program_count": 5,
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
+    "run_id": 44122275623
+  },
+  "actual_image_probe": {
+    "clock_and_all_source_bytes_retained": true,
+    "original_checker_result": "failure",
+    "prior_failure_not_overwritten": true,
+    "reason": "wrong version field assumption; actual format2 uses locked_version/described_version/display_version",
+    "run_id": 44120325876,
+    "runit_metadata_contract": "explicit format2, all three versions2.1.2, original source archive SHA256 bound"
+  },
+  "actual_queue_configuration_amendment": {
+    "basis": "actual loaded Rails Queues params and fixed source-bound connection-free Redis client configuration normalization",
+    "no_client_pool_or_command_created": true,
+    "no_default_guessing": true,
+    "timing": "after database restoration and issue replay, before queue inventory/prune/send"
+  },
+  "actual_strategy_policy_sha256": "0920ebbcc8d5e2d552cbbee81d7ce1621d91b2c543d3ea4348814a9c70428869",
+  "baseline": "B0-P",
+  "branch_ref": "refs/heads/sre-b0-public-result-20261118",
+  "budgets": {
+    "agent_cpu": 4,
+    "agent_memory_bytes": 8589934592,
+    "agent_seconds_from_original_first_visibility": 7200,
+    "aggregate_ledger_lifecycle_checks": 4096,
+    "aggregate_native_calls": 30000,
+    "maximum_send_attempts_per_public_intent": 8,
+    "model_calls": 0
+  },
+  "capture_transport": {
+    "chunk_bytes": 6144,
+    "common_repair_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
+    "complete_json_parser": true,
+    "complete_original_http_pages_logs_queues_retained": true,
+    "decoded_size_hash_and_complete_stream_required": true,
+    "lossless_compression_allowed_in_full_candidate": true,
+    "lossless_formats": [
+      "zlib+base64",
+      "gzip+base64"
+    ],
+    "original_stdout_capture_binding_preserved": true,
+    "same_for_all_later_arms": true,
+    "same_mechanism_available_to_every_arm": true,
+    "unchanged_original_tool_response_limit_characters": 10000
+  },
+  "common_capabilities": [
+    "observe",
+    "restore_database",
+    "replay_issue",
+    "send_notification",
+    "service_control",
+    "queue_prune",
+    "final_submit"
+  ],
+  "common_source_hashes": {
+    "lifecycle.py": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c",
+    "native_bridge.py": "20fd308510179cbc2bab2ab1ad62a191b7d7d7de0ce63cf84d12ed8a2cce940f",
+    "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
+    "target_shell.py": "3cabcf21065bc3f6a31c095b6bd923d3b314058418883fa64f602e214fc05349"
+  },
+  "common_source_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
+  "comparison_limits": {
+    "formal_competition_result": false,
+    "future_timing_comparison": "Same multiagent policy serialized versus parallel, all read/wait/retry/coordination costs included; independent held-out runs and all-started denominator.",
+    "parallel_speed_advantage_established": false,
+    "single_agent_impossibility_established": false,
+    "single_success_implication": "A qualified B0-P success demonstrates a centralized public solution on that instance; accept this result immediately."
+  },
+  "concrete_engineering_correction": {
+    "business_programs_changed_for_this_fix": false,
+    "new_rule": "Bind completion log to the original POST response x-request-id and exact POST path/status, with actual subsequent issue read; never substitute later GET request ID or client-chosen ID.",
+    "original_run_reclassified_as_success": false,
+    "prior_outcome": "No original evaluation; first actual POST201/freshGET200 action remained unclosed owing to correlation-ID mismatch.",
+    "prior_run_id": 44125067108
+  },
+  "date_local": "2026-11-19",
+  "definition_zh": "参考实现已知的公开确定性结果基线；与旧保守证据策略独立冻结、另起原始故障实例。",
+  "deploy_loki": false,
+  "draft_sha256": "1537e9f5dd6b90ce03c366067a36c90b06f010f11c05b4206f7c5beeabdcd454",
+  "fresh_original_instance_required": true,
+  "historical_terminal_required_for_original_result": false,
+  "host_finite_counterexamples_sha256": "60f4a87c4080625ec802b1e8a45bfc5e0f9848a2d45b95ee4fb4a7a5410e2aa5",
+  "host_result_interface_sha256": "d49ff79645571c9700a5e396c5071dc7d10d51450f5389669435b17165770ab8",
+  "known_policy_failure_path": {
+    "actual_failure_details": "Retained in public snapshot; execution exceptions remain errors and never convert to successful execution.",
+    "allowed": true,
+    "conditions": "No unresolved owned actions or locks; normal failure cleanup/control reaches real terminals; actual final preconditions pass. Known business failure or incomplete public self-check alone does not suppress original evaluation.",
+    "does_not_prove_single_agent_inability": true,
+    "original_submission_limit": 1
+  },
+  "mode": "public_b0",
+  "notification_snapshot_contract": {
+    "accepted_intent_resent": false,
+    "causal_attribution_to_this_action": "unknown",
+    "historical_terminal_proof": "actual declared status, not an admission gate",
+    "known_conflict": "stop further sending; finish owned work and record original task result when admissible",
+    "maximum_dispatched_sends_per_intent": 8,
+    "scope": "Fresh complete same-ledger audit after the original owned SMTP terminal; accepted/missing/conflict describe bounded observations, not permanent absence of old in-flight effects.",
+    "state": "snapshot_closed",
+    "transaction": "one atomic record of snapshot, positive acceptance latch, conflict inhibition, consumed ticket, closed occupancy and only original action locks removed",
+    "unknown_owned_action_redispatched": false
+  },
+  "notification_snapshot_contract_sha256": "dcd75e8f0446f877e5c72ce3ee233dbadaf39042f6e619ff89f7dcab19e09351",
+  "original_full_oracle_required": true,
+  "own_action_terminal_required": true,
+  "planned_fresh_engineering_attempts": 1,
+  "positive_acceptance_read_elision": {
+    "chosen_before_first_profile_start": true,
+    "conditional_cost_model_not_speed_claim": true,
+    "measured_performance_gain": null,
+    "purpose": "Avoid spending full queue and audit captures on an intent whose positive latch already permanently prohibits sending.",
+    "scope": "Skip the send loop for an exact already-latched positive public acceptance in the same physical scope and ledger.",
+    "source": "Actual registry public_acceptances; no summary inference.",
+    "unchanged": [
+      "no accepted intent can be resent",
+      "no unknown original action locks released",
+      "fresh complete checks before every other new send",
+      "final public audit still required",
+      "historical and causal uncertainty stay separate",
+      "all raw existing facts retained"
+    ]
+  },
+  "pre_start_budget_correction": {
+    "actual_cost_context": "Previous v6:25 registered actions,632 native calls,594.254436022 controller seconds; incomplete first issue replay, not a complete-run performance sample.",
+    "future_comparison_arms_same_aggregate_caps": true,
+    "interpretation": "Increase finite ceilings before first new-profile run using public loop structure and measured read overhead. Per-intent limits do not promise every intent exhausts its limit. Actual observed prior instance already had 9 accepted intents and 21 missing, so it is not described as 240 required sends. No worst-case completion guarantee is made.",
+    "new_profile": {
+      "native_calls": 30000,
+      "seconds": 7200
+    },
+    "old_draft_or_runs_rewritten": false,
+    "original_draft": {
+      "native_calls": 10000,
+      "seconds": 3600
+    },
+    "public_lower_bound": "Conditional policy branch, not the observed 9-accepted instance: if a fresh instance has 30 public intents all requiring 8 attempts, then 4 fixed actions per attempt and at least 12 native calls per action imply at least 11520 calls for the send loop alone; other recovery work adds cost.",
+    "source_of_hidden_fault_period_or_count": false,
+    "unchanged": [
+      "4CPU",
+      "8GiB",
+      "8 original sends per intent",
+      "4096 ledger checks",
+      "120-second own stop action budget",
+      "original task and oracle",
+      "all started attempts retained"
+    ]
+  },
+  "profile": "full",
+  "protected_provider_inputs_available_to_solver": false,
+  "protocol_id": "public_result_v1",
+  "reference_informed": true,
+  "reporting_constraints_zh": [
+    "保留所有真实尝试及其失败材料，不把只读资格或语法检查计作完整B0。",
+    "工作流绿色可以只表示完整有效尝试；必须单列原始业务结果。",
+    "一次独立核验通过的B0成功即表明该实例存在集中式公开解法，不延迟承认这一点。",
+    "失败、未知、超预算或工程缺口均不能证明单智能体无法解决。",
+    "本轮没有多智能体速度优势或正式比赛合格结论；后续速度比较必须使用同一多智能体策略的串行与并行版本。"
+  ],
+  "result_dimensions": {
+    "additional_assurance": "Historical terminal evidence and causal attribution to each send remain separate; missing history is unknown/not_evaluated, never fabricated as qualified.",
+    "execution_integrity": "All owned actions must be truly terminal and closed under the fixed profile before final reservation. The one accepted final action remains pending. Unknown execution is never waived.",
+    "original_evaluation": "Retain exact original bool or null from host evidence before reference cleanup; never replace it with self-check or acceptance acknowledgement.",
+    "public_business_snapshot": "pass, known_fail or incomplete; preserve accepted, missing, duplicate, wrong-recipient, issue, service and queue facts without defaulting absent evidence to pass."
+  },
+  "resume_note_zh": "2026-11-19继续完成冻结与首次启动；分支名称中的20261118是已选版本标识，不作为实际执行日期。",
+  "same_capabilities_for_later_comparison_arms": true,
+  "schema": "public-result-B0-P-preregistration-v1",
+  "service_stop_revision": {
+    "actual_old_exit1_cause_inferred": false,
+    "all_arms_same": true,
+    "clock": "original launcher boot_id + active ns/time + raw timens_offsets SHA; host/agent/target require time_for_children==time, equal identity and deadline within original incident and120s action budget",
+    "control": "one gitlab-ctl stop per original registered action; no retry or kill fallback",
+    "historical_SMTP_terminal_claimed": false,
+    "nonzero_command_exit": "retained unchanged; may settle applied only with complete independently checked postcondition; signal, missing certificate or expiry remains unknown",
+    "original_framework_cleanup_modified": false,
+    "postcondition": "original control child reaped; same service directory and runsv PID/starttime; exact20-byte state PID0 DOWN0 and not-W_UP; original descendants, actual independent session and labelled service workers absent from complete /proc enumeration",
+    "preparation": "within the same original deadline, read-only samples wait for two matching actual running independent sessions before the one control call; no already-down shortcut",
+    "source_model": "actual runit explicit manifest fields, fixed installed GitLab/Puma/OmnibusCtl sources, generated chpst-P launch and TERM hook, actual SID independent of supervisor/observer",
+    "source_review": "b0_stage/review/SERVICE_STOP_FINITE_MODEL_REVIEW.json",
+    "source_review_sha256": "f2f598bfd905ea59155283b622631fe4cafa3fe8757d28038d88b968139f917b",
+    "start_semantics_relaxed": false
+  },
+  "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
+  "source_repository": "https://github.com/SREGym/SREGym",
+  "started_attempt_denominator": "All starts of this declared profile, including failure, unknown, timeout and engineering gaps; prior different profiles reported separately and never erased.",
+  "status": "independent_public_result_candidate_pending_combination_review",
+  "strategy_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79",
+  "submission_protocol": {
+    "agent_business_success": null,
+    "final_result_source": "original Conductor Mitigation.success retained before reference cleanup",
+    "host_binding": [
+      "attempt_id",
+      "action_id",
+      "native_call_id",
+      "accepted_response_sha256",
+      "original_result_source_sha256"
+    ],
+    "http_acknowledgement_is_business_success": false,
+    "maximum_original_submit_requests": 1,
+    "normal_agent_state_after_acknowledgement": "accepted_pending_evaluation",
+    "normal_controller_status_after_acknowledgement": "awaiting_original_host_evaluation",
+    "raw_binding_independently_verified_after_export": true,
+    "repeat_after_unknown_or_accepted_acknowledgement": false
+  },
+  "task": "gitlab_notification_intermittent_replicated",
+  "timezone": "Asia/Shanghai",
+  "timing": {
+    "all_read_wait_coordination_retry_costs_included": true,
+    "end": "unique original evaluate:mitigation end monotonic timestamp",
+    "formal_speed_comparison": false,
+    "pre_incident_build_and_environment_setup_recorded_separately": true,
+    "start": "original stage:mitigation start monotonic timestamp"
+  }
+}
