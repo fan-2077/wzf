@@ -1,0 +1,43 @@
+name: B0 fixed-image writer observation diagnostic
+on:
+  push:
+    branches: [sre-b0-writer-fence-20261119]
+    paths: [diagnostics/writer-fence/**, .github/workflows/sre-writer-fence-probe-20261119.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-b0-writer-fence-20261119
+  cancel-in-progress: false
+jobs:
+  observer-diagnostic:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-b0-writer-fence-20261119'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Read the exact diagnostic sources
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: |
+            /diagnostics/writer-fence/
+            /b0-run/payload/strategy/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Compare actual wrapper identities and service observations
+        timeout-minutes: 21
+        run: python3 -B diagnostics/writer-fence/run_probe.py --output writer-fence-results
+      - name: Remove only this diagnostic container
+        if: always()
+        timeout-minutes: 1
+        run: python3 -B diagnostics/writer-fence/run_probe.py --cleanup-only --output writer-fence-results
+      - name: Preserve raw observations on every outcome
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 2
+        with:
+          name: sre-writer-fence-probe-${{ github.run_id }}-${{ github.run_attempt }}
+          path: writer-fence-results/
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 14
