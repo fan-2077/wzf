@@ -1,0 +1,54 @@
+{
+  "b1_reference_commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
+  "branch": "sre-b1-composition-preflight-20261119",
+  "files": {
+    ".github/workflows/sre-b1-composition-preflight-20261119.yml": {
+      "bytes": 2553,
+      "sha256": "1d92f866e4fd11ce11261cae5ab23cf2ab2721eaf11a83f1b8946666d56e4bed"
+    },
+    "b1-composition-gate/CANDIDATE_SCOPE.json": {
+      "bytes": 1977,
+      "sha256": "deca25bf2e25102da30484b2dcfba9b889d9203cdd9ca410ac37c80df0e5519e"
+    },
+    "b1-composition-gate/Dockerfile": {
+      "bytes": 7746,
+      "sha256": "2a745b7c48e6969c7efbb996b2626aced1ca302fbd5fae9777d5eb7a2fa5cf0a"
+    },
+    "b1-composition-gate/LOCAL_VALIDATION.json": {
+      "bytes": 19620,
+      "sha256": "b63045c6498d37492c65420a5cb955446a3a7b9b649d84368934f6dde95721f6"
+    },
+    "b1-composition-gate/README.md": {
+      "bytes": 2016,
+      "sha256": "4446a0e6732c5189db3e1a213289f6c6e0ea01dd839ddf767bfc21616613f034"
+    },
+    "b1-composition-gate/SOURCE_INPUT_BINDING.json": {
+      "bytes": 5833,
+      "sha256": "7665841dc89ecbaa5f0bb710099eff2f02bcb12380161956e2fde2a962907584"
+    },
+    "b1-composition-gate/build_composition.py": {
+      "bytes": 25317,
+      "sha256": "d1f3c25ee2ac3fb5832d0971dc1b6f1b7b33b708429b7195ef71a74b7b498937"
+    },
+    "b1-composition-gate/preflight.py": {
+      "bytes": 44744,
+      "sha256": "d140085cba933ec1b23a0c2f34a665d2c420c5367e2f9fc662405972b884a071"
+    },
+    "b1-composition-gate/run_ci_composition.py": {
+      "bytes": 24081,
+      "sha256": "d9f521c5e6b84f02adc7b76e74ae3d87ec4a2c64e92a304157d2c2612275a889"
+    }
+  },
+  "manifest_self_excluded": true,
+  "parent_commit": "5008fe991a60efbff6d365218f1feb9aee999e97",
+  "parent_tree": "4a5c1dd276561d2aecb0b7bb224bd9bc185c9ad0",
+  "qualification": "frozen_inputs_only_actual_runtime_unqualified",
+  "release_files_including_this_manifest": 10,
+  "schema": "b1-composition-release-source-manifest-v1",
+  "scope": "One isolated combined-image installation preflight. No original-task, Controller, model-inference or full AIOS-service execution.",
+  "unchanged_original_prefix_counts": {
+    "b0-run": 61,
+    "b1-common-session": 16,
+    "g1-smoke": 263
+  }
+}

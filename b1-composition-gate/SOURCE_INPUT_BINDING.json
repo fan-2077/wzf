@@ -1,0 +1,149 @@
+{
+  "b0": {
+    "allowed_payload_amendment": {
+      "from": "catalog=catalog,role='script',**extra)",
+      "occurrences": 1,
+      "path": "strategy/common_io.py",
+      "to": "catalog=catalog,role='single',**extra)"
+    },
+    "commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+    "package_files": 60,
+    "package_manifest": {
+      "bytes": 7165,
+      "path": "b0-run/PACKAGE_MANIFEST.json",
+      "sha256": "8e1f713246630961977d407a8d51d4bfe9d077a11f0c04949ff48904301d843e"
+    },
+    "payload_files": 37,
+    "root": "b0-run"
+  },
+  "b1": {
+    "commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
+    "generated_files": 264,
+    "generated_package_manifest_sha256": "812707dfc9e3dd1d31744b058b4e1c3ed4dd78b279b2d760422b6c911eabb67a",
+    "generation_branch": "sre-b1-readonly-ui-off-20261119",
+    "generator": {
+      "bytes": 16125,
+      "path": "b1-readonly-gate/build_overlay.py",
+      "sha256": "5f3f53418c185d4accb93173074f0cb5a5d79eafc8d29011cc1337ad9ce9516d"
+    },
+    "original_files": 262,
+    "original_manifest": {
+      "bytes": 36048,
+      "path": "g1-smoke/PACKAGE_MANIFEST.json",
+      "sha256": "948a410a3ecc63954ad505df14dd0c9845742119c7f98a96da808d273a7bbfce"
+    },
+    "original_root": "g1-smoke",
+    "overlay_declared_files": 7,
+    "overlay_root": "b1-readonly-gate",
+    "overlay_source_manifest": {
+      "bytes": 1884,
+      "path": "b1-readonly-gate/SOURCE_MANIFEST.json",
+      "sha256": "c79161393d434702107a9572efd3f2e611da710cd8abb879b396c2f876907ea3"
+    },
+    "payload_files": 254
+  },
+  "installation": {
+    "b0": "/opt/b0",
+    "b1": "/opt/g1",
+    "composition": "/opt/b1-composition",
+    "ld_library_path": "/opt/b0/sqlite:/opt/llama/bin",
+    "logs_policy": "Fresh exclusive offline preflight container; original B0 --preflight once, no Controller or reused future helper /logs.",
+    "runtime_inventory_path": "/opt/b1-composition/build-record/runtime-artifacts.json",
+    "session": "/opt/b1-common-session"
+  },
+  "llama": {
+    "commit": "f7591a6a01f9273de03331732bdc0b39721168be",
+    "execution_scope": "version_only",
+    "fixed_b1_generated_dockerfile_sha256": "a2cd157b1239807279805149e8e79fc647be25102f9c7a0e518be49feffe9e56",
+    "repository": "https://github.com/ggml-org/llama.cpp.git",
+    "ui_options": {
+      "LLAMA_BUILD_UI": "OFF",
+      "LLAMA_USE_PREBUILT_UI": "OFF"
+    }
+  },
+  "main_parent_commit": "5008fe991a60efbff6d365218f1feb9aee999e97",
+  "model": {
+    "bytes": 5027783488,
+    "context_path": "models/Qwen3-8B-Q4_K_M.gguf",
+    "download_performed_by_generator": false,
+    "filename": "Qwen3-8B-Q4_K_M.gguf",
+    "inference_permitted": false,
+    "installed_path": "/opt/models/Qwen3-8B-Q4_K_M.gguf",
+    "revision": "7c41481f57cb95916b40956ab2f0b139b296d974",
+    "sha256": "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785",
+    "source_url": "https://huggingface.co/Qwen/Qwen3-8B-GGUF/resolve/7c41481f57cb95916b40956ab2f0b139b296d974/Qwen3-8B-Q4_K_M.gguf"
+  },
+  "python": {
+    "aios_interpreter": "/opt/aios/bin/python",
+    "base_tag": "python:3.11.17-slim-trixie",
+    "host_resolved_digest_build_argument": "PYTHON_IMAGE",
+    "native_interpreter": "/opt/native/bin/python",
+    "version": [
+      3,
+      11,
+      17
+    ]
+  },
+  "schema": "b1-composition-source-input-binding-v1",
+  "scope": "offline combined-image materials only; no model inference, Controller, business or comparison budget",
+  "session": {
+    "commit": "5008fe991a60efbff6d365218f1feb9aee999e97",
+    "declared_source_files": 15,
+    "derivation_generator": {
+      "bytes": 15402,
+      "path": "b1-common-session/controller_adapter.py",
+      "sha256": "80e03fe599692363df23c7a7bb69fb49a9a046a180dddedf798453ddb63282d1"
+    },
+    "production_files": {
+      "BASE_BINDING.json": {
+        "bytes": 4521,
+        "path": "b1-common-session/BASE_BINDING.json",
+        "sha256": "9c34f0292a3f77b4d3cdc3c4be38f60bad813d3c4d88333a443cb82694ede731"
+      },
+      "CONTRACT.json": {
+        "bytes": 7520,
+        "path": "b1-common-session/CONTRACT.json",
+        "sha256": "2ce2667bc2fba0353dac8e34569ebc381d365c63db131f13aa864ac190e51a67"
+      },
+      "controller_adapter.py": {
+        "bytes": 15402,
+        "path": "b1-common-session/controller_adapter.py",
+        "sha256": "80e03fe599692363df23c7a7bb69fb49a9a046a180dddedf798453ddb63282d1"
+      },
+      "sdk_tool.py": {
+        "bytes": 2126,
+        "path": "b1-common-session/sdk_tool.py",
+        "sha256": "65d5de3b4c53e80b4aec6000784a5db2415c4754409510f1bef2304403f1f28c"
+      },
+      "session_client.py": {
+        "bytes": 17428,
+        "path": "b1-common-session/session_client.py",
+        "sha256": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f"
+      },
+      "session_owner.py": {
+        "bytes": 24147,
+        "path": "b1-common-session/session_owner.py",
+        "sha256": "946b18bd7b8f5ddcbb9425b8bbae2fefbbaf94d9cb584ecc3a80f9994e8fa669"
+      }
+    },
+    "root": "b1-common-session",
+    "source_manifest": {
+      "bytes": 3034,
+      "path": "b1-common-session/SESSION_SOURCE_MANIFEST.json",
+      "sha256": "24f0c2bdac90cf6d8fa4059dc06b8c1a57a053126b349b125cae6c1faceeab0b"
+    }
+  },
+  "sqlite": {
+    "amalgamation_url": "https://www.sqlite.org/2026/sqlite-amalgamation-3540100.zip",
+    "archive_sha3_256": "92281c86e2957f9b9305890f9ac04204caa7b677cc868dc326d942689df28e30",
+    "dockerfile_source": {
+      "bytes": 2681,
+      "path": "b0-run/Dockerfile",
+      "sha256": "28bfba1e253062880ffaaca7c58b10e6a18f4567bd85fac144f88a9213030866"
+    },
+    "source_c_sha3_256": "e2b869d3003b33c942b7dd7063604fbc53553e1b66609570df39b9b7b558ee81",
+    "source_id": "2026-10-16 14:45:20 555e07ef33f69a0957d24d8e555b702464a131d6f1607f4c3c1e4551e8e6ca76",
+    "version": "3.54.1"
+  },
+  "status": "source_candidate_not_remote_qualified"
+}

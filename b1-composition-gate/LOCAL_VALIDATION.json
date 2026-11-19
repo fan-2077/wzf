@@ -1,0 +1,407 @@
+{
+  "b1_reference_commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
+  "full_local_generation_review": {
+    "bytes": 11805,
+    "content": {
+      "all_checks_passed": true,
+      "check_count": 15,
+      "checks": [
+        {
+          "evidence": {
+            "main": "5008fe991a60efbff6d365218f1feb9aee999e97",
+            "reference": "43b15ea58de5d33603ac6ef60e2add74c3ea514d"
+          },
+          "name": "exact_parent_and_reference_commits",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "Dockerfile": {
+              "bytes": 7746,
+              "sha256": "2a745b7c48e6969c7efbb996b2626aced1ca302fbd5fae9777d5eb7a2fa5cf0a"
+            },
+            "SOURCE_INPUT_BINDING.json": {
+              "bytes": 5833,
+              "sha256": "7665841dc89ecbaa5f0bb710099eff2f02bcb12380161956e2fde2a962907584"
+            },
+            "build_composition.py": {
+              "bytes": 25317,
+              "sha256": "d1f3c25ee2ac3fb5832d0971dc1b6f1b7b33b708429b7195ef71a74b7b498937"
+            },
+            "preflight.py": {
+              "bytes": 44744,
+              "sha256": "d140085cba933ec1b23a0c2f34a665d2c420c5367e2f9fc662405972b884a071"
+            }
+          },
+          "name": "frozen_source_bytes_unchanged",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "actual_total_files_including_context_manifest": 307,
+            "declared_files": 306,
+            "model_present": false
+          },
+          "name": "exact_context_file_set_and_all_declared_hashes",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "count": 301
+          },
+          "name": "all_installation_sources_match_context",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "b0_public_payload": 37,
+            "b1_fixed_overlay_payload": 254,
+            "composition_gate": 2,
+            "session_derived_binding": 2,
+            "session_production": 6
+          },
+          "name": "exact_installed_component_counts",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "changed_files": [
+              "strategy/common_io.py"
+            ],
+            "installed_entry_sha256": "cc7686697efe0995c906ee9900ab0d2ab61a2d89d153ff77141752f3fb83afe8",
+            "original_entry_sha256": "cc7686697efe0995c906ee9900ab0d2ab61a2d89d153ff77141752f3fb83afe8",
+            "other_payload_files_byte_identical": 36
+          },
+          "name": "only_single_trusted_role_amendment_in_B0",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "full_package_files": 264,
+            "installed_payload_files": 254,
+            "package_manifest": {
+              "bytes": 36271,
+              "sha256": "812707dfc9e3dd1d31744b058b4e1c3ed4dd78b279b2d760422b6c911eabb67a"
+            }
+          },
+          "name": "B1_exact_qualified_generated_package_and_all_payload_bytes",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "files": [
+              "/opt/b1-common-session/BASE_BINDING.json",
+              "/opt/b1-common-session/CONTRACT.json",
+              "/opt/b1-common-session/controller_adapter.py",
+              "/opt/b1-common-session/sdk_tool.py",
+              "/opt/b1-common-session/session_client.py",
+              "/opt/b1-common-session/session_owner.py"
+            ]
+          },
+          "name": "all_session_production_bytes_are_fixed_5008",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "bytes": 200,
+            "sha256": "3c06e77da7991a77843226396b636ad1831b3a259e762ce22fa9d64e8dcf32cc"
+          },
+          "name": "native_requirement_files_identical",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "b0": {
+              "amended_files": [
+                "strategy/common_io.py"
+              ],
+              "files": 37
+            },
+            "b1": {
+              "base_manifest_sha256": "948a410a3ecc63954ad505df14dd0c9845742119c7f98a96da808d273a7bbfce",
+              "changed_original_files": 13,
+              "generated_manifest_sha256": "812707dfc9e3dd1d31744b058b4e1c3ed4dd78b279b2d760422b6c911eabb67a",
+              "model_api_called": false,
+              "python_files_parsed": 12,
+              "remote_executed": false
+            }
+          },
+          "name": "both_fixed_generators_executed_and_build_stages_exact",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "scope": "Only local new candidate bytes. CI after commit must regenerate and host dynamically binds its actual installation SHA; local output SHA is not a remote expected value."
+          },
+          "name": "local_uncommitted_source_not_labeled_old_commit",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "defects": [],
+            "scope": "Local context only. Docker source directories 0755 and files 0644 are explicit; actual UID1001 image access awaits isolated preflight."
+          },
+          "name": "local_context_readable_searchable",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "embedded_block_hashes": [
+              "6cca7f32e554a6d912c217e53776b7636c6efd5c643c4fdc35970889e62f8ed5",
+              "b600a9b9ab677c8ffa5d1c478008e0ee51e08a25ddd5e2044619733228b9c65b"
+            ],
+            "local_python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+            "not_a_Docker_build_or_fixed_python_runtime_test": true
+          },
+          "name": "generator_and_Docker_embedded_python_parse",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "generator_independently_verified_full_fixed_trees": true,
+            "git_diff_stdout_bytes": 0
+          },
+          "name": "frozen_original_roots_not_modified",
+          "passed": true
+        },
+        {
+          "evidence": {
+            "expected_reason": "fixed_model_artifact_missing",
+            "full_context_qualification": false,
+            "receipt": "verify-output-missing-model.COMMAND.json",
+            "returncode": 1
+          },
+          "name": "strict_full_context_gate_refuses_absent_model",
+          "passed": true
+        }
+      ],
+      "commits": {
+        "main": "5008fe991a60efbff6d365218f1feb9aee999e97",
+        "reference": "43b15ea58de5d33603ac6ef60e2add74c3ea514d"
+      },
+      "generated_directory": "/workspace/scratch/a11dd1f2a296/b1-composition-generated-local-final",
+      "generation_command": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate/build_composition.py",
+          "--b1-source-root",
+          "/workspace/scratch/a11dd1f2a296/b1-composition-reference",
+          "--output",
+          "/workspace/scratch/a11dd1f2a296/b1-composition-generated-local-final"
+        ],
+        "elapsed_seconds": 0.8039463229979447,
+        "returncode": 0,
+        "stderr": {
+          "bytes": 0,
+          "path": "generator.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 673,
+          "path": "generator.stdout.raw",
+          "sha256": "f65d020a3631b4621e3bede98263c7fcea5962179f8ec01051810df0abd35036"
+        }
+      },
+      "generator_stdout": {
+        "build_context_manifest_sha256": "dba3b2e47d294861283430b694275e1c4b43ba16b4ad27c4d075e437a7fd885d",
+        "controller_executed": false,
+        "installation_manifest_sha256": "70fdcb6a553b6810290573978eaffb2a3eb6b81c151f940bbe9e4361b4ded8ef",
+        "installed_source_files": 301,
+        "model_inference": false,
+        "model_present_and_verified": false,
+        "original_task_started": false,
+        "output": "/workspace/scratch/a11dd1f2a296/b1-composition-generated-local-final",
+        "passed": true,
+        "qualification": "source_context_only_not_image_or_model_qualification",
+        "schema": "b1-composition-context-verification-v1",
+        "source_files_verified": 306,
+        "source_generation_passed": true
+      },
+      "limits": {
+        "combined_aios_or_business_qualified": false,
+        "contract_tests_rerun": false,
+        "docker_build_or_container_run": false,
+        "download_performed": false,
+        "fixed_python_3_11_17_and_SQLite_3_54_1_actual_runtime_qualified": false,
+        "local_manifest_hash_is_remote_expected_hash": false,
+        "model_inference": false,
+        "new_comparison_budget_selected": false,
+        "original_controller_execution": false,
+        "original_task_or_business_calls": false
+      },
+      "local_runtime": {
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "model_absence_negative_gate": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-B",
+          "/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate/build_composition.py",
+          "--verify-output",
+          "/workspace/scratch/a11dd1f2a296/b1-composition-generated-local-final"
+        ],
+        "elapsed_seconds": 0.07617005499923835,
+        "returncode": 1,
+        "stderr": {
+          "bytes": 708,
+          "path": "verify-output-missing-model.stderr.raw",
+          "sha256": "a95c62080f9a7c7493461c87f4ca3f7e5b1dbb7dae2b8fce5708d823802bffda"
+        },
+        "stdout": {
+          "bytes": 0,
+          "path": "verify-output-missing-model.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "next_gate": "Host regenerates from committed exact sources, verifies fixed GGUF, builds using resolved Python RepoDigest, and runs nonroot networkless installation preflight only.",
+      "qualification": "source_context_only_not_remote_qualified",
+      "retained_generated_bindings": {
+        "BUILD_CONTEXT_MANIFEST.json": {
+          "bytes": 55889,
+          "retained_path": "generated-bindings/BUILD_CONTEXT_MANIFEST.json",
+          "sha256": "dba3b2e47d294861283430b694275e1c4b43ba16b4ad27c4d075e437a7fd885d"
+        },
+        "Dockerfile": {
+          "bytes": 7746,
+          "retained_path": "generated-bindings/Dockerfile",
+          "sha256": "2a745b7c48e6969c7efbb996b2626aced1ca302fbd5fae9777d5eb7a2fa5cf0a"
+        },
+        "GENERATION_REPORT.json": {
+          "bytes": 3229,
+          "retained_path": "generated-bindings/GENERATION_REPORT.json",
+          "sha256": "9d1b0c68f825b18c3b1dacc6dfd5b855948b364fd569e61a7a3f327c95bbd5e2"
+        },
+        "INSTALLATION_MANIFEST.json": {
+          "bytes": 274901,
+          "retained_path": "generated-bindings/INSTALLATION_MANIFEST.json",
+          "sha256": "70fdcb6a553b6810290573978eaffb2a3eb6b81c151f940bbe9e4361b4ded8ef"
+        },
+        "bindings/B1_OVERLAY_MANIFEST.json": {
+          "bytes": 27306,
+          "retained_path": "generated-bindings/bindings/B1_OVERLAY_MANIFEST.json",
+          "sha256": "258d5112b59e4a5608b5ddef979cf1bcdf556bae81639d05d86af2c4253d5daa"
+        },
+        "bindings/B1_PACKAGE_MANIFEST.json": {
+          "bytes": 36271,
+          "retained_path": "generated-bindings/bindings/B1_PACKAGE_MANIFEST.json",
+          "sha256": "812707dfc9e3dd1d31744b058b4e1c3ed4dd78b279b2d760422b6c911eabb67a"
+        },
+        "composition/SOURCE_INPUT_BINDING.json": {
+          "bytes": 5833,
+          "retained_path": "generated-bindings/composition/SOURCE_INPUT_BINDING.json",
+          "sha256": "7665841dc89ecbaa5f0bb710099eff2f02bcb12380161956e2fde2a962907584"
+        },
+        "session/derived/BASE_PACKAGE_MANIFEST.json": {
+          "bytes": 7165,
+          "retained_path": "generated-bindings/session/derived/BASE_PACKAGE_MANIFEST.json",
+          "sha256": "8e1f713246630961977d407a8d51d4bfe9d077a11f0c04949ff48904301d843e"
+        },
+        "session/derived/DERIVED_PAYLOAD_BINDING.json": {
+          "bytes": 11219,
+          "retained_path": "generated-bindings/session/derived/DERIVED_PAYLOAD_BINDING.json",
+          "sha256": "1e9a0e62fe7e723a2ea410400259aa7fe0ee6a9d866745c72a463bd5efdcf703"
+        }
+      },
+      "schema": "b1-composition-final-local-generation-review-v1",
+      "source_directory": "/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate",
+      "source_generation_passed": true,
+      "source_records": {
+        "Dockerfile": {
+          "bytes": 7746,
+          "sha256": "2a745b7c48e6969c7efbb996b2626aced1ca302fbd5fae9777d5eb7a2fa5cf0a"
+        },
+        "SOURCE_INPUT_BINDING.json": {
+          "bytes": 5833,
+          "sha256": "7665841dc89ecbaa5f0bb710099eff2f02bcb12380161956e2fde2a962907584"
+        },
+        "build_composition.py": {
+          "bytes": 25317,
+          "sha256": "d1f3c25ee2ac3fb5832d0971dc1b6f1b7b33b708429b7195ef71a74b7b498937"
+        },
+        "preflight.py": {
+          "bytes": 44744,
+          "sha256": "d140085cba933ec1b23a0c2f34a665d2c420c5367e2f9fc662405972b884a071"
+        }
+      }
+    },
+    "sha256": "b788a856e72ca9c01676edc7546e6e746e150f5c6e7bfa5c7b82de4ae27d9c76",
+    "source_path": "/workspace/scratch/a11dd1f2a296/research/b1_composition_local_generation_20261119/final/FINAL_LOCAL_GENERATION_REVIEW.json"
+  },
+  "limits": {
+    "actual_image_qualification": false,
+    "aios_service_started": false,
+    "complete_context_verification_passed": false,
+    "controller_executed": false,
+    "docker_build_performed": false,
+    "local_generated_manifest_sha_is_remote_expected_sha": false,
+    "local_python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "model_download_performed": false,
+    "model_inference_executed": false,
+    "model_present": false,
+    "original_task_started": false,
+    "session_contracts_rerun": false
+  },
+  "next_gate": "One fresh isolated image installation preflight; CI regenerates from the actual published commit and host binds its actual installation manifest SHA. No business or model inference.",
+  "parent_commit": "5008fe991a60efbff6d365218f1feb9aee999e97",
+  "qualification": "local_source_context_and_release_materials_only",
+  "recorded_at_utc": "2026-11-19T11:41:47.230082+00:00",
+  "retained_raw_command_evidence": {
+    "generator.COMMAND.json": {
+      "bytes": 760,
+      "raw_utf8": "{\n  \"argv\": [\n    \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n    \"-B\",\n    \"/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate/build_composition.py\",\n    \"--b1-source-root\",\n    \"/workspace/scratch/a11dd1f2a296/b1-composition-reference\",\n    \"--output\",\n    \"/workspace/scratch/a11dd1f2a296/b1-composition-generated-local-final\"\n  ],\n  \"elapsed_seconds\": 0.8039463229979447,\n  \"returncode\": 0,\n  \"stderr\": {\n    \"bytes\": 0,\n    \"path\": \"generator.stderr.raw\",\n    \"sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n  },\n  \"stdout\": {\n    \"bytes\": 673,\n    \"path\": \"generator.stdout.raw\",\n    \"sha256\": \"f65d020a3631b4621e3bede98263c7fcea5962179f8ec01051810df0abd35036\"\n  }\n}\n",
+      "sha256": "b4bd86747bdeab51626ceab70925d3dc83e2955c8763ccdc5314f584e5e942bc"
+    },
+    "generator.stderr.raw": {
+      "bytes": 0,
+      "raw_utf8": "",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "generator.stdout.raw": {
+      "bytes": 673,
+      "raw_utf8": "{\n  \"build_context_manifest_sha256\": \"dba3b2e47d294861283430b694275e1c4b43ba16b4ad27c4d075e437a7fd885d\",\n  \"controller_executed\": false,\n  \"installation_manifest_sha256\": \"70fdcb6a553b6810290573978eaffb2a3eb6b81c151f940bbe9e4361b4ded8ef\",\n  \"installed_source_files\": 301,\n  \"model_inference\": false,\n  \"model_present_and_verified\": false,\n  \"original_task_started\": false,\n  \"output\": \"/workspace/scratch/a11dd1f2a296/b1-composition-generated-local-final\",\n  \"passed\": true,\n  \"qualification\": \"source_context_only_not_image_or_model_qualification\",\n  \"schema\": \"b1-composition-context-verification-v1\",\n  \"source_files_verified\": 306,\n  \"source_generation_passed\": true\n}\n",
+      "sha256": "f65d020a3631b4621e3bede98263c7fcea5962179f8ec01051810df0abd35036"
+    },
+    "verify-output-missing-model.COMMAND.json": {
+      "bytes": 716,
+      "raw_utf8": "{\n  \"argv\": [\n    \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python\",\n    \"-B\",\n    \"/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate/build_composition.py\",\n    \"--verify-output\",\n    \"/workspace/scratch/a11dd1f2a296/b1-composition-generated-local-final\"\n  ],\n  \"elapsed_seconds\": 0.07617005499923835,\n  \"returncode\": 1,\n  \"stderr\": {\n    \"bytes\": 708,\n    \"path\": \"verify-output-missing-model.stderr.raw\",\n    \"sha256\": \"a95c62080f9a7c7493461c87f4ca3f7e5b1dbb7dae2b8fce5708d823802bffda\"\n  },\n  \"stdout\": {\n    \"bytes\": 0,\n    \"path\": \"verify-output-missing-model.stdout.raw\",\n    \"sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n  }\n}\n",
+      "sha256": "3ed553b870384f05eb07ee007442f27f784247708a1cf555bb1e6a4fd96a432c"
+    },
+    "verify-output-missing-model.stderr.raw": {
+      "bytes": 708,
+      "raw_utf8": "Traceback (most recent call last):\n  File \"/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate/build_composition.py\", line 422, in <module>\n    main()\n  File \"/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate/build_composition.py\", line 413, in main\n    value = verify_context(args.verify_output.resolve(strict=True), require_model=True)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/scratch/a11dd1f2a296/b1-composition-candidate/b1-composition-gate/build_composition.py\", line 218, in verify_context\n    raise ValueError(\"fixed_model_artifact_missing\")\nValueError: fixed_model_artifact_missing\n",
+      "sha256": "a95c62080f9a7c7493461c87f4ca3f7e5b1dbb7dae2b8fce5708d823802bffda"
+    },
+    "verify-output-missing-model.stdout.raw": {
+      "bytes": 0,
+      "raw_utf8": "",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "root_checks": {
+    "actual_context_files_including_manifest": 307,
+    "context_manifest_files_verified": 306,
+    "frozen_source_hashes_match": {
+      "Dockerfile": "2a745b7c48e6969c7efbb996b2626aced1ca302fbd5fae9777d5eb7a2fa5cf0a",
+      "SOURCE_INPUT_BINDING.json": "7665841dc89ecbaa5f0bb710099eff2f02bcb12380161956e2fde2a962907584",
+      "build_composition.py": "d1f3c25ee2ac3fb5832d0971dc1b6f1b7b33b708429b7195ef71a74b7b498937",
+      "preflight.py": "d140085cba933ec1b23a0c2f34a665d2c420c5367e2f9fc662405972b884a071",
+      "run_ci_composition.py": "d9f521c5e6b84f02adc7b76e74ae3d87ec4a2c64e92a304157d2c2612275a889"
+    },
+    "installed_source_files_verified": 301,
+    "original_prefixes_exact_git_blob_matches": {
+      "b0-run": 61,
+      "b1-common-session": 16,
+      "g1-smoke": 263
+    },
+    "python_ast_parsed_only": [
+      "preflight.py",
+      "build_composition.py",
+      "run_ci_composition.py"
+    ],
+    "readme_manifest_counts_exclude_manifest_itself": true,
+    "retained_generated_bindings_verified": 9
+  },
+  "schema": "b1-composition-release-local-validation-v1"
+}
