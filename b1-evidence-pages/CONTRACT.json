@@ -1,0 +1,167 @@
+{
+  "host_only_setup": {
+    "function": "create_store(root, identity)",
+    "identity_fields": [
+      "attempt_id",
+      "clock_identity",
+      "derived_payload_binding_sha256",
+      "incident_visible_mono",
+      "launch_context_sha256",
+      "ledger_epoch",
+      "namespace_uid",
+      "original_budgets",
+      "physical_scope_id",
+      "role"
+    ],
+    "identity_rules": "完整规范化 JSON 绑定；宿主固定原事故起点与原预算身份，本组件不选择或重置预算。",
+    "modes": {
+      "identity_file": "0400",
+      "objects": "0700",
+      "publisher_lock": "0600",
+      "root": "0700"
+    },
+    "role": "single",
+    "root": "宿主提供的绝对路径；每一级目录使用 O_DIRECTORY|O_NOFOLLOW 打开，不创建/替换已有 root。"
+  },
+  "integrity_boundary": {
+    "cross_block": "跨6144字节边界的页面校验每一个涉及的完整块，再切出请求字节。",
+    "directory_descriptors": "打开root、objects和封存目录后均通过目录fd定位；O_NOFOLLOW禁止符号链接。已打开描述符锚定原目录，路径替换不让读取转到新目录。",
+    "file_checks": "打开后核实际类型、owner、mode、nlink、总长度；读前后核设备/inode/长度/mtime/ctime/mode/nlink稳定。",
+    "trust": "只验证本组件输入bytes/内容结构及本地存储完整性；不能证明publisher的原生捕获、结算、语义判定、覆盖或因果声明。也不防拥有相同宿主UID的恶意主体重写整个组件/存储。",
+    "unread_blocks": "本次未涉及块的改动不会被该页发现；返回integrity_scope明确只覆盖manifest和请求块。重复发布核三文件全部块；完整重组另核全篇SHA。"
+  },
+  "local_assembler": {
+    "class": "DocumentAssembler(evidence_handle, expected_document_sha256)",
+    "methods": [
+      "add(frame) -> status",
+      "finish() -> exact original bytes",
+      "status()"
+    ],
+    "rule": "从offset0顺序接收连续页；检查原句柄/SHA/来源绑定、片段长度/SHA和终点，全部覆盖后核最终document SHA。",
+    "transport_complete": "仅说明该本地assembler拥有完整原bytes；不证明页进入模型HTTP请求，也不证明模型理解或业务成功。"
+  },
+  "module": "public_evidence.py",
+  "page_completion": {
+    "document_end": "本页终点等于总长度；最后一页不证明此前页被读。",
+    "page_complete": "本次请求范围完整返回；不等于全篇已传输。",
+    "source_complete": "必须为true的publisher声明，source_limits明确未独立验证。",
+    "transport_complete": "reader始终null；不维护或伪造送达游标。"
+  },
+  "persistence": {
+    "commit": "先写原bytes和分块摘要清单，文件设0400并fsync，临时目录设0500并fsync；同父目录rename为内容地址后fsync父目录。",
+    "coordination": "每个publisher实例的线程锁+同一宿主文件的flock，仅保护协作publisher的检查/提交；读取不取写锁。",
+    "crash": "rename前的stage目录不可通过合法句柄读取；rename后对象已完整。进程崩溃与返回丢失不触发业务重发。物理断电/存储硬件语义未在本地模拟。",
+    "duplicate": "同manifest重复发布须逐个文件校验长度、全部块摘要及总SHA；验证后返回原对象，绝不覆盖已有目录（包括空目录）。",
+    "failure_cleanup": "只清理本次创建且目录fd/设备/inode仍相同的临时目录及自己的文件；不清理其他stage或历史对象。",
+    "layout": [
+      "IDENTITY.json",
+      "publish.lock",
+      "objects/stage-<32hex>/ (未发布临时目录)",
+      "objects/<manifest_sha256>/{manifest.json,document.bin,stdout.bin,stderr.bin}"
+    ],
+    "no_mutable_cursor": true,
+    "no_sqlite_or_business_ledger": true,
+    "reason_for_same_parent": "本地实证0500目录跨父目录rename返回EACCES；同父目录rename成功，避免以扩大最终目录写权限解决。"
+  },
+  "public_reader": {
+    "class": "EvidenceReader(root, expected_identity)",
+    "count": "精确int（拒bool），1..6144；不是总阅读预算。",
+    "exact_request_fields": [
+      "count",
+      "evidence_handle",
+      "expected_document_sha256",
+      "offset"
+    ],
+    "frame_admission": "发布前保守核最大页面元数据容量，读取前再次核实际帧；超限失败关闭，无静默截断。未来AIOS外层包装仍须单独核完整实际帧。",
+    "freshness": "保留database/queue/services原代际；历史页一直可读，但不被当作当前写入前置，不调用CommonFacade._fresh，不授予guard新鲜性。",
+    "handle_format": "ep1:<64 lowercase hex manifest SHA256>:<document|stdout|stderr>",
+    "handle_scope": "不含路径；内容地址不是用户鉴权机制，宿主必须将读接口绑定固定身份。",
+    "method": "read_page(request) -> bytes",
+    "offset": "精确int（拒bool），0<=offset<=total_bytes；大于total拒绝。",
+    "rejections": [
+      "未知/伪造/临时路径句柄",
+      "固定身份或attempt不符",
+      "expected_document_sha256不符",
+      "bool/负数/非法count/越界",
+      "源不完整或未结算声明",
+      "源字节摘要/长度不符",
+      "符号链接/非普通文件/硬链接/权限不符",
+      "manifest变化/被请求块变化/帧超限"
+    ],
+    "response": "规范化UTF-8 JSON加一个LF；base64保留任意二进制/NUL/尾换行；含metadata及LF总长不得超过65536。",
+    "tail": "returned_bytes=min(count,total_bytes-offset)，空内容或offset==total返回0字节。"
+  },
+  "qualification": {
+    "actor_integration": false,
+    "aios": false,
+    "comparison_budget_selected": false,
+    "fixed_3_11_runtime": false,
+    "model_delivery": false,
+    "original_task": false
+  },
+  "schema": "b1-public-evidence-pages-contract-v1",
+  "scope_zh": "独立公共证据字节发布/分页/本地重组组件；尚未接 actor、原业务、原账本、AIOS 或模型。",
+  "source_limits": {
+    "business_result": null,
+    "capture_digest_verified": false,
+    "currentness_assessed": false,
+    "document_capture_relationship_verified": false,
+    "model_received": null,
+    "model_understood": null,
+    "native_capture_verified": false,
+    "semantic_validation_verified": false,
+    "settlement_verified": false,
+    "source_attestation": "publisher_assertion_not_independently_verified",
+    "source_completeness_verified": false,
+    "write_precondition_eligible": false
+  },
+  "trusted_publisher": {
+    "capture_sha256": "必须为SHA256格式，但原capture原件未作为本接口输入；仅保留publisher声明，不与stdout SHA混同，也不宣称已核原生capture。",
+    "class": "TrustedPublisher(root, expected_identity)",
+    "computed_and_verified": [
+      "document_bytes",
+      "document_sha256",
+      "stdout_bytes",
+      "stdout_sha256",
+      "stderr_bytes",
+      "stderr_sha256"
+    ],
+    "exposure": "只供未来可信 actor 内部；无注册工具、网络接口、路径导入或模型可调用发布端点。",
+    "inputs": "三个参数必须是已经完整捕获的原 bytes；不解码为文本、不重新序列化文档、不截断。",
+    "method": "publish_capture(*, document_bytes, stdout_bytes, stderr_bytes, source_binding)",
+    "receipt_schema": "b1-public-evidence-publication-v1",
+    "required_declarations": {
+      "capture_complete": true,
+      "settlement_status": "settled",
+      "source_complete": true
+    },
+    "semantic_status_values": [
+      "passed",
+      "failed",
+      "unknown",
+      "not_performed"
+    ],
+    "source_binding_fields": [
+      "action_id",
+      "capture_complete",
+      "capture_sha256",
+      "consistency_class",
+      "coverage",
+      "database_generation",
+      "document_bytes",
+      "document_sha256",
+      "document_source_kind",
+      "identity",
+      "queue_generation",
+      "semantic_validation_status",
+      "services_generation",
+      "settlement_status",
+      "source_complete",
+      "stderr_bytes",
+      "stderr_sha256",
+      "stdout_bytes",
+      "stdout_sha256"
+    ],
+    "source_mapping": "同一封存manifest绑定公开文档、原stdout及原stderr三个内容对象，各有独立句柄、总字节数和摘要。"
+  }
+}

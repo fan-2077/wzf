@@ -1,0 +1,362 @@
+test_archived_public_documents_reassemble_exact_original_bytes (__main__.EvidencePagesTests.test_archived_public_documents_reassemble_exact_original_bytes) ... 
+  test_archived_public_documents_reassemble_exact_original_bytes (__main__.EvidencePagesTests.test_archived_public_documents_reassemble_exact_original_bytes) (document='tests/fixtures/b1-public-document-00.json') ... ERROR
+  test_archived_public_documents_reassemble_exact_original_bytes (__main__.EvidencePagesTests.test_archived_public_documents_reassemble_exact_original_bytes) (document='tests/fixtures/b1-public-document-01.json') ... ERROR
+test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash (__main__.EvidencePagesTests.test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash) ... ERROR
+test_binary_over_one_mebibyte_tail_and_empty_stderr (__main__.EvidencePagesTests.test_binary_over_one_mebibyte_tail_and_empty_stderr) ... ERROR
+test_concurrent_republish_and_reads_preserve_original_inode (__main__.EvidencePagesTests.test_concurrent_republish_and_reads_preserve_original_inode) ... ERROR
+test_cross_block_page_checks_both_whole_touched_blocks (__main__.EvidencePagesTests.test_cross_block_page_checks_both_whole_touched_blocks) ... ERROR
+test_directory_descriptor_survives_parent_path_replacement (__main__.EvidencePagesTests.test_directory_descriptor_survives_parent_path_replacement) ... ERROR
+test_failed_publish_cleans_only_its_own_pending_directory (__main__.EvidencePagesTests.test_failed_publish_cleans_only_its_own_pending_directory) ... ok
+test_historical_generations_remain_readable_without_freshness (__main__.EvidencePagesTests.test_historical_generations_remain_readable_without_freshness) ... ERROR
+test_incomplete_unsettled_and_byte_mismatch_cannot_publish (__main__.EvidencePagesTests.test_incomplete_unsettled_and_byte_mismatch_cannot_publish) ... ok
+test_oversized_metadata_rejected_and_existing_directory_never_replaced (__main__.EvidencePagesTests.test_oversized_metadata_rejected_and_existing_directory_never_replaced) ... ok
+test_process_crash_after_rename_reuses_verified_complete_object (__main__.EvidencePagesTests.test_process_crash_after_rename_reuses_verified_complete_object) ... FAIL
+test_process_crash_before_atomic_rename_is_not_public (__main__.EvidencePagesTests.test_process_crash_before_atomic_rename_is_not_public) ... ERROR
+test_ranges_reject_bool_negative_zero_count_and_out_of_bounds (__main__.EvidencePagesTests.test_ranges_reject_bool_negative_zero_count_and_out_of_bounds) ... ERROR
+test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) ... 
+  test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) (mutation='symlink') ... ERROR
+  test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) (mutation='length') ... ERROR
+  test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) (mutation='manifest') ... ERROR
+test_unread_block_boundary_and_duplicate_full_verification (__main__.EvidencePagesTests.test_unread_block_boundary_and_duplicate_full_verification) ... ERROR
+test_wrong_identity_digest_and_extra_path_fields_are_rejected (__main__.EvidencePagesTests.test_wrong_identity_digest_and_extra_path_fields_are_rejected) ... ERROR
+
+======================================================================
+ERROR: test_archived_public_documents_reassemble_exact_original_bytes (__main__.EvidencePagesTests.test_archived_public_documents_reassemble_exact_original_bytes) (document='tests/fixtures/b1-public-document-00.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '8ad41d7efb952bc879b7b48f81c82f16c9114c887188289f89e71283dddc37b1'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 110, in test_archived_public_documents_reassemble_exact_original_bytes
+    published, _ = self.publish(raw, generation=index)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-b39f828c2d1818f57dd3fd93048a0f2f' -> '8ad41d7efb952bc879b7b48f81c82f16c9114c887188289f89e71283dddc37b1'
+
+======================================================================
+ERROR: test_archived_public_documents_reassemble_exact_original_bytes (__main__.EvidencePagesTests.test_archived_public_documents_reassemble_exact_original_bytes) (document='tests/fixtures/b1-public-document-01.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '68bb4724fa987fda9ed63e335277ff1ad5533fff8392377f05c0cf7cd6e9f9a8'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 110, in test_archived_public_documents_reassemble_exact_original_bytes
+    published, _ = self.publish(raw, generation=index)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-71bf5c37141c73a97d3dcb35e773911d' -> '68bb4724fa987fda9ed63e335277ff1ad5533fff8392377f05c0cf7cd6e9f9a8'
+
+======================================================================
+ERROR: test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash (__main__.EvidencePagesTests.test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '7ec1770e414ca399d5d73bce13facaa24152253c4338a3ed432d9281eb087aa0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 363, in test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash
+    published, _ = self.publish(raw)
+                   ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-cfef29d6089dc38356436a035e8a128a' -> '7ec1770e414ca399d5d73bce13facaa24152253c4338a3ed432d9281eb087aa0'
+
+======================================================================
+ERROR: test_binary_over_one_mebibyte_tail_and_empty_stderr (__main__.EvidencePagesTests.test_binary_over_one_mebibyte_tail_and_empty_stderr)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: 'c08c3afdc17a36c657519c041c2b582b8733453aa7a9c6739ff45846d7e31217'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 121, in test_binary_over_one_mebibyte_tail_and_empty_stderr
+    published, _ = self.publish(raw, stdout, stderr)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-68feff6ac986dd3a14babca2bd2a46de' -> 'c08c3afdc17a36c657519c041c2b582b8733453aa7a9c6739ff45846d7e31217'
+
+======================================================================
+ERROR: test_concurrent_republish_and_reads_preserve_original_inode (__main__.EvidencePagesTests.test_concurrent_republish_and_reads_preserve_original_inode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: 'cfbbaa0d2793342938e3991086c7456d942c1bc568b5b52616b58b45a664b9b5'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 263, in test_concurrent_republish_and_reads_preserve_original_inode
+    published, binding = self.publish(raw)
+                         ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-aadcb53c99b5987291432c8cf046a3e9' -> 'cfbbaa0d2793342938e3991086c7456d942c1bc568b5b52616b58b45a664b9b5'
+
+======================================================================
+ERROR: test_cross_block_page_checks_both_whole_touched_blocks (__main__.EvidencePagesTests.test_cross_block_page_checks_both_whole_touched_blocks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '188ee44f89173524103d4b84c74d7b12b8e5f8eb2aa4ded796690d3aea95a003'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 202, in test_cross_block_page_checks_both_whole_touched_blocks
+    published, _ = self.publish(raw)
+                   ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-8b0379290a7f94f3298d368ee513a745' -> '188ee44f89173524103d4b84c74d7b12b8e5f8eb2aa4ded796690d3aea95a003'
+
+======================================================================
+ERROR: test_directory_descriptor_survives_parent_path_replacement (__main__.EvidencePagesTests.test_directory_descriptor_survives_parent_path_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '21dbfd282732f522ba574556dbcdb1bb0c7d3f3514ca531a51d3f95f52168a3d'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 253, in test_directory_descriptor_survives_parent_path_replacement
+    published, _ = self.publish(b"original anchored bytes")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-05d6c41f98960fbb8a72fd811f165eea' -> '21dbfd282732f522ba574556dbcdb1bb0c7d3f3514ca531a51d3f95f52168a3d'
+
+======================================================================
+ERROR: test_historical_generations_remain_readable_without_freshness (__main__.EvidencePagesTests.test_historical_generations_remain_readable_without_freshness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '5ccf54de2b54366e94c26694950d0bebc51be7efe6684236d316f4d2813ea6d6'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 186, in test_historical_generations_remain_readable_without_freshness
+    first, old_binding = self.publish(b"old bytes", generation=2)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-5f018a70d7a714df35f8acea73254ae6' -> '5ccf54de2b54366e94c26694950d0bebc51be7efe6684236d316f4d2813ea6d6'
+
+======================================================================
+ERROR: test_process_crash_before_atomic_rename_is_not_public (__main__.EvidencePagesTests.test_process_crash_before_atomic_rename_is_not_public)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: 'd350e0f287233ca09aab59bbaab3662a82469d030380a668762d4159f3a3bd98'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 329, in test_process_crash_before_atomic_rename_is_not_public
+    published = self.publisher.publish_capture(document_bytes=raw, stdout_bytes=stdout, stderr_bytes=stderr, source_binding=binding)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-98e38cb4f4d854b0e07df8f5ddc49d83' -> 'd350e0f287233ca09aab59bbaab3662a82469d030380a668762d4159f3a3bd98'
+
+======================================================================
+ERROR: test_ranges_reject_bool_negative_zero_count_and_out_of_bounds (__main__.EvidencePagesTests.test_ranges_reject_bool_negative_zero_count_and_out_of_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: 'f25e6d4b2b1786b79a19352f36cd53e62890b17c119a70851163eecfb25b93f3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 151, in test_ranges_reject_bool_negative_zero_count_and_out_of_bounds
+    published, _ = self.publish(b"abc")
+                   ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-9d28ca65feb4725459437ba50f08a9c9' -> 'f25e6d4b2b1786b79a19352f36cd53e62890b17c119a70851163eecfb25b93f3'
+
+======================================================================
+ERROR: test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) (mutation='symlink')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '27b00ec27c139bfb9682fd69eaeba8c6eb552f0e16577d3a1e3f190d59b151bd'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 232, in test_symlink_length_and_manifest_tampering_fail_closed
+    published, _ = self.publish(mutation.encode(), generation=len(mutation))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-0381d5a0c5b99602d9712a078a7698fc' -> '27b00ec27c139bfb9682fd69eaeba8c6eb552f0e16577d3a1e3f190d59b151bd'
+
+======================================================================
+ERROR: test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) (mutation='length')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '206b8af14423f8bd33424a1fd8428cb2ec08ccd32728d4131985e09e9f73f2a6'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 232, in test_symlink_length_and_manifest_tampering_fail_closed
+    published, _ = self.publish(mutation.encode(), generation=len(mutation))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-47acf66b535adbb06401fcb88933b672' -> '206b8af14423f8bd33424a1fd8428cb2ec08ccd32728d4131985e09e9f73f2a6'
+
+======================================================================
+ERROR: test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) (mutation='manifest')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '4e47aace5781ead9569f10a20c16efa16371d9e843a9c8c7541b0a4038454208'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 232, in test_symlink_length_and_manifest_tampering_fail_closed
+    published, _ = self.publish(mutation.encode(), generation=len(mutation))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-4644a21b1cca053e1a34e6aa7cff8c17' -> '4e47aace5781ead9569f10a20c16efa16371d9e843a9c8c7541b0a4038454208'
+
+======================================================================
+ERROR: test_unread_block_boundary_and_duplicate_full_verification (__main__.EvidencePagesTests.test_unread_block_boundary_and_duplicate_full_verification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '5132b3c0698f1868de1318c4245f79a86aad9913f36139a684fd0759c38bce71'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 214, in test_unread_block_boundary_and_duplicate_full_verification
+    published, binding = self.publish(raw)
+                         ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-4e71111419d557bd212b38d59c5414d3' -> '5132b3c0698f1868de1318c4245f79a86aad9913f36139a684fd0759c38bce71'
+
+======================================================================
+ERROR: test_wrong_identity_digest_and_extra_path_fields_are_rejected (__main__.EvidencePagesTests.test_wrong_identity_digest_and_extra_path_fields_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: '77a0aed051bf1fb1c59bfd074cb606835606400849c10cef7cea80db4d320e1f'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 132, in test_wrong_identity_digest_and_extra_path_fields_are_rejected
+    published, binding = self.publish(b"original")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 63, in publish
+    publication = self.publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+PermissionError: [Errno 13] Permission denied: 'stage-2fc031a8ab4f0dff79d1d73a2ab0999b' -> '77a0aed051bf1fb1c59bfd074cb606835606400849c10cef7cea80db4d320e1f'
+
+======================================================================
+FAIL: test_process_crash_after_rename_reuses_verified_complete_object (__main__.EvidencePagesTests.test_process_crash_after_rename_reuses_verified_complete_object)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 335, in test_process_crash_after_rename_reuses_verified_complete_object
+    bundle, raw, stdout, stderr, binding = self.crash_worker("after")
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py", line 316, in crash_worker
+    self.assertEqual(result.returncode, 73, result.stderr.decode(errors="replace"))
+AssertionError: 1 != 73 : Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 458, in publish_capture
+    os.stat(bundle, dir_fd=self._objects, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: 'd350e0f287233ca09aab59bbaab3662a82469d030380a668762d4159f3a3bd98'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 13, in <module>
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py", line 460, in publish_capture
+    os.rename(name, bundle, src_dir_fd=self._pending, dst_dir_fd=self._objects)
+  File "<string>", line 9, in crash
+PermissionError: [Errno 13] Permission denied: 'stage-a389bb6e85d7cdb96de0a254a7909ccc' -> 'd350e0f287233ca09aab59bbaab3662a82469d030380a668762d4159f3a3bd98'
+
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.280s
+
+FAILED (failures=1, errors=15)

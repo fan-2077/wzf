@@ -1,0 +1,15 @@
+{
+  "results": [
+    {
+      "case": "sealed_same_parent",
+      "mode_after": "0o500",
+      "passed": true
+    },
+    {
+      "case": "writable_cross_parent",
+      "mode_after": "0o700",
+      "passed": true
+    }
+  ],
+  "scope": "controlled local filesystem diagnosis only"
+}

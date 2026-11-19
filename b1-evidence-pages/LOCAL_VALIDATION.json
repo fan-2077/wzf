@@ -1,0 +1,49 @@
+{
+  "business_result": null,
+  "comparison_budget_selected": false,
+  "latest_command": "validation/run-002/COMMAND.json",
+  "latest_raw_stderr": "validation/run-002/stderr.raw",
+  "latest_raw_stdout": "validation/run-002/stdout.raw",
+  "latest_result": "validation/run-002/TEST_RESULT.json",
+  "model_calls": 0,
+  "native_business_calls": 0,
+  "not_qualified": {
+    "actor": true,
+    "fixed_3_11_runtime": true,
+    "model_delivery": true,
+    "original_task": true,
+    "sdk_aios": true
+  },
+  "passed": true,
+  "passed_tests": 16,
+  "retained_prior_failure": {
+    "classification": "real local cross-parent rename of already sealed0500 directory was denied; same-parent sealed rename verified and implementation corrected",
+    "command": "validation/run-001/COMMAND.json",
+    "diagnosis": "validation/run-001/RENAME_PERMISSION_DIAGNOSIS.json",
+    "raw_stderr": "validation/run-001/stderr.raw",
+    "result": "validation/run-001/TEST_RESULT.json"
+  },
+  "runtime": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "gid": 1000,
+    "implementation": "CPython",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "resolved_executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sqlite_source_id": "2026-05-05 10:34:17 c88b22011a54b4f6fbd149e9f8e4de77658ce58143a1af0e3785e4e6475127e9",
+    "sqlite_version": "3.53.1",
+    "uid": 1000
+  },
+  "schema": "b1-evidence-pages-local-validation-v1",
+  "skipped": 0,
+  "source_checks": {
+    "base_anchors_compared_to_exact_git_object": true,
+    "existing_tracked_sources_modified": false,
+    "latest_test_source_sha256": {
+      "public_evidence.py": "5685087701b7ff5795e062b0397cbcb4a4fd95d4f2c5f449d0b351393ac9cdce",
+      "tests/test_public_evidence.py": "0bf0f32edc70bdeae61febe01e2ed0bfe4dda5cb1c0c71502e565385f432ed48"
+    },
+    "python_ast_parse": true
+  },
+  "tests_run": 16,
+  "validation_scope": "controlled_local_files_and_subprocess_crash_only"
+}

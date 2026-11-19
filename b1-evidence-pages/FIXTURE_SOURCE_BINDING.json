@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "bytes": 494,
+      "installed_fixture": "tests/fixtures/b1-public-document-00.json",
+      "original_public_artifact_path": "g1-results/native/agent/b1-public-document-00.json",
+      "sha256": "dc095ebc1db7d5a7d281d18a112c5cdcd5e6a3ca4a8c67f3df030b020e99016b"
+    },
+    {
+      "bytes": 15322,
+      "installed_fixture": "tests/fixtures/b1-public-document-01.json",
+      "original_public_artifact_path": "g1-results/native/agent/b1-public-document-01.json",
+      "sha256": "dca02a939315b5312a033bc1703ab4825018fd6f7e7e58b574ead3742caeca03"
+    }
+  ],
+  "new_model_requests": 0,
+  "new_native_business_calls": 0,
+  "original_artifact_sha256": "ad97c3b22167fa56c32f6bd750a43def9d1c074ffeab684634e5acf8bd0f032d",
+  "original_commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
+  "original_run_id": 44496858838,
+  "private_evaluator_read": false,
+  "schema": "b1-evidence-page-public-fixture-source-v1",
+  "scope": "Exact archived public document bytes used only for a new local byte-pagination fixture. New capture, settlement, identity and generation declarations are synthetic; no new native, actor, AIOS or model qualification."
+}

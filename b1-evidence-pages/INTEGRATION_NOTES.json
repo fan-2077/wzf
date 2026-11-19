@@ -1,0 +1,41 @@
+{
+  "completed_zh": [
+    "原字节三内容的完整摘要绑定和原子不可变发布",
+    "只按句柄/SHA/offset/count的只读分页；并发读无新任务/可变游标",
+    "旧代际保留且不具备写前置权限",
+    "本地全篇重组及原SHA验证；来源声明/送达/理解/业务结果分离"
+  ],
+  "first_failure_preserved": "validation/run-001 保留初版EACCES失败及权限诊断；validation/run-002为修正后的16/16真实本地通过。",
+  "future_actor_requirements_zh": [
+    "由唯一业务actor在NativeActionBridge完成capture_all、原来源核验及可信结算后调用publisher；不能由模型直接提供发布绑定。",
+    "公开恢复文档应从原合法解码路径取得原bytes；其他观察也必须保留实际stdout/stderr与解析文档的来源映射。组件未实现该接线。",
+    "每次新观察继续走同一原Driver/Facade/bridge、原actions.sqlite与原事故预算；cached page不建立Driver、不触发native查询、不退款或重置时钟。",
+    "不得把历史页面重新喂给guard来替代CommonFacade._fresh要求的当前证据。",
+    "同一模型和脚本路径未来须暴露相同公开页面；模型实际选择页要原样进后续messages，并在原始模型HTTP请求中验证。",
+    "实际parent模型请求/SDK/AIOS/actor因果关联尚未实现；不能靠caller字符串或本地完整重组提升因果资格。",
+    "未来注册仅将page标为只读；完整宏start有业务写入能力，仍须独立写能力注册。"
+  ],
+  "not_implemented": [
+    "actor publication adapter",
+    "SDK/AIOS tool registration or socket service",
+    "live source authentication or settlement verification",
+    "model messages/context management or delivery proof",
+    "new model/input/total-read comparison budget",
+    "business recovery or original evaluator result",
+    "fixed Python 3.11 container qualification",
+    "hostile same-UID filesystem isolation",
+    "garbage collection or automatic orphan cleanup"
+  ],
+  "not_performed": {
+    "business_result": null,
+    "model_calls": 0,
+    "native_business_calls": 0,
+    "original_task_runs": 0,
+    "private_evaluator_reads": 0,
+    "remote_runs": 0
+  },
+  "public_fixture_scope_zh": "494B/15322B公开文档原字节来自已审计归档；新的capture、结算、identity、generation全为受控夹具声明，不冒充真实接入。6144分页在本地得到1页与3页，与原B1的1+7页协议不同。",
+  "runtime_scope_zh": "实测CPython 3.12.14、SQLite 3.53.1（SQLite版本仅记录运行环境，本组件不使用SQLite存储）；没有固定3.11资格。",
+  "schema": "b1-evidence-pages-integration-notes-v1",
+  "status": "standalone_local_component_only"
+}

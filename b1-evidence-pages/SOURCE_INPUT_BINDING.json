@@ -1,0 +1,54 @@
+{
+  "candidate_base_commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+  "design_report": {
+    "bytes": 65456,
+    "path": "research/b1_full_tool_parity_patch_map.json",
+    "sections": [
+      "evidence_pagination",
+      "target_ownership"
+    ],
+    "sha256": "69a227026dd72efe232bd2cfb6a86e5a58747556b00e37d985a1c05735f99c51"
+  },
+  "existing_source_modified": false,
+  "fixed_source_anchors": [
+    {
+      "bytes": 16598,
+      "commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+      "method": "exact_git_object_bytes_compared_with_base_worktree",
+      "path": "b0-run/payload/common_bridge/target_shell.py",
+      "purpose_zh": "6144字节原捕获块上界",
+      "sha256": "b2772c3c4f208e80bd711f3d41df607acc062b0d6ca9e212e4964055c2078b24",
+      "symbols": "CHUNK_BYTES"
+    },
+    {
+      "bytes": 17428,
+      "commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+      "method": "exact_git_object_bytes_compared_with_base_worktree",
+      "path": "b1-common-session/session_client.py",
+      "purpose_zh": "65536字节含LF响应帧上界",
+      "sha256": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f",
+      "symbols": "RESPONSE_LIMIT"
+    },
+    {
+      "bytes": 66527,
+      "commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+      "method": "exact_git_object_bytes_compared_with_base_worktree",
+      "path": "b0-run/payload/common_bridge/native_bridge.py",
+      "purpose_zh": "未来真实捕获/来源核验入口；本组件未调用",
+      "sha256": "dec7e625ff632b34f9de64f089fb61d1a500af526b5540ff1ab3f1dc77c3c2d7",
+      "symbols": "NativeActionBridge.capture_all / _verified_capture_binding"
+    },
+    {
+      "bytes": 46124,
+      "commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+      "method": "exact_git_object_bytes_compared_with_base_worktree",
+      "path": "b0-run/payload/strategy/common_facade.py",
+      "purpose_zh": "未来可信结算后发布位置与独立当前写入证据门槛；本组件未调用",
+      "sha256": "ddf9dcc4cace57f64c3b0e8a00d469f589f408b3f178370e84adb5e8a2d10127",
+      "symbols": "CommonFacade.ingest / _fresh"
+    }
+  ],
+  "new_remote_or_model_execution": false,
+  "only_new_prefix": "b1-evidence-pages/",
+  "schema": "b1-evidence-pages-source-input-binding-v1"
+}

@@ -1,0 +1,21 @@
+test_archived_public_documents_reassemble_exact_original_bytes (__main__.EvidencePagesTests.test_archived_public_documents_reassemble_exact_original_bytes) ... ok
+test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash (__main__.EvidencePagesTests.test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash) ... ok
+test_binary_over_one_mebibyte_tail_and_empty_stderr (__main__.EvidencePagesTests.test_binary_over_one_mebibyte_tail_and_empty_stderr) ... ok
+test_concurrent_republish_and_reads_preserve_original_inode (__main__.EvidencePagesTests.test_concurrent_republish_and_reads_preserve_original_inode) ... ok
+test_cross_block_page_checks_both_whole_touched_blocks (__main__.EvidencePagesTests.test_cross_block_page_checks_both_whole_touched_blocks) ... ok
+test_directory_descriptor_survives_parent_path_replacement (__main__.EvidencePagesTests.test_directory_descriptor_survives_parent_path_replacement) ... ok
+test_failed_publish_cleans_only_its_own_pending_directory (__main__.EvidencePagesTests.test_failed_publish_cleans_only_its_own_pending_directory) ... ok
+test_historical_generations_remain_readable_without_freshness (__main__.EvidencePagesTests.test_historical_generations_remain_readable_without_freshness) ... ok
+test_incomplete_unsettled_and_byte_mismatch_cannot_publish (__main__.EvidencePagesTests.test_incomplete_unsettled_and_byte_mismatch_cannot_publish) ... ok
+test_oversized_metadata_rejected_and_existing_directory_never_replaced (__main__.EvidencePagesTests.test_oversized_metadata_rejected_and_existing_directory_never_replaced) ... ok
+test_process_crash_after_rename_reuses_verified_complete_object (__main__.EvidencePagesTests.test_process_crash_after_rename_reuses_verified_complete_object) ... ok
+test_process_crash_before_atomic_rename_is_not_public (__main__.EvidencePagesTests.test_process_crash_before_atomic_rename_is_not_public) ... ok
+test_ranges_reject_bool_negative_zero_count_and_out_of_bounds (__main__.EvidencePagesTests.test_ranges_reject_bool_negative_zero_count_and_out_of_bounds) ... ok
+test_symlink_length_and_manifest_tampering_fail_closed (__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed) ... ok
+test_unread_block_boundary_and_duplicate_full_verification (__main__.EvidencePagesTests.test_unread_block_boundary_and_duplicate_full_verification) ... ok
+test_wrong_identity_digest_and_extra_path_fields_are_rejected (__main__.EvidencePagesTests.test_wrong_identity_digest_and_extra_path_fields_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.530s
+
+OK

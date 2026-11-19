@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/tests/test_public_evidence.py"
+  ],
+  "cwd": "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages",
+  "elapsed_seconds": 0.7432959529978689,
+  "returncode": 0,
+  "scope": "Only controlled local files and subprocesses; no model, native business, actor or AIOS run.",
+  "source_sha256": {
+    "public_evidence.py": "5685087701b7ff5795e062b0397cbcb4a4fd95d4f2c5f449d0b351393ac9cdce",
+    "tests/test_public_evidence.py": "0bf0f32edc70bdeae61febe01e2ed0bfe4dda5cb1c0c71502e565385f432ed48"
+  },
+  "started_at_utc": "2026-11-19T12:04:25.712683+00:00",
+  "stderr": {
+    "bytes": 2623,
+    "path": "stderr.raw",
+    "sha256": "5a8caed45a50ab08f81c3011aea1f07beb67fd0059af582dc410fa6dec707dba"
+  },
+  "stdin": "DEVNULL",
+  "stdout": {
+    "bytes": 2790,
+    "path": "stdout.raw",
+    "sha256": "713ec6e256b69aeb68477f073565bdbefff743cc6a8138519bbbc1d0ed1c7750"
+  },
+  "timed_out": false,
+  "timeout_seconds": 60
+}

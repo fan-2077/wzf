@@ -1,0 +1,83 @@
+{
+  "actor_integrated": false,
+  "aios_qualified": false,
+  "business_result": null,
+  "errors": 15,
+  "failures": 1,
+  "fixed_python_3_11_runtime_qualified": false,
+  "model_calls": 0,
+  "native_business_calls": 0,
+  "passed": false,
+  "qualification_scope": "controlled_local_files_and_subprocess_crash_only",
+  "runtime": {
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "gid": 1000,
+    "implementation": "CPython",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "resolved_executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "sqlite_source_id": "2026-05-05 10:34:17 c88b22011a54b4f6fbd149e9f8e4de77658ce58143a1af0e3785e4e6475127e9",
+    "sqlite_version": "3.53.1",
+    "uid": 1000
+  },
+  "schema": "b1-evidence-pages-local-test-result-v1",
+  "skipped": 0,
+  "tests": [
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_binary_over_one_mebibyte_tail_and_empty_stderr"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_concurrent_republish_and_reads_preserve_original_inode"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_cross_block_page_checks_both_whole_touched_blocks"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_directory_descriptor_survives_parent_path_replacement"
+    },
+    {
+      "status": "passed",
+      "test": "__main__.EvidencePagesTests.test_failed_publish_cleans_only_its_own_pending_directory"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_historical_generations_remain_readable_without_freshness"
+    },
+    {
+      "status": "passed",
+      "test": "__main__.EvidencePagesTests.test_incomplete_unsettled_and_byte_mismatch_cannot_publish"
+    },
+    {
+      "status": "passed",
+      "test": "__main__.EvidencePagesTests.test_oversized_metadata_rejected_and_existing_directory_never_replaced"
+    },
+    {
+      "status": "failed",
+      "test": "__main__.EvidencePagesTests.test_process_crash_after_rename_reuses_verified_complete_object"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_process_crash_before_atomic_rename_is_not_public"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_ranges_reject_bool_negative_zero_count_and_out_of_bounds"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_unread_block_boundary_and_duplicate_full_verification"
+    },
+    {
+      "status": "error",
+      "test": "__main__.EvidencePagesTests.test_wrong_identity_digest_and_extra_path_fields_are_rejected"
+    }
+  ],
+  "tests_run": 16
+}
