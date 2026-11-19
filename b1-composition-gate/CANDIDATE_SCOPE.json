@@ -1,14 +1,16 @@
 {
+  "amendment": "Private user home for existing nonroot isolated subprocesses, and correct host SHA evidence field; no original component changes.",
   "b0_source_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
   "b1_reference_commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
-  "branch": "sre-b1-composition-preflight-20261119",
+  "branch": "sre-b1-composition-home-v2-20261119",
   "evidence_expectation_zh": "主/参考源码前后摘要、生成上下文与模型来源、实际镜像和容器身份、两解释器/固定SQLite/原入口预检/真实AIOS导入/动态库/模型文件校验原文、失败和清理以及完整封存；安装资格不外推业务资格。",
   "model_inference_calls": 0,
   "new_candidate_runs": 1,
   "new_candidate_runs_semantics": "planned run count, not an assertion of execution",
   "new_comparison_budget_selected": false,
   "original_task_runs": 0,
-  "parent_commit": "5008fe991a60efbff6d365218f1feb9aee999e97",
+  "parent_commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+  "prior_failed_run": 44517427524,
   "qualified_components_to_reuse": {
     "b1_readonly_actual_run": 44496858838,
     "session_contract_actual_run": 44512100518
@@ -26,7 +28,7 @@
     "runtime_memory_bytes": 8589934592,
     "workflow_minutes": 48
   },
-  "status": "frozen_for_one_isolated_installation_preflight_not_runtime_qualified",
+  "status": "frozen_for_one_fresh_isolated_installation_preflight_actual_runtime_unqualified",
   "still_unqualified": [
     "complete AIOS session registration and dispatch",
     "full original Controller under AIOS parent",

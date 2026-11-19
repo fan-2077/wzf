@@ -1,0 +1,64 @@
+name: B1 combined runtime private user home installation preflight
+on:
+  push:
+    branches: [sre-b1-composition-home-v2-20261119]
+    paths: [b1-composition-gate/**, .github/workflows/sre-b1-composition-home-v2-20261119.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-b1-composition-home-v2-20261119
+  cancel-in-progress: false
+jobs:
+  composition-installation:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-b1-composition-home-v2-20261119'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 48
+    steps:
+      - name: Read exact composition source candidate
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        timeout-minutes: 2
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: |
+            /b0-run/
+            /b1-common-session/
+            /b1-composition-gate/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Read exact qualified B1 source reference
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        timeout-minutes: 2
+        with:
+          repository: fan-2077/wzf
+          ref: 43b15ea58de5d33603ac6ef60e2add74c3ea514d
+          path: b1-composition-pinned-reference
+          sparse-checkout: |
+            /g1-smoke/
+            /b1-readonly-gate/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Build and check actual combined installation without inference or incident
+        timeout-minutes: 36
+        run: python3 -B b1-composition-gate/run_ci_composition.py run
+      - name: Verify owned resource cleanup on every outcome
+        if: always()
+        timeout-minutes: 2
+        run: python3 -B b1-composition-gate/run_ci_composition.py cleanup
+      - name: Seal complete installation evidence including failures
+        if: always()
+        timeout-minutes: 1
+        run: python3 -B b1-composition-gate/run_ci_composition.py seal
+      - name: Preserve original installation preflight evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 3
+        with:
+          name: sre-b1-composition-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            b1-composition-results/EVIDENCE.tar.gz
+            b1-composition-results/EXPORT_STATUS.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 14

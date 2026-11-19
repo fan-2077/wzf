@@ -60,6 +60,7 @@ BUILD_ROOTS = {"b0": B0 / "build-record", "g1": G1 / "build-record",
 RUNTIME_ROOTS = (B0 / "sqlite", Path("/opt/llama/bin"))
 RESULT_NAME = "COMPOSITION_PREFLIGHT_RESULT.json"
 PREFLIGHT_SECONDS = 240
+USER_DIRECTORY = Path("/tmp/b1-composition-user-home")
 DEADLINE = None
 
 
@@ -205,7 +206,37 @@ def runtime_probe():
                  proc_maps_sha256=sha(maps), proc_maps=maps.decode(),
                  executable_matches_process=os.path.samefile(sys.executable, "/proc/self/exe"),
                  executable_sha256=hash_file(Path(sys.executable).resolve(strict=True))["sha256"])
+    value["user_directory"] = child_user_directory_identity()
     return value
+
+
+def prepare_user_directory():
+    # This is the isolated numeric user's actual private home, on the existing
+    # /tmp tmpfs. Do not change the host or parent process environment.
+    USER_DIRECTORY.mkdir(mode=0o700)
+    info = USER_DIRECTORY.lstat()
+    require(stat.S_ISDIR(info.st_mode) and not USER_DIRECTORY.is_symlink()
+            and info.st_uid == os.geteuid() and info.st_gid == os.getegid()
+            and stat.S_IMODE(info.st_mode) == 0o700,
+            "private_user_directory_identity_mismatch")
+    return {"path": str(USER_DIRECTORY), "uid": info.st_uid, "gid": info.st_gid,
+            "mode": "0700", "created_in_existing_tmpfs": True,
+            "parent_environment_modified": False}
+
+
+def child_user_directory_identity():
+    require(os.environ.get("HOME") == str(USER_DIRECTORY),
+            "child_user_home_environment_mismatch")
+    directory = Path.home()
+    info = directory.lstat()
+    require(directory == USER_DIRECTORY and directory.resolve(strict=True) == USER_DIRECTORY
+            and stat.S_ISDIR(info.st_mode) and not directory.is_symlink()
+            and info.st_uid == os.geteuid() and info.st_gid == os.getegid()
+            and stat.S_IMODE(info.st_mode) == 0o700,
+            "child_user_home_resolution_or_identity_mismatch")
+    return {"environment_value": os.environ["HOME"], "pathlib_home": str(directory),
+            "uid": info.st_uid, "gid": info.st_gid, "mode": "0700",
+            "source": "isolated_user_private_directory_on_existing_tmpfs"}
 
 
 def deny_active_operations(event, _args):
@@ -272,6 +303,9 @@ def child_environment(kind):
         OTEL_SDK_DISABLED="true", OTEL_TRACES_EXPORTER="none", OTEL_METRICS_EXPORTER="none",
         OTEL_LOGS_EXPORTER="none", HF_HUB_DISABLE_TELEMETRY="1", HF_HUB_OFFLINE="1",
         HF_DATASETS_OFFLINE="1", TRANSFORMERS_OFFLINE="1")
+    # HOME retains its standard POSIX meaning for this child user. Numeric
+    # container users need not have an entry in the image's password database.
+    env["HOME"] = str(USER_DIRECTORY)
     if kind == "b0":
         env["PYTHONPATH"] = ":".join(str(B0 / part) for part in
             ("common_bridge", "strategy", "native_adapter", "integration")) + ":" + str(SESSION)
@@ -373,8 +407,9 @@ def copy_tree(source, destination):
 
 def validate_installation(output):
     raw = read_regular(MANIFEST)
-    expected = os.environ.get("B1_EXPECTED_INSTALLATION_MANIFEST_SHA256", "")
-    require(HEX.fullmatch(expected) and sha(raw) == expected, "host_installation_manifest_binding_mismatch")
+    expected_installation_sha = os.environ.get("B1_EXPECTED_INSTALLATION_MANIFEST_SHA256", "")
+    require(HEX.fullmatch(expected_installation_sha) and sha(raw) == expected_installation_sha,
+            "host_installation_manifest_binding_mismatch")
     manifest = read_json(MANIFEST)
     require(manifest.get("schema") == "b1-composition-installation-manifest-v1"
             and manifest.get("qualification") == "not_remote_qualified", "installation_manifest_profile_invalid")
@@ -517,7 +552,7 @@ def validate_installation(output):
     for name, path in (("INSTALLATION_MANIFEST.json", MANIFEST), ("SOURCE_INPUT_BINDING.json", INPUT_BINDING),
                        ("DERIVED_PAYLOAD_BINDING.json", DERIVED), ("BASE_PACKAGE_MANIFEST.json", BASE_MANIFEST)):
         write_once(output / "installed-bindings" / name, read_regular(path))
-    return manifest, {"host_expected_manifest_sha256": expected, "actual_manifest_sha256": sha(raw),
+    return manifest, {"host_expected_manifest_sha256": expected_installation_sha, "actual_manifest_sha256": sha(raw),
                       "files": checked, "uncommitted_source_files": uncommitted,
                       "source_commit_claim_scope": "manifest metadata and host-bound bytes; no Git objects read inside image"}
 
@@ -598,6 +633,11 @@ def validate_runtime(value, interpreter):
         and value["sqlite_query_version"] == SQLITE_VERSION and value["sqlite_source_id"] == SQLITE_SOURCE_ID
         and value["loaded_sqlite_libraries"] == [str(SQLITE_BINARY)]
         and value["ld_library_path"] == LD_PATH, "actual_venv_or_sqlite_linkage_mismatch")
+    directory = value.get("user_directory", {})
+    require(directory.get("environment_value") == directory.get("pathlib_home") == str(USER_DIRECTORY)
+            and directory.get("uid") == value["uid"] == value["euid"]
+            and directory.get("gid") == value["gid"] == value["egid"]
+            and directory.get("mode") == "0700", "actual_runtime_user_directory_mismatch")
     return value
 
 
@@ -640,8 +680,10 @@ def run_main(output):
             require(os.environ.get("LD_LIBRARY_PATH") == LD_PATH, "image_dynamic_library_environment_changed")
             require(Path("/logs").is_dir() and not Path("/logs").is_symlink()
                 and not any(Path("/logs").iterdir()), "preflight_requires_own_initially_empty_logs")
+            user_directory = prepare_user_directory()
             return {"expected_uid": expected_uid, "expected_gid": expected_gid,
-                    "logs_initially_empty": True, "ld_library_path": LD_PATH}
+                    "logs_initially_empty": True, "ld_library_path": LD_PATH,
+                    "child_user_directory": user_directory}
         recorder.check("environment", environment_check)
         installed = recorder.check("installation", lambda: validate_installation(output))
         if installed is not None:

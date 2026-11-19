@@ -1,51 +1,55 @@
 {
   "b1_reference_commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
-  "branch": "sre-b1-composition-preflight-20261119",
+  "branch": "sre-b1-composition-home-v2-20261119",
   "files": {
-    ".github/workflows/sre-b1-composition-preflight-20261119.yml": {
-      "bytes": 2553,
-      "sha256": "1d92f866e4fd11ce11261cae5ab23cf2ab2721eaf11a83f1b8946666d56e4bed"
+    ".github/workflows/sre-b1-composition-home-v2-20261119.yml": {
+      "bytes": 2533,
+      "sha256": "29940cdaa4ead132b9fb581cd4f5304f88bdfbdbb46d0d31a94d8850904e1ab4"
     },
     "b1-composition-gate/CANDIDATE_SCOPE.json": {
-      "bytes": 1977,
-      "sha256": "deca25bf2e25102da30484b2dcfba9b889d9203cdd9ca410ac37c80df0e5519e"
+      "bytes": 2169,
+      "sha256": "a5a19230dec8927ee7293c9ee4f975b7794ee6c0ec3cc5bb9ed747a7e3e68156"
     },
     "b1-composition-gate/Dockerfile": {
       "bytes": 7746,
       "sha256": "2a745b7c48e6969c7efbb996b2626aced1ca302fbd5fae9777d5eb7a2fa5cf0a"
     },
     "b1-composition-gate/LOCAL_VALIDATION.json": {
-      "bytes": 19620,
-      "sha256": "b63045c6498d37492c65420a5cb955446a3a7b9b649d84368934f6dde95721f6"
+      "bytes": 19822,
+      "sha256": "2f27dbc66f9c253b5330123bc9695f7e83fbafc3d62075f7be5ea039e49ad110"
     },
     "b1-composition-gate/README.md": {
-      "bytes": 2016,
-      "sha256": "4446a0e6732c5189db3e1a213289f6c6e0ea01dd839ddf767bfc21616613f034"
+      "bytes": 2759,
+      "sha256": "fbb05e8442192bcb18eab292ec657cbbaf38355c0103ee85c6ec5167146ffc90"
     },
     "b1-composition-gate/SOURCE_INPUT_BINDING.json": {
       "bytes": 5833,
       "sha256": "7665841dc89ecbaa5f0bb710099eff2f02bcb12380161956e2fde2a962907584"
+    },
+    "b1-composition-gate/USER_HOME_AMENDMENT.json": {
+      "bytes": 2129,
+      "sha256": "c8780621d34d30fbcc577a30f893183f91e294ec3dec25532d2afbd6ba00c3d0"
     },
     "b1-composition-gate/build_composition.py": {
       "bytes": 25317,
       "sha256": "d1f3c25ee2ac3fb5832d0971dc1b6f1b7b33b708429b7195ef71a74b7b498937"
     },
     "b1-composition-gate/preflight.py": {
-      "bytes": 44744,
-      "sha256": "d140085cba933ec1b23a0c2f34a665d2c420c5367e2f9fc662405972b884a071"
+      "bytes": 47131,
+      "sha256": "e37603c8b124185eb2a7bb465621841a1d7306c2cbfa7ee3c97d7dc916e5a1f6"
     },
     "b1-composition-gate/run_ci_composition.py": {
-      "bytes": 24081,
-      "sha256": "d9f521c5e6b84f02adc7b76e74ae3d87ec4a2c64e92a304157d2c2612275a889"
+      "bytes": 24079,
+      "sha256": "b5528390426b83f2342da74e7a8691454cd8ecd8afef9d0c527cc049f2168b07"
     }
   },
   "manifest_self_excluded": true,
-  "parent_commit": "5008fe991a60efbff6d365218f1feb9aee999e97",
-  "parent_tree": "4a5c1dd276561d2aecb0b7bb224bd9bc185c9ad0",
-  "qualification": "frozen_inputs_only_actual_runtime_unqualified",
-  "release_files_including_this_manifest": 10,
+  "parent_commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+  "parent_tree": "d1d528b62d2f95e5522b238c6ea6683d307a3c00",
+  "qualification": "frozen_inputs_only_actual_runtime_after_amendment_unqualified",
+  "release_files_including_this_manifest": 11,
   "schema": "b1-composition-release-source-manifest-v1",
-  "scope": "One isolated combined-image installation preflight. No original-task, Controller, model-inference or full AIOS-service execution.",
+  "scope": "Fresh isolated installation preflight; private user directory and accurate evidence record; no model, original Controller or original task.",
   "unchanged_original_prefix_counts": {
     "b0-run": 61,
     "b1-common-session": 16,

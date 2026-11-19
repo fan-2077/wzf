@@ -1,0 +1,47 @@
+{
+  "branch": "sre-b1-composition-home-v2-20261119",
+  "changes": [
+    {
+      "file": "b1-composition-gate/preflight.py",
+      "scope": "Create and validate actual private user directory on existing /tmp tmpfs; HOME is used only with its normal POSIX user-home meaning in controlled child environments; both actual interpreters verify resolution and directory identity."
+    },
+    {
+      "file": "b1-composition-gate/preflight.py",
+      "scope": "Rename the host expected manifest digest variable so later per-session-source bindings cannot shadow the emitted SHA field. Original admission comparison unchanged."
+    },
+    {
+      "file": "b1-composition-gate/run_ci_composition.py",
+      "scope": "Use a new exact branch for a fresh attempt. No retry of old run."
+    }
+  ],
+  "first_failure": {
+    "artifact_id": 14527260672,
+    "artifact_sha256": "1cfd5e5a764a52ac1da2edc2e0bb1aea78ea0636968ab0c074d85c904966bce5",
+    "business_result": null,
+    "checks_passed": 17,
+    "checks_total": 18,
+    "export_succeeded": true,
+    "failed_check": "original_g1_preflight",
+    "reason": "Chroma import calls pathlib.Path.home; the isolated numeric user has no resolvable home in the scrubbed child environment.",
+    "run_id": 44517427524,
+    "stderr_sha256": "8673955d5a0c677235a8ad5613896f1086c4d959839400594f0e61697fdf33df",
+    "tar_sha256": "63844c023b8feed4f1c60b198feb3d65c7fb04c2f95aac5445df85bd82cbb2c4"
+  },
+  "invariants": [
+    "Dockerfile and fixed generator byte-identical to parent",
+    "B0, B1 and session production bytes unchanged",
+    "No new mounts, capabilities, network, subprocess commands or comparison budgets",
+    "Parent/host environment unchanged",
+    "Original failed artifact and its incorrect record field retained"
+  ],
+  "not_qualified": [
+    "actual fixed runtime after amendment",
+    "full AIOS service and tool integration",
+    "model inference",
+    "original Controller",
+    "business recovery",
+    "strong single-agent or multi-agent claims"
+  ],
+  "parent_commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+  "schema": "b1-composition-private-user-home-amendment-v1"
+}

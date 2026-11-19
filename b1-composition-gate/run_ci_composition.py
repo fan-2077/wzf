@@ -17,7 +17,7 @@ import time
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "b1-composition-results"
-REF = "refs/heads/sre-b1-composition-preflight-20261119"
+REF = "refs/heads/sre-b1-composition-home-v2-20261119"
 LABEL = "sre.b1.composition"
 REFERENCE = ROOT / "b1-composition-pinned-reference"
 GENERATED = ROOT / "b1-composition-generated"
