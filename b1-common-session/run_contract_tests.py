@@ -18,6 +18,7 @@ import re
 import resource
 import socket
 import sqlite3
+import stat
 import sys
 import time
 import traceback
@@ -127,7 +128,9 @@ def probe_runtime():
     actual = {"python_version": list(sys.version_info[:3]), "sys_version": sys.version,
               "implementation": platform.python_implementation(), "executable": sys.executable,
               "platform": sys.platform, "kernel": platform.release(), "machine": platform.machine(),
-              "pid": os.getpid(), "sqlite_module_version": sqlite3.sqlite_version,
+              "pid": os.getpid(), "uid": os.getuid(), "euid": os.geteuid(),
+              "gid": os.getgid(), "egid": os.getegid(), "groups": os.getgroups(),
+              "sqlite_module_version": sqlite3.sqlite_version,
               "sqlite_module_path": sqlite3.__file__, "sqlite_query_version": None,
               "sqlite_source_id": None}
     errors = []
@@ -295,6 +298,21 @@ def main():
     output.mkdir(parents=True, exist_ok=True)
     started_utc, started, resources_before = utc_now(), time.monotonic(), resource_snapshot()
     runtime = probe_runtime()
+    output_info = output.lstat()
+    expected_uid = os.environ.get("B1_EXPECTED_UID", "")
+    expected_gid = os.environ.get("B1_EXPECTED_GID", "")
+    runtime["output_identity"] = {
+        "path": str(output), "uid": output_info.st_uid, "gid": output_info.st_gid,
+        "mode": stat.S_IMODE(output_info.st_mode),
+        "expected_uid_from_host": expected_uid, "expected_gid_from_host": expected_gid,
+        "is_directory": stat.S_ISDIR(output_info.st_mode)}
+    runtime["checks"]["unprivileged_host_bound_identity"] = (
+        os.getuid() == os.geteuid() and os.getgid() == os.getegid()
+        and os.geteuid() > 0 and os.getegid() > 0
+        and expected_uid == str(os.geteuid()) and expected_gid == str(os.getegid()))
+    runtime["checks"]["private_output_directory_owned"] = (
+        stat.S_ISDIR(output_info.st_mode) and stat.S_IMODE(output_info.st_mode) == 0o700
+        and output_info.st_uid == os.geteuid() and output_info.st_gid == os.getegid())
     runtime["image_build_records"] = preserve_image_build_records(output)
     runtime["checks"]["original_image_build_records_copied"] = (
         runtime["image_build_records"]["copied_raw_bytes"] and not runtime["image_build_records"]["errors"])

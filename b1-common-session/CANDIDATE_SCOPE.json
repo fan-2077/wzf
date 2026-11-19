@@ -1,5 +1,5 @@
 {
-  "status": "frozen_local_candidate_pending_one_fixed_runtime_contract_run",
+  "status": "frozen_output_owner_correction_pending_one_fixed_runtime_contract_run",
   "scope_zh": "持久公共完整恢复辅助接口：只启动一次、稳定任务句柄、断连不重派、同一公共动作账本；不冒充完整强B1或并行资格。",
   "base_b0_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
   "qualified_b1_reference_commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
@@ -18,5 +18,9 @@
   "full_lower_level_tool_integration_complete": false,
   "remote_run_kind": "fixed_runtime_networkless_session_contracts_only",
   "remote_original_task_runs_allowed": 0,
-  "remote_models_allowed": 0
+  "remote_models_allowed": 0,
+  "candidate_parent_commit": "254c87d551a67666bc1f6edcd377e579d9989462",
+  "candidate_branch": "sre-b1-session-contract-uid-v2-20261119",
+  "prior_contract_attempt": 44510361964,
+  "prior_attempt_retained": true
 }

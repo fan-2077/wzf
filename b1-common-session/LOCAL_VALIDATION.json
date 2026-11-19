@@ -1,6 +1,6 @@
 {
-  "schema": "b1-session-local-validation-v1",
-  "recorded_at_utc": "2026-11-19T10:52:10.762758+00:00",
+  "schema": "b1-session-local-validation-v2",
+  "recorded_at_utc": "2026-11-19T11:02:39.444887+00:00",
   "scope_zh": "本地状态机、受控子进程与连接替身验证；8项真实IPC尚待固定Linux契约CI，非完整AIOS或原题恢复资格。",
   "independent_local_check": {
     "schema": "b1-session-independent-final-local-check-v1",
@@ -106,10 +106,30 @@
   "new_remote_contract_workflows_started": 0,
   "original_task_or_model_started": false,
   "next_gate": {
-    "branch": "sre-b1-session-contract-20261119",
+    "branch": "sre-b1-session-contract-uid-v2-20261119",
     "runtime": "Python3.11.17 SQLite3.54.1 with exact source ID",
     "require_real_ipc": true,
     "all_tests_must_run_without_skip": true,
     "original_b0_run_untouched": 44499998488
+  },
+  "inherited_validation_source_commit": "254c87d551a67666bc1f6edcd377e579d9989462",
+  "inherited_tests_unchanged_sha256": {
+    "session_owner.py": "946b18bd7b8f5ddcbb9425b8bbae2fefbbaf94d9cb584ecc3a80f9994e8fa669",
+    "controller_adapter.py": "80e03fe599692363df23c7a7bb69fb49a9a046a180dddedf798453ddb63282d1",
+    "session_client.py": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f",
+    "sdk_tool.py": "65d5de3b4c53e80b4aec6000784a5db2415c4754409510f1bef2304403f1f28c",
+    "tests/test_session_owner.py": "df8dc2df4b88f21c7c8967c6f17a9e96987ad74c9bb9de52933094acc2fe39dc",
+    "tests/test_sdk_session.py": "9a66fcc0832969fa9d5d71319e6b66452adea8963fc014a0eb3655738be1292d",
+    "CONTRACT.json": "2ce2667bc2fba0353dac8e34569ebc381d365c63db131f13aa864ac190e51a67",
+    "SDK_INTEGRATION_NOTES.json": "b9f93a2b401287973581c701eab79d798788b6a20326ffac207b05bcf90c09b8"
+  },
+  "current_runner_not_covered_by_inherited_runner_sha": true,
+  "current_validation": {
+    "all_new_python_ast_parse": true,
+    "b0_and_g1_unchanged": true,
+    "test_cases_and_production_session_sources_unchanged": true,
+    "local_original_tests_not_rerun": "No session or test behavior changed; actual target full 30-test gate remains required",
+    "remote_tests_executed_in_prior_attempt": 0,
+    "remote_actual_contract_qualified": false
   }
 }

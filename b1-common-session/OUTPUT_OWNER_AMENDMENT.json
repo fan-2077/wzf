@@ -1,0 +1,43 @@
+{
+  "schema": "b1-session-output-owner-amendment-v1",
+  "prior_commit": "254c87d551a67666bc1f6edcd377e579d9989462",
+  "prior_run_id": 44510361964,
+  "prior_artifact_sha256": "210fa92d9aa6cf6ae24c5ac437b7205d39c4ee1f3ef6ca71c1bd8ee52e2f99d4",
+  "direct_observations": {
+    "log": "PermissionError at /contract-results/contract-tests.log before test discovery or execution",
+    "image_and_container_config_user": "",
+    "host_archive_member_uid": 1001,
+    "host_archive_member_gid": 1001,
+    "source_output_directory_mode": "0700",
+    "cap_drop": [
+      "ALL"
+    ],
+    "output_bind_rw": true,
+    "export_passed": true,
+    "cleanup_passed": true,
+    "executed_tests": 0
+  },
+  "inference_zh": "默认容器用户配置与已丢弃全部能力，不能写入宿主所有者的0700目录；本场没有真实geteuid或该目录stat输出，不将UID0写作直接探针结果。",
+  "changes": [
+    "run container as exact unprivileged host effective UID:GID, with real/effective IDs equal",
+    "keep output mode0700 and all dropped capabilities; no chown/chmod widening or privilege addition",
+    "bind /logs tmpfs owner to same UID:GID",
+    "record host output lstat and actual container uid/euid/gid/egid/output lstat; both required in strict gate"
+  ],
+  "production_and_test_sources_unchanged": {
+    "session_owner.py": "946b18bd7b8f5ddcbb9425b8bbae2fefbbaf94d9cb584ecc3a80f9994e8fa669",
+    "controller_adapter.py": "80e03fe599692363df23c7a7bb69fb49a9a046a180dddedf798453ddb63282d1",
+    "session_client.py": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f",
+    "sdk_tool.py": "65d5de3b4c53e80b4aec6000784a5db2415c4754409510f1bef2304403f1f28c",
+    "tests/test_session_owner.py": "df8dc2df4b88f21c7c8967c6f17a9e96987ad74c9bb9de52933094acc2fe39dc",
+    "tests/test_sdk_session.py": "9a66fcc0832969fa9d5d71319e6b66452adea8963fc014a0eb3655738be1292d",
+    "CONTRACT.json": "2ce2667bc2fba0353dac8e34569ebc381d365c63db131f13aa864ac190e51a67",
+    "SDK_INTEGRATION_NOTES.json": "b9f93a2b401287973581c701eab79d798788b6a20326ffac207b05bcf90c09b8"
+  },
+  "not_established": [
+    "real IPC contracts",
+    "AIOS integration",
+    "business recovery",
+    "strong B1"
+  ]
+}

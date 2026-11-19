@@ -15,7 +15,7 @@ import time
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "b1-session-contract-results"
-REF = "refs/heads/sre-b1-session-contract-20261119"
+REF = "refs/heads/sre-b1-session-contract-uid-v2-20261119"
 LABEL = "sre.b1.session.contract"
 
 
@@ -140,12 +140,25 @@ def run():
     own = identity()
     OUTPUT.mkdir(mode=0o700, exist_ok=False)
     save(OUTPUT / "OWNERSHIP.json", own)
+    host_uid, host_gid = os.geteuid(), os.getegid()
+    output_info = OUTPUT.lstat()
+    output_identity = {"host_uid": os.getuid(), "host_euid": host_uid,
+                       "host_gid": os.getgid(), "host_egid": host_gid,
+                       "output_uid": output_info.st_uid, "output_gid": output_info.st_gid,
+                       "output_mode": stat.S_IMODE(output_info.st_mode),
+                       "container_user": str(host_uid) + ":" + str(host_gid),
+                       "policy": "unprivileged same owner; private 0700 directory; no capability added"}
+    save(OUTPUT / "OUTPUT_IDENTITY.json", output_identity)
     started = time.monotonic()
     result = {"schema": "b1-session-networkless-contract-run-v1", "scope": "fixed Linux runtime and controlled IPC contracts only",
               "original_task_started": False, "model_called": False, "business_recovery_qualification": None,
               "full_aios_integration_qualified": False, "source_commit": own["commit"], "passed": False}
     before = None
     try:
+        if (host_uid <= 0 or host_gid <= 0 or os.getuid() != host_uid or os.getgid() != host_gid
+                or not stat.S_ISDIR(output_info.st_mode) or output_info.st_uid != host_uid
+                or output_info.st_gid != host_gid or stat.S_IMODE(output_info.st_mode) != 0o700):
+            raise RuntimeError("private_output_must_match_unprivileged_host_identity")
         before = sources()
         save(OUTPUT / "SOURCE_BEFORE.json", before)
         command(["docker", "version"], "docker-version")
@@ -159,16 +172,19 @@ def run():
         save(OUTPUT / "RESOURCE_IDS.json", {"image_id": image["Id"], "owner": own["owner"],
                                            "source_commit": own["commit"]})
         argv = ["docker", "create", "--name", own["container_name"], *label_args,
+                "--user", output_identity["container_user"],
                 "--network", "none", "--ipc", "private", "--read-only", "--cap-drop", "ALL",
                 "--security-opt", "no-new-privileges", "--pids-limit", "128",
                 "--cpus", "4", "--memory", "8g", "--memory-swap", "8g",
                 "--tmpfs", "/tmp:rw,nosuid,nodev,mode=1777,size=536870912",
-                "--tmpfs", "/logs:rw,nosuid,nodev,mode=0700,size=33554432",
+                "--tmpfs", "/logs:rw,nosuid,nodev,mode=0700,size=33554432,uid=" + str(host_uid) + ",gid=" + str(host_gid),
                 "--mount", "type=bind,src=" + str(ROOT / "b0-run") + ",dst=/contract-src/b0-run,readonly",
                 "--mount", "type=bind,src=" + str(ROOT / "b1-common-session") + ",dst=/contract-src/b1-common-session,readonly",
                 "--mount", "type=bind,src=" + str(OUTPUT) + ",dst=/contract-results",
                 "--workdir", "/contract-src", "--env", "B1_REQUIRE_REAL_IPC=1",
-                "--env", "PYTHONDONTWRITEBYTECODE=1", "--entrypoint", "/opt/native/bin/python",
+                "--env", "PYTHONDONTWRITEBYTECODE=1",
+                "--env", "B1_EXPECTED_UID=" + str(host_uid), "--env", "B1_EXPECTED_GID=" + str(host_gid),
+                "--entrypoint", "/opt/native/bin/python",
                 image["Id"], "-B", "/contract-src/b1-common-session/run_contract_tests.py",
                 "--output", "/contract-results"]
         command(argv, "create-networkless-contract-container")
@@ -185,6 +201,9 @@ def run():
                             "/contract-src/b1-common-session": str(ROOT / "b1-common-session"),
                             "/contract-results": str(OUTPUT)}
         if (container.get("Image") != image["Id"]
+                or container.get("Config", {}).get("User") != output_identity["container_user"]
+                or host.get("UsernsMode", "") != ""
+                or host.get("Tmpfs", {}).get("/logs") != "rw,nosuid,nodev,mode=0700,size=33554432,uid=" + str(host_uid) + ",gid=" + str(host_gid)
                 or host["NetworkMode"] != "none" or host.get("Privileged") is not False
                 or host.get("PidMode", "") != "" or host.get("IpcMode") != "private"
                 or host.get("CapAdd") not in (None, []) or set(host.get("CapDrop") or []) != {"ALL"}

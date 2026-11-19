@@ -95,5 +95,11 @@
   "remote_workflow_added": true,
   "new_comparison_model_profile": null,
   "remote_workflow_scope": "isolated fixed-runtime networkless contract tests only; no model, AIOS service, original incident or business recovery",
-  "remote_workflow_branch": "sre-b1-session-contract-20261119"
+  "remote_workflow_branch": "sre-b1-session-contract-uid-v2-20261119",
+  "contract_host_revision": {
+    "parent_commit": "254c87d551a67666bc1f6edcd377e579d9989462",
+    "failure_run_id": 44510361964,
+    "amendment": "explicit unprivileged same-owner output identity; source/SDK/owner/test semantics unchanged"
+  },
+  "previous_remote_workflow_branch": "sre-b1-session-contract-20261119"
 }

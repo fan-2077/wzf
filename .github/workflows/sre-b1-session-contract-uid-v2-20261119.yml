@@ -1,0 +1,50 @@
+name: B1 public helper durable-session contracts in fixed Linux runtime
+on:
+  push:
+    branches: [sre-b1-session-contract-uid-v2-20261119]
+    paths: [b1-common-session/**, .github/workflows/sre-b1-session-contract-uid-v2-20261119.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-b1-session-contract-uid-v2-20261119
+  cancel-in-progress: false
+jobs:
+  session-contracts:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-b1-session-contract-uid-v2-20261119'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Read exact source candidate
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        timeout-minutes: 2
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: |
+            /b0-run/
+            /b1-common-session/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Run fixed-runtime networkless IPC and durable-state contracts
+        timeout-minutes: 25
+        run: python3 -B b1-common-session/run_ci_contract.py run
+      - name: Verify exact owned resource cleanup on every outcome
+        if: always()
+        timeout-minutes: 2
+        run: python3 -B b1-common-session/run_ci_contract.py cleanup
+      - name: Seal complete contract evidence including failures
+        if: always()
+        timeout-minutes: 1
+        run: python3 -B b1-common-session/run_ci_contract.py seal
+      - name: Preserve complete contract evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 3
+        with:
+          name: sre-b1-session-contract-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            b1-session-contract-results/EVIDENCE.tar.gz
+            b1-session-contract-results/EXPORT_STATUS.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 14
