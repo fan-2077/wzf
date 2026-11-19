@@ -10,12 +10,12 @@
     "final_submit"
   ],
   "baseline_variant": "B0-P",
-  "branch_ref": "refs/heads/sre-b0-public-result-v3-20261119",
-  "candidate_version": "public_result_candidate_v3",
+  "branch_ref": "refs/heads/sre-b0-public-result-codec-v4-20261119",
+  "candidate_version": "public_result_candidate_v4",
   "formal_competition_result": false,
   "mode": "public_b0",
   "protocol_id": "public_result_v1",
-  "purpose_zh": "在全新原始故障实例上验证固定程序的无损压缩传输与发送前长度检查，继续取得公开确定性基线的原题结果；策略正文、原题评估器、预算及旧失败材料保持原样。",
+  "purpose_zh": "在全新原始故障实例验证完整公共证据的有界无损结果编码，减少分块往返并继续取得原题判定；策略决策、全部业务请求和安全守卫、原题评估器、原预算与旧失败材料不变。",
   "reference_informed": true,
   "schema": "public-result-v1-execution-plan-v1"
 }

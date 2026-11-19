@@ -15,7 +15,7 @@
   },
   "actual_strategy_policy_sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6",
   "baseline": "B0-P",
-  "branch_ref": "refs/heads/sre-b0-public-result-v3-20261119",
+  "branch_ref": "refs/heads/sre-b0-public-result-codec-v4-20261119",
   "budgets": {
     "agent_cpu": 4,
     "agent_memory_bytes": 8589934592,
@@ -25,7 +25,7 @@
     "maximum_send_attempts_per_public_intent": 8,
     "model_calls": 0
   },
-  "candidate_version": "public_result_candidate_v3",
+  "candidate_version": "public_result_candidate_v4",
   "capture_transport": {
     "chunk_bytes": 6144,
     "common_repair_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
@@ -35,12 +35,15 @@
     "lossless_compression_allowed_in_full_candidate": true,
     "lossless_formats": [
       "zlib+base64",
-      "gzip+base64"
+      "gzip+base64",
+      "xz+base64"
     ],
     "original_stdout_capture_binding_preserved": true,
+    "result_codec_amendment_sha256": "6d06d4e8e58364bf44c8879986a8a14780f5954868a2fe5085dce4f23a901e70",
     "same_for_all_later_arms": true,
     "same_mechanism_available_to_every_arm": true,
-    "unchanged_original_tool_response_limit_characters": 10000
+    "unchanged_original_tool_response_limit_characters": 10000,
+    "xz_decoder_memory_limit_bytes": 67108864
   },
   "common_capabilities": [
     "observe",
@@ -92,23 +95,28 @@
     "status": "inherited_exact_v2_body_bytes_independently_verified",
     "transport_execution_proved": false
   },
+  "current_deployed_strategy_candidate_version": "public_result_candidate_v4",
   "date_local": "2026-11-19",
-  "definition_zh": "参考实现已知的公开确定性结果基线第三个工程候选；修复固定源码传输长度并保留原程序字节，在全新原始故障实例执行。",
+  "definition_zh": "参考实现已知的公开确定性结果基线第四个工程候选；仅在三个策略源中加入有界无损结果编码，重新冻结五个Python生成正文，在全新原始故障实例执行。",
   "deploy_loki": false,
   "draft_sha256": "1537e9f5dd6b90ce03c366067a36c90b06f010f11c05b4206f7c5beeabdcd454",
   "engineering_amendment_path": "ENGINEERING_AMENDMENT.json",
   "engineering_amendment_sha256": "1fdb26b4d038fb964fcd283b40bcb5a1a51c73cb9e0ea70e64f2553e49b71c69",
   "fixed_source_request_transport": {
     "all_comparison_arms_same_mechanism": true,
+    "all_program_bodies_byte_identical_to_parent_v3": false,
     "check_before_reservation_and_dispatch": true,
     "codec": "gzip+base64",
+    "decoded_source_identity_scope": "current_frozen_program_body",
+    "decoded_source_matches_current_frozen_program_sha256": true,
+    "decoded_source_scope": "Five current Python program bodies differ from parent v3 solely through the common result emitter. The inherited request gzip codec preserves the exact current frozen body bytes and SHA; all other twelve generated bodies and request-codec source are unchanged.",
     "decoded_source_sha256_unchanged": true,
     "request_line_budget_bytes": 61440
   },
   "fresh_original_instance_required": true,
   "historical_terminal_required_for_original_result": false,
   "host_finite_counterexamples_sha256": "60f4a87c4080625ec802b1e8a45bfc5e0f9848a2d45b95ee4fb4a7a5410e2aa5",
-  "host_result_interface_sha256": "316e91385c21f8aa90dbd59c7ebe78e1199b40b268c0cbf44ad380c63df07aa5",
+  "host_result_interface_sha256": "f53924fe678f706d3afaaee8f35e6f4085884caa401b1ef6d9ad92237f4d1bea",
   "inherited_five_changed_Ruby_syntax": {
     "applies_to_current_changed_bodies": false,
     "artifact_id": 14346486080,
@@ -119,7 +127,8 @@
     "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
     "run_id": 44122275623
   },
-  "inherited_strategy_candidate_version": "public_result_candidate_v2",
+  "inherited_strategy_candidate_version": null,
+  "inherited_strategy_scope": "No whole strategy is inherited byte-identically: 26 of 29 strategy sources and 12 of 17 generated bodies retain parent bytes. Parent execution was v3 while its deployed strategy manifest was v2; current strategy is v4.",
   "known_policy_failure_path": {
     "actual_failure_details": "Retained in public snapshot; execution exceptions remain errors and never convert to successful execution.",
     "allowed": true,
@@ -142,6 +151,8 @@
   "notification_snapshot_contract_sha256": "dcd75e8f0446f877e5c72ce3ee233dbadaf39042f6e619ff89f7dcab19e09351",
   "original_full_oracle_required": true,
   "own_action_terminal_required": true,
+  "parent_deployed_strategy_candidate_version": "public_result_candidate_v2",
+  "parent_execution_candidate_version": "public_result_candidate_v3",
   "planned_fresh_engineering_attempts": 1,
   "positive_acceptance_read_elision": {
     "chosen_before_first_profile_start": true,
@@ -195,13 +206,80 @@
     "失败、未知、超预算或工程缺口均不能证明单智能体无法解决。",
     "本轮没有多智能体速度优势或正式比赛合格结论；后续速度比较必须使用同一多智能体策略的串行与并行版本。"
   ],
+  "result_codec_amendment_path": "RESULT_CODEC_AMENDMENT.json",
+  "result_codec_amendment_sha256": "6d06d4e8e58364bf44c8879986a8a14780f5954868a2fe5085dce4f23a901e70",
+  "result_codec_review": {
+    "actual_new_xz_output_roundtrip_and_target_resource_qualification": "pending fresh run",
+    "dependency": "Unconditional module-level lzma imports in both emitters and common_io; receiver import and the original initial public audit precede all business writes.",
+    "import_does_not_prove_actual_xz_emission_or_performance": true,
+    "initial_audit_error_continues_to_restore": false,
+    "local_validation": {
+      "actual_old_capture_reencodings": 71,
+      "actual_speedup_measured": false,
+      "all_old_raw_bytes_sha_length_and_parser_objects_unchanged": true,
+      "independent_new_contracts_passed": 19,
+      "local_validation_complete": true,
+      "new_local_contracts": 19,
+      "new_local_contracts_passed": 19,
+      "old_business_and_evaluator_results_changed": false,
+      "predicted_total_chunk_calls": {
+        "candidate": 949,
+        "original": 2386
+      },
+      "primary_api_reference": {
+        "scope": "Official 3.11-series API documentation, currently 3.11.18; not an actual 3.11.17 runtime qualification. FORMAT_XZ, memlimit, max_length, eof and unused_data semantics support strict single-stream decoding.",
+        "url": "https://docs.python.org/3.11/library/lzma.html"
+      },
+      "schema": "b0-v4-result-codec-local-validation-index-v1",
+      "skipped": 0,
+      "source_binding_reports": [
+        {
+          "bytes": 6132,
+          "path": "research/b0_result_codec_validation/IMPLEMENTATION_AND_BODY_BINDING.json",
+          "sha256": "24674807244adc4387893b63ae31c86e030d0b5581b7b9a04b85455b20173271"
+        },
+        {
+          "bytes": 517,
+          "path": "research/b0_result_codec_validation/contract-001.json",
+          "sha256": "173a53d6aeca65e07b942ff428ec988f553d63538d7cb26ef4e9f2334f25e9c1"
+        },
+        {
+          "bytes": 145614,
+          "path": "research/b0_result_codec_validation/ALL71_LOSSLESS_CODEC_REPLAY.json",
+          "sha256": "8461b5d10151104f296ed1c542361091881e380edecce4d5e55872a21e72d8f2"
+        },
+        {
+          "bytes": 22114,
+          "path": "research/b0_result_codec_target_runtime_review.json",
+          "sha256": "d054b06bf6c270458f17aa2ba0d11b58c757a3f73ca2938450d9e5d0c3f4885b"
+        },
+        {
+          "bytes": 12194,
+          "path": "continuity_audit/result_codec_v4/DESIGN_AND_SOURCE_SCOPE_REVIEW.json",
+          "sha256": "45211ac708a5cee01467538a4bc431f1501b1ec00b49a9f5814d46d051ab796f"
+        },
+        {
+          "bytes": 1436,
+          "path": "continuity_audit/result_codec_v4/CONTRACT_INDEPENDENT_RECEIPT.json",
+          "sha256": "040889d70db04979200aa1d775f8ac79821e38c96148d19ab86ff420d27b7ec6"
+        },
+        {
+          "bytes": 9096,
+          "path": "continuity_audit/result_codec_v4/FOUR_ORIGINAL_SAMPLES_INDEPENDENT_REPLAY.json",
+          "sha256": "b9e27cb637af4e868b3965b6d986fcc2d3ea2f74f13992981a432a7e3ef1e3f5"
+        }
+      ],
+      "target_xz_runtime_qualified": false
+    },
+    "no_added_probe_program_or_native_capability": true
+  },
   "result_dimensions": {
     "additional_assurance": "Historical terminal evidence and causal attribution to each send remain separate; missing history is unknown/not_evaluated, never fabricated as qualified.",
     "execution_integrity": "All owned actions must be truly terminal and closed under the fixed profile before final reservation. The one accepted final action remains pending. Unknown execution is never waived.",
     "original_evaluation": "Retain exact original bool or null from host evidence before reference cleanup; never replace it with self-check or acceptance acknowledgement.",
     "public_business_snapshot": "pass, known_fail or incomplete; preserve accepted, missing, duplicate, wrong-recipient, issue, service and queue facts without defaulting absent evidence to pass."
   },
-  "resume_note_zh": "本候选保留全部旧运行。上一场HTTP 414后的未知动作与三把锁不作改判；仅在全新场次验证传输修复。",
+  "resume_note_zh": "保留上一场预算耗尽、原题null、未知通知与五把锁；不延长原预算，不复用旧新鲜观察，只在新场验证无损传输效率与原题结果。",
   "retained_prior_public_result_attempts": [
     {
       "commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
@@ -232,10 +310,26 @@
       "terminal_readonly_actions": 8,
       "unknown_actions": 1,
       "writer_identity_and_final_submission_paths_reached": false
+    },
+    {
+      "actual_outcome_review_sha256": "d43589f4fe76872a9c5df4f7a18a4997dd0cccf9a224d0a1dcc863ac0b8978f2",
+      "business_and_cost_review_sha256": "d931a943298363492ec13ef1835a3c563c141117c36e0c773f64aa2bc7005ff5",
+      "commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+      "cost_scope": "Adjacent request windows include local processing and wrappers; not backend-only execution.",
+      "original_artifact_sha256": "617679292147f7f1505822589c1529b61f2378afb88417d085eb0e7d7ea50813",
+      "original_evaluations": 0,
+      "original_submissions": 0,
+      "prior_unknown_action_or_locks_changed": false,
+      "queue_and_audit_attributed_request_windows_seconds": 4896.494,
+      "raw_original_result": null,
+      "retained_locks": 5,
+      "run_id": 44499998488,
+      "successful_recovery_time_seconds": null,
+      "unknown_actions": 1
     }
   ],
   "same_capabilities_for_later_comparison_arms": true,
-  "schema": "public-result-B0-P-preregistration-v3",
+  "schema": "public-result-B0-P-preregistration-v4",
   "service_stop_revision": {
     "actual_old_exit1_cause_inferred": false,
     "all_arms_same": true,
@@ -254,9 +348,9 @@
   "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
   "source_repository": "https://github.com/SREGym/SREGym",
   "started_attempt_denominator": "All starts of this declared profile, including failure, unknown, timeout and engineering gaps; prior different profiles reported separately and never erased.",
-  "status": "v3_frozen_candidate_pending_actual_native_execution",
+  "status": "v4_frozen_candidate_pending_actual_result_codec_and_original_business_execution",
   "strategy_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
-  "strategy_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
+  "strategy_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d",
   "submission_protocol": {
     "agent_business_success": null,
     "final_result_source": "original Conductor Mitigation.success retained before reference cleanup",

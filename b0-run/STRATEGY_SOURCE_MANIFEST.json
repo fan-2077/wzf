@@ -1,5 +1,5 @@
 {
-  "candidate_version": "public_result_candidate_v2",
+  "candidate_version": "public_result_candidate_v4",
   "file_base": "payload/strategy",
   "files": [
     {
@@ -18,9 +18,9 @@
       "sha256": "ddf9dcc4cace57f64c3b0e8a00d469f589f408b3f178370e84adb5e8a2d10127"
     },
     {
-      "bytes": 11286,
+      "bytes": 11666,
       "path": "common_io.py",
-      "sha256": "227f19b06b4ee07b1241a890085e7df5be38481a0f667607074264961202855d"
+      "sha256": "1773901c29dce02c0df8a638e9e515f4961ec6fb0517456124520f9117db8c30"
     },
     {
       "bytes": 30184,
@@ -58,9 +58,9 @@
       "sha256": "c76144ad29cace4070991fe77c0019c39ba9beefadec9198fecd799daf6501f6"
     },
     {
-      "bytes": 2837,
+      "bytes": 3140,
       "path": "programs/http_common.py",
-      "sha256": "83d1d971170bc67e67e38b29afacbdcd89a131cea75d68313116454eec73d98f"
+      "sha256": "e220ddf747f8cbbf54cc3ca3b076e44d6a617c38e75af907d5231fb03c03b097"
     },
     {
       "bytes": 1020,
@@ -108,9 +108,9 @@
       "sha256": "c5cb343d061967176dec08f8a6bd88d0a73ae43b021bfc2fa4d1111c39df60d1"
     },
     {
-      "bytes": 6953,
+      "bytes": 7378,
       "path": "programs/redis_common.py",
-      "sha256": "92c143921bf50c7c88edf6fde19ad1c022395b3248f5d01a50562f1fb3dbeb1f"
+      "sha256": "06d8470b6bbf38e7b0ed0cc1688eefe1eec8f24b7a2467777cce8f647e39da16"
     },
     {
       "bytes": 3216,
@@ -149,9 +149,9 @@
     }
   ],
   "lineage": {
-    "parent_commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
+    "parent_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
     "parent_repository": "fan-2077/wzf",
-    "prior_source_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79"
+    "prior_source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac"
   },
   "programs": {
     "archive_check": {
@@ -190,12 +190,12 @@
       "target": "gitlab"
     },
     "issue_inventory": {
-      "body_shell_sha256": "c4a5bb15f4e98d70ccd4fbe546554e4b515c2c9fe4e4a6990cdaa04d49b152c4",
+      "body_shell_sha256": "2e85d54c704ddbc3f46dd7c16dc2ee1c7c71ec0c85d95c4bd2dea136f68acdcf",
       "operation": "observe",
       "target": "application_client"
     },
     "issue_replay": {
-      "body_shell_sha256": "c3932bc6dc25094a326b6cb4c003b6ec225ec92668394ad440f32f63324c4229",
+      "body_shell_sha256": "88f6c4c85eee17b610fe6ca76bdfa529daea4d81a02428bbc4480b8eabb65eb3",
       "operation": "replay_issue",
       "target": "application_client"
     },
@@ -205,17 +205,17 @@
       "target": "gitlab"
     },
     "public_audit": {
-      "body_shell_sha256": "70f5c2307f1362eca9e96cdbc9d85fb3b8994a5b874895f83d96865dc1e08a4f",
+      "body_shell_sha256": "91c596319de8fbf94ddaec1b1a1867a52cd0bcc44f89247a04d45e0c265deae3",
       "operation": "observe",
       "target": "application_client"
     },
     "queue_inventory": {
-      "body_shell_sha256": "3a577cc9aa76e0ee25f4c1284d5b2c0bbdd2daa7811f94c5008a37627128d2b1",
+      "body_shell_sha256": "f98c3a2c07f1386728de2041c534a537e467025cadbca57e1f58386954324e0a",
       "operation": "observe",
       "target": "application_client"
     },
     "queue_prune": {
-      "body_shell_sha256": "4945b7daa5e76fa2de259396a88b233f7e30784751115367debb63c1f9741120",
+      "body_shell_sha256": "9c784fee508210000cce808321e1898cd0411609bfe1a8135b0ea0f68cd64f8b",
       "operation": "queue_prune",
       "target": "application_client"
     },

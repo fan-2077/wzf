@@ -22,7 +22,7 @@
     ],
     "raw_path": "b0-common/calls/<submission_receipt.native_call_id>.request.json.preconditions"
   },
-  "candidate_version": "public_result_candidate_v3",
+  "candidate_version": "public_result_candidate_v4",
   "controller_schema": "b0-public-result-controller-v1",
   "controller_sections": {
     "additional_assurance": "Historical proof status qualified/unqualified/unknown/not_evaluated; retained diagnostics, unknown intents and immutable owned-terminal/snapshot records; never used as original-score gate.",

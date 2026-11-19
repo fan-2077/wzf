@@ -2,7 +2,7 @@
   "accepted_intent_read_skip": "Only exact current-scope/current-ledger/current-intent permanent verified positives can suppress that intent send loop. Unknown owned actions or locks still block. Real execution and performance effect of this optimization require the new run.",
   "actual_new_business_executions": 0,
   "actual_new_original_evaluations": 0,
-  "candidate_version": "public_result_candidate_v3",
+  "candidate_version": "public_result_candidate_v4",
   "evidence_read_boundary": "native/agent and public fixed source only; no private provider/host state",
   "independent_diagnostics": [
     "Historical SMTP certificate remains qualified/unqualified/unknown/not_evaluated; no field is forced true.",
@@ -38,6 +38,22 @@
       "terminal_readonly_actions": 8,
       "unknown_actions": 1,
       "writer_identity_and_final_submission_paths_reached": false
+    },
+    "public_result_v3": {
+      "actual_outcome_review_sha256": "d43589f4fe76872a9c5df4f7a18a4997dd0cccf9a224d0a1dcc863ac0b8978f2",
+      "business_and_cost_review_sha256": "d931a943298363492ec13ef1835a3c563c141117c36e0c773f64aa2bc7005ff5",
+      "commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+      "cost_scope": "Adjacent request windows include local processing and wrappers; not backend-only execution.",
+      "original_artifact_sha256": "617679292147f7f1505822589c1529b61f2378afb88417d085eb0e7d7ea50813",
+      "original_evaluations": 0,
+      "original_submissions": 0,
+      "prior_unknown_action_or_locks_changed": false,
+      "queue_and_audit_attributed_request_windows_seconds": 4896.494,
+      "raw_original_result": null,
+      "retained_locks": 5,
+      "run_id": 44499998488,
+      "successful_recovery_time_seconds": null,
+      "unknown_actions": 1
     },
     "replay_scope": "actual POST201 and GET200 created one issue, but old client-ID completion lookup was empty; old action remains unresolved",
     "ruby_syntax": {
@@ -95,6 +111,7 @@
     "Missing, conflicting, partial or ambiguous current owned terminal evidence remains unknown and blocks submission."
   ],
   "new_real_conditions_pending": [
+    "Actual application_client XZ output, exact bounded receiver decoding and target resource continuity; initial import by itself is not this qualification.",
     "actual complete compressed-source decoder on all three unchanged native targets",
     "actual complete writer observations inside the loaded Rails application",
     "actual response-assigned API completion lookup on the new instance",
@@ -106,6 +123,7 @@
   "protocol_id": "public_result_v1",
   "required_before_dependent_actions": [
     "Actual common native chain, current public target/ledger identity, frozen source binding and source/clock qualification.",
+    "The initial complete public audit must succeed before any business write. All three codec modules import lzma unconditionally; absent core dependency is not silently downgraded.",
     "Original same-action writer stop and database backend barrier before restore.",
     "Actual synchronous restore/owned backend termination and database validity before replay.",
     "Actual normal API response, correct server-assigned original request ID, exact API completion log and fresh matching issue read before replay closure.",
@@ -115,5 +133,5 @@
     "All own actions/effects and locks closed, current source/target/ledger qualification, no prior final action before original evaluation."
   ],
   "schema": "b0-public-result-actual-qualification-conditions-v1",
-  "status": "v3_candidate_pending_actual_native_transport_and_original_business_execution"
+  "status": "v4_candidate_pending_actual_result_codec_and_original_business_execution"
 }

@@ -19,7 +19,7 @@ import tarfile
 
 SCHEMA = 'b0-owned-evidence-export-v1'
 IDENTITY_KEYS = ('GITHUB_REPOSITORY', 'GITHUB_REF', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT')
-B0_REF = 'refs/heads/sre-b0-public-result-v3-20261119'
+B0_REF = 'refs/heads/sre-b0-public-result-codec-v4-20261119'
 DIAGNOSTIC_REF = 'refs/heads/sre-b0-export-diagnostic-unused'
 PRESERVE = (*IDENTITY_KEYS, 'GITHUB_ACTIONS', 'RUNNER_ENVIRONMENT', 'GITHUB_WORKSPACE', 'RUNNER_TEMP', 'GITHUB_SHA')
 ARCHIVE, STATUS = 'evidence.tar.gz', 'EXPORT_STATUS.json'

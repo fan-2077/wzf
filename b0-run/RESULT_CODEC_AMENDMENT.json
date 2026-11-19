@@ -1,0 +1,151 @@
+{
+  "candidate_version": "public_result_candidate_v4",
+  "codec": {
+    "decode_acceptance": "Strict base64; exact envelope; FORMAT_XZ; bounded declared_length+1 output; one complete stream, eof true, no unused trailing bytes, exact length and SHA256; object JSON only.",
+    "encoding": "xz+base64",
+    "envelope": [
+      "encoding",
+      "uncompressed_bytes",
+      "uncompressed_sha256",
+      "data_base64"
+    ],
+    "existing_decoded_document_limit_bytes": 67108864,
+    "format": "XZ",
+    "implicit_retry_or_dependency_fallback": false,
+    "legacy_formats_retained": [
+      "B0_RESULT",
+      "B0_RESULT_ZLIB",
+      "B0_RESULT_GZIP"
+    ],
+    "marker": "B0_RESULT_XZ",
+    "preset": 3,
+    "raw_serialization": "Unchanged complete canonical JSON bytes, including all original HTTP pages, raw Redis payloads and observations.",
+    "selection": "Compute original zlib output; attempt XZ only when zlib byte length >4096; choose XZ only when its byte length is strictly smaller.",
+    "source": "Python standard-library lzma",
+    "threshold_is_not_a_business_or_document_budget": true,
+    "xz_decoder_memory_limit_bytes": 67108864,
+    "zlib_attempt_threshold_bytes": 4096
+  },
+  "fairness": "The same result codec is available to all later comparison arms; prior failures remain in their original denominators.",
+  "parent_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+  "prior_attempt": {
+    "actual_outcome_review_sha256": "d43589f4fe76872a9c5df4f7a18a4997dd0cccf9a224d0a1dcc863ac0b8978f2",
+    "business_and_cost_review_sha256": "d931a943298363492ec13ef1835a3c563c141117c36e0c773f64aa2bc7005ff5",
+    "commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+    "cost_scope": "Adjacent request windows include local processing and wrappers; not backend-only execution.",
+    "original_artifact_sha256": "617679292147f7f1505822589c1529b61f2378afb88417d085eb0e7d7ea50813",
+    "original_evaluations": 0,
+    "original_submissions": 0,
+    "prior_unknown_action_or_locks_changed": false,
+    "queue_and_audit_attributed_request_windows_seconds": 4896.494,
+    "raw_original_result": null,
+    "retained_locks": 5,
+    "run_id": 44499998488,
+    "successful_recovery_time_seconds": null,
+    "unknown_actions": 1
+  },
+  "protocol_id": "public_result_v1",
+  "qualification": {
+    "actual_new_xz_output_roundtrip_and_target_resource_qualification": "pending fresh run",
+    "dependency": "Unconditional module-level lzma imports in both emitters and common_io; receiver import and the original initial public audit precede all business writes.",
+    "import_does_not_prove_actual_xz_emission_or_performance": true,
+    "initial_audit_error_continues_to_restore": false,
+    "local_validation": {
+      "actual_old_capture_reencodings": 71,
+      "actual_speedup_measured": false,
+      "all_old_raw_bytes_sha_length_and_parser_objects_unchanged": true,
+      "independent_new_contracts_passed": 19,
+      "local_validation_complete": true,
+      "new_local_contracts": 19,
+      "new_local_contracts_passed": 19,
+      "old_business_and_evaluator_results_changed": false,
+      "predicted_total_chunk_calls": {
+        "candidate": 949,
+        "original": 2386
+      },
+      "primary_api_reference": {
+        "scope": "Official 3.11-series API documentation, currently 3.11.18; not an actual 3.11.17 runtime qualification. FORMAT_XZ, memlimit, max_length, eof and unused_data semantics support strict single-stream decoding.",
+        "url": "https://docs.python.org/3.11/library/lzma.html"
+      },
+      "schema": "b0-v4-result-codec-local-validation-index-v1",
+      "skipped": 0,
+      "source_binding_reports": [
+        {
+          "bytes": 6132,
+          "path": "research/b0_result_codec_validation/IMPLEMENTATION_AND_BODY_BINDING.json",
+          "sha256": "24674807244adc4387893b63ae31c86e030d0b5581b7b9a04b85455b20173271"
+        },
+        {
+          "bytes": 517,
+          "path": "research/b0_result_codec_validation/contract-001.json",
+          "sha256": "173a53d6aeca65e07b942ff428ec988f553d63538d7cb26ef4e9f2334f25e9c1"
+        },
+        {
+          "bytes": 145614,
+          "path": "research/b0_result_codec_validation/ALL71_LOSSLESS_CODEC_REPLAY.json",
+          "sha256": "8461b5d10151104f296ed1c542361091881e380edecce4d5e55872a21e72d8f2"
+        },
+        {
+          "bytes": 22114,
+          "path": "research/b0_result_codec_target_runtime_review.json",
+          "sha256": "d054b06bf6c270458f17aa2ba0d11b58c757a3f73ca2938450d9e5d0c3f4885b"
+        },
+        {
+          "bytes": 12194,
+          "path": "continuity_audit/result_codec_v4/DESIGN_AND_SOURCE_SCOPE_REVIEW.json",
+          "sha256": "45211ac708a5cee01467538a4bc431f1501b1ec00b49a9f5814d46d051ab796f"
+        },
+        {
+          "bytes": 1436,
+          "path": "continuity_audit/result_codec_v4/CONTRACT_INDEPENDENT_RECEIPT.json",
+          "sha256": "040889d70db04979200aa1d775f8ac79821e38c96148d19ab86ff420d27b7ec6"
+        },
+        {
+          "bytes": 9096,
+          "path": "continuity_audit/result_codec_v4/FOUR_ORIGINAL_SAMPLES_INDEPENDENT_REPLAY.json",
+          "sha256": "b9e27cb637af4e868b3965b6d986fcc2d3ea2f74f13992981a432a7e3ef1e3f5"
+        }
+      ],
+      "target_xz_runtime_qualified": false
+    },
+    "no_added_probe_program_or_native_capability": true
+  },
+  "reason_zh": "上一场在7200秒事故预算内未取得原评估；完整队列清单与公开审计的归属请求窗口占约68%。本次仅减少完整证据编码后的分块数。",
+  "schema": "b0-lossless-result-codec-amendment-v1",
+  "scope_zh": "离线逐字回解与分块数差异不等于新场实际加速，不证明原题成功。",
+  "sources": {
+    "changed_generated_programs": [
+      "issue_inventory",
+      "issue_replay",
+      "public_audit",
+      "queue_inventory",
+      "queue_prune"
+    ],
+    "changed_strategy_sources": [
+      "common_io.py",
+      "programs/http_common.py",
+      "programs/redis_common.py"
+    ],
+    "common_source_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
+    "program_count": 17,
+    "strategy_source_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d",
+    "unchanged_generated_program_count": 12
+  },
+  "unchanged": {
+    "agent_cpus": 4,
+    "agent_memory_bytes": 8589934592,
+    "aggregate_native_call_limit": 30000,
+    "all_complete_evidence_contents": true,
+    "chunk_bytes": 6144,
+    "controller_business_policy_retry_rules_and_final_submit": true,
+    "incident_wall_limit_seconds": 7200,
+    "ledger_check_limit": 4096,
+    "max_sends_per_intent": 8,
+    "original_native_response_limit_characters": 10000,
+    "original_oracle_framework_proxy_native_filter": true,
+    "original_source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
+    "original_task": "gitlab_notification_intermittent_replicated",
+    "per_chunk_pre_and_post_target_identity": true,
+    "request_line_budget_bytes": 61440
+  }
+}

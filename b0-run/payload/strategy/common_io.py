@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import lzma
 import math
 import os
 from pathlib import Path
@@ -27,21 +28,28 @@ def parse_capture(capture):
     # complete value after the single marker instead of retaining its first
     # line. json.loads rejects any non-whitespace suffix or second JSON value.
     stdout=capture['stdout']
-    markers=list(re.finditer(br'(?m)^(B0_RESULT(?:_ZLIB|_GZIP)?):',stdout))
+    markers=list(re.finditer(br'(?m)^(B0_RESULT(?:_ZLIB|_GZIP|_XZ)?):',stdout))
     if len(markers)!=1:raise RuntimeError('expected_exactly_one_complete_public_result')
     marker=markers[0];raw=stdout[marker.end():]
     if marker.group(1)!=b'B0_RESULT':
         envelope=json.loads(raw)
-        encoding='gzip+base64' if marker.group(1)==b'B0_RESULT_GZIP' else 'zlib+base64'
+        encoding={b'B0_RESULT_GZIP':'gzip+base64',b'B0_RESULT_ZLIB':'zlib+base64',
+                  b'B0_RESULT_XZ':'xz+base64'}[marker.group(1)]
         if (not isinstance(envelope,dict)
                 or set(envelope)!={'encoding','uncompressed_bytes','uncompressed_sha256','data_base64'}
                 or envelope['encoding']!=encoding or type(envelope['uncompressed_bytes'])is not int
                 or not 0<=envelope['uncompressed_bytes']<=64*1024*1024):
             raise RuntimeError('compressed_public_result_invalid_envelope')
         compressed=base64.b64decode(envelope['data_base64'],validate=True)
-        decoder=zlib.decompressobj(16+zlib.MAX_WBITS if encoding=='gzip+base64' else zlib.MAX_WBITS)
-        raw=decoder.decompress(compressed,envelope['uncompressed_bytes']+1)
-        if (not decoder.eof or decoder.unused_data or decoder.unconsumed_tail
+        if encoding=='xz+base64':
+            decoder=lzma.LZMADecompressor(format=lzma.FORMAT_XZ,memlimit=64*1024*1024)
+            raw=decoder.decompress(compressed,max_length=envelope['uncompressed_bytes']+1)
+            trailing=decoder.unused_data
+        else:
+            decoder=zlib.decompressobj(16+zlib.MAX_WBITS if encoding=='gzip+base64' else zlib.MAX_WBITS)
+            raw=decoder.decompress(compressed,envelope['uncompressed_bytes']+1)
+            trailing=decoder.unused_data or decoder.unconsumed_tail
+        if (not decoder.eof or trailing
                 or len(raw)!=envelope['uncompressed_bytes'] or digest(raw)!=envelope['uncompressed_sha256']):
             raise RuntimeError('compressed_public_result_not_exact_lossless_content')
     if len(raw)>64*1024*1024:raise RuntimeError('public_result_exceeds_decoded_bound')

@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import json
+import lzma
 import sys
 import time
 import zlib
@@ -48,10 +49,17 @@ def request(method, path, payload=None, correlation=None):
 
 def emit(obj):
     raw=json.dumps(obj,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()
-    envelope={'encoding':'zlib+base64','uncompressed_bytes':len(raw),
+    compressed=zlib.compress(raw)
+    marker,encoding='B0_RESULT_ZLIB:','zlib+base64'
+    if len(compressed)>4096:
+        candidate=lzma.compress(raw,format=lzma.FORMAT_XZ,preset=3)
+        if len(candidate)<len(compressed):
+            compressed=candidate
+            marker,encoding='B0_RESULT_XZ:','xz+base64'
+    envelope={'encoding':encoding,'uncompressed_bytes':len(raw),
               'uncompressed_sha256':hashlib.sha256(raw).hexdigest(),
-              'data_base64':base64.b64encode(zlib.compress(raw)).decode()}
-    print('B0_RESULT_ZLIB:'+json.dumps(envelope,sort_keys=True,separators=(',',':')))
+              'data_base64':base64.b64encode(compressed).decode()}
+    print(marker+json.dumps(envelope,sort_keys=True,separators=(',',':')))
 
 def public_issue(obj):
     return {key:obj[key] for key in ('id','project_id','iid','title','description','confidential')}

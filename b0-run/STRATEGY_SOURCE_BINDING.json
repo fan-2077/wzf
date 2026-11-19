@@ -1,8 +1,14 @@
 {
   "business_programs_byte_identical_to_full_v6": false,
   "business_programs_byte_identical_to_public_v1": false,
-  "changed_generated_programs": [],
-  "common_manifest_is_inherited": false,
+  "changed_generated_programs": [
+    "issue_inventory",
+    "issue_replay",
+    "public_audit",
+    "queue_inventory",
+    "queue_prune"
+  ],
+  "common_manifest_is_inherited": true,
   "common_manifest_path": "COMMON_SOURCE_MANIFEST.json",
   "common_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
   "common_source_hashes": {
@@ -11,7 +17,7 @@
     "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
     "target_shell.py": "b2772c3c4f208e80bd711f3d41df607acc062b0d6ca9e212e4964055c2078b24"
   },
-  "comparison_parent_commit": "50db66cd26b95fc2d4d09a4b8d269f71e1779ebb",
+  "comparison_parent_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
   "current_changed_Ruby_syntax": {
     "artifact_id": 14514279181,
     "artifact_sha256": "c055034716377a45a52fbc6341f715387244aae3f076e603ef97f0874690fbc6",
@@ -48,9 +54,9 @@
       "sha256": "ddf9dcc4cace57f64c3b0e8a00d469f589f408b3f178370e84adb5e8a2d10127"
     },
     {
-      "bytes": 11286,
+      "bytes": 11666,
       "path": "common_io.py",
-      "sha256": "227f19b06b4ee07b1241a890085e7df5be38481a0f667607074264961202855d"
+      "sha256": "1773901c29dce02c0df8a638e9e515f4961ec6fb0517456124520f9117db8c30"
     },
     {
       "bytes": 30184,
@@ -88,9 +94,9 @@
       "sha256": "c76144ad29cace4070991fe77c0019c39ba9beefadec9198fecd799daf6501f6"
     },
     {
-      "bytes": 2837,
+      "bytes": 3140,
       "path": "programs/http_common.py",
-      "sha256": "83d1d971170bc67e67e38b29afacbdcd89a131cea75d68313116454eec73d98f"
+      "sha256": "e220ddf747f8cbbf54cc3ca3b076e44d6a617c38e75af907d5231fb03c03b097"
     },
     {
       "bytes": 1020,
@@ -138,9 +144,9 @@
       "sha256": "c5cb343d061967176dec08f8a6bd88d0a73ae43b021bfc2fa4d1111c39df60d1"
     },
     {
-      "bytes": 6953,
+      "bytes": 7378,
       "path": "programs/redis_common.py",
-      "sha256": "92c143921bf50c7c88edf6fde19ad1c022395b3248f5d01a50562f1fb3dbeb1f"
+      "sha256": "06d8470b6bbf38e7b0ed0cc1688eefe1eec8f24b7a2467777cce8f647e39da16"
     },
     {
       "bytes": 3216,
@@ -178,7 +184,7 @@
       "sha256": "5743819b1450d6a828c7ee86f5225aa1fe258a395a24627d7cc20461ab413a4d"
     }
   ],
-  "execution_candidate_version": "public_result_candidate_v3",
+  "execution_candidate_version": "public_result_candidate_v4",
   "historical_v2_changed_generated_programs": [
     "background_contract",
     "identity_authorization",
@@ -186,7 +192,7 @@
     "service_control",
     "service_inventory"
   ],
-  "inherited_common_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
+  "inherited_common_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
   "inherited_five_changed_Ruby_syntax": {
     "actual_business_actions": 0,
     "actual_native_calls": 0,
@@ -208,7 +214,15 @@
     "zip_bytes": 46799,
     "zip_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71"
   },
-  "inherited_source_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79",
+  "inherited_policy_bytes": {
+    "paths": [
+      "STRATEGY_RUN_POLICY.json",
+      "payload/strategy/RUN_POLICY.json"
+    ],
+    "scope": "The policy source_strategy, its source manifest and its frozen status are historical provenance, not the current deployed-source manifest or a live result.",
+    "sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6"
+  },
+  "inherited_source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
   "programs": {
     "archive_check": {
       "body_shell_sha256": "ff3bb13ea94cf626e0e7dc6dd0c06a09db2412a72a53a82ded6f49fac986e2f7",
@@ -246,12 +260,12 @@
       "target": "gitlab"
     },
     "issue_inventory": {
-      "body_shell_sha256": "c4a5bb15f4e98d70ccd4fbe546554e4b515c2c9fe4e4a6990cdaa04d49b152c4",
+      "body_shell_sha256": "2e85d54c704ddbc3f46dd7c16dc2ee1c7c71ec0c85d95c4bd2dea136f68acdcf",
       "operation": "observe",
       "target": "application_client"
     },
     "issue_replay": {
-      "body_shell_sha256": "c3932bc6dc25094a326b6cb4c003b6ec225ec92668394ad440f32f63324c4229",
+      "body_shell_sha256": "88f6c4c85eee17b610fe6ca76bdfa529daea4d81a02428bbc4480b8eabb65eb3",
       "operation": "replay_issue",
       "target": "application_client"
     },
@@ -261,17 +275,17 @@
       "target": "gitlab"
     },
     "public_audit": {
-      "body_shell_sha256": "70f5c2307f1362eca9e96cdbc9d85fb3b8994a5b874895f83d96865dc1e08a4f",
+      "body_shell_sha256": "91c596319de8fbf94ddaec1b1a1867a52cd0bcc44f89247a04d45e0c265deae3",
       "operation": "observe",
       "target": "application_client"
     },
     "queue_inventory": {
-      "body_shell_sha256": "3a577cc9aa76e0ee25f4c1284d5b2c0bbdd2daa7811f94c5008a37627128d2b1",
+      "body_shell_sha256": "f98c3a2c07f1386728de2041c534a537e467025cadbca57e1f58386954324e0a",
       "operation": "observe",
       "target": "application_client"
     },
     "queue_prune": {
-      "body_shell_sha256": "4945b7daa5e76fa2de259396a88b233f7e30784751115367debb63c1f9741120",
+      "body_shell_sha256": "9c784fee508210000cce808321e1898cd0411609bfe1a8135b0ea0f68cd64f8b",
       "operation": "queue_prune",
       "target": "application_client"
     },
@@ -297,11 +311,29 @@
     }
   },
   "protocol_id": "public_result_v1",
-  "schema": "b0-public-result-frozen-source-binding-v3",
+  "result_codec_only_changes": {
+    "all_ruby_shell_bodies_and_original_base_unchanged": true,
+    "changed_generated_python_bodies": [
+      "issue_inventory",
+      "issue_replay",
+      "public_audit",
+      "queue_inventory",
+      "queue_prune"
+    ],
+    "changed_strategy_sources": [
+      "common_io.py",
+      "programs/http_common.py",
+      "programs/redis_common.py"
+    ],
+    "common_registry_guard_target_identity_chunk_and_request_transport_unchanged": true,
+    "original_output_json_bytes_preserved_before_encoding": true,
+    "underlying_http_redis_requests_and_business_logic_unchanged": true
+  },
+  "schema": "b0-public-result-frozen-source-binding-v4",
   "source_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
-  "source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
-  "source_version": "public_result_candidate_v2",
-  "status": "v2_strategy_bytes_inherited_v3_common_transport_pending_actual_execution",
-  "strategy_source_is_exact_inherited_parent": true,
-  "unchanged_generated_program_count": 17
+  "source_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d",
+  "source_version": "public_result_candidate_v4",
+  "status": "v4_result_codec_frozen_sources_pending_actual_execution",
+  "strategy_source_is_exact_inherited_parent": false,
+  "unchanged_generated_program_count": 12
 }

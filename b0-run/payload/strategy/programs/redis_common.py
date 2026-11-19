@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import json
+import lzma
 import socket
 import sys
 import time
@@ -18,11 +19,19 @@ def canonical(value):
 def digest(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
 
-def emit(value):
-    raw=canonical(value).encode()
-    print('B0_RESULT_ZLIB:'+canonical({'encoding':'zlib+base64','uncompressed_bytes':len(raw),
-        'uncompressed_sha256':hashlib.sha256(raw).hexdigest(),
-        'data_base64':base64.b64encode(zlib.compress(raw)).decode()}))
+def emit(obj):
+    raw=json.dumps(obj,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()
+    compressed=zlib.compress(raw)
+    marker,encoding='B0_RESULT_ZLIB:','zlib+base64'
+    if len(compressed)>4096:
+        candidate=lzma.compress(raw,format=lzma.FORMAT_XZ,preset=3)
+        if len(candidate)<len(compressed):
+            compressed=candidate
+            marker,encoding='B0_RESULT_XZ:','xz+base64'
+    envelope={'encoding':encoding,'uncompressed_bytes':len(raw),
+              'uncompressed_sha256':hashlib.sha256(raw).hexdigest(),
+              'data_base64':base64.b64encode(compressed).decode()}
+    print(marker+json.dumps(envelope,sort_keys=True,separators=(',',':')))
 
 class Redis:
     def __init__(self):

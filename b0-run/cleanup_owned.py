@@ -33,7 +33,7 @@ def claim(path: Path, *, work: Path, cluster: str):
     if (os.environ.get("GITHUB_ACTIONS") != "true"
             or os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted"
             or identity["GITHUB_REPOSITORY"] != "fan-2077/wzf"
-            or identity["GITHUB_REF"] not in {"refs/heads/sre-b0-public-result-v3-20261119", "refs/heads/sre-b0-read-repair-20261117"}):
+            or identity["GITHUB_REF"] not in {"refs/heads/sre-b0-public-result-codec-v4-20261119", "refs/heads/sre-b0-read-repair-20261117"}):
         raise RuntimeError("Cannot claim resources outside reviewed hosted run")
     preexisting = {kind: names(kind) for kind in PREFIXES}
     if any(preexisting.values()) or HostIngressGuard.active_listeners():
