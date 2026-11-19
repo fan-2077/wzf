@@ -5,12 +5,76 @@ Business-server terminal/effect proof is supplied separately by fixed validators
 The target's /tmp and same-UID processes are a trusted boundary, not adversarial.
 """
 from __future__ import annotations
+import base64
+import gzip
 import hashlib
+import io
 import shlex
+from urllib.parse import quote, urlencode
 
 SCHEMA = 'sregym-fixed-action-shell-v2'
 MAX_CAPTURE_BYTES = 32 * 1024 * 1024
 CHUNK_BYTES = 6144
+MAX_EXEC_REQUEST_LINE_BYTES = 61440
+
+# Only a representation of source(body_shell) changes. The original source,
+# program hash, $0/$@, foreground PID and target claim protocol stay intact.
+# FD 3 carries bytes and FD 4 carries statuses inside command substitutions;
+# gzip bytes never enter a shell variable. No pipefail extension is assumed.
+SOURCE_DECODER = r'''set -eu
+b0_encoded=$1
+b0_expected_sha=$2
+b0_expected_bytes=$3
+shift 3
+case "$b0_expected_sha" in ''|*[!a-f0-9]*) exit 71;; esac
+[ ${#b0_expected_sha} -eq 64 ] || exit 71
+case "$b0_expected_bytes" in ''|*[!0-9]*) exit 72;; esac
+[ "$b0_expected_bytes" -gt 0 ] || exit 72
+b0_decode() {
+  {
+    b0_decode_status=$(
+      exec 4>&1
+      b0_gzip_rc=0
+      {
+        b0_base64_rc=0
+        printf '%s' "$b0_encoded" | base64 -d || b0_base64_rc=$?
+        printf 'base64:%s\n' "$b0_base64_rc" >&4
+      } | gzip -dc >&3 || b0_gzip_rc=$?
+      printf 'gzip:%s\n' "$b0_gzip_rc"
+    )
+  } 3>&1
+  [ "$b0_decode_status" = 'base64:0
+gzip:0' ]
+}
+# Hash the raw decoded stream before command substitution can discard NUL.
+# Recover both the decoder and digest process statuses independently too.
+b0_raw_digest() {
+  {
+    b0_digest_status=$(
+      exec 4>&1
+      b0_sha_rc=0
+      {
+        b0_decode_rc=0
+        b0_decode || b0_decode_rc=$?
+        printf 'decode:%s\n' "$b0_decode_rc" >&4
+      } | sha256sum >&3 || b0_sha_rc=$?
+      printf 'sha:%s\n' "$b0_sha_rc"
+    )
+  } 3>&1
+  [ "$b0_digest_status" = 'decode:0
+sha:0' ]
+}
+b0_raw_sha=$(b0_raw_digest) || exit 73
+[ "$b0_raw_sha" = "$b0_expected_sha  -" ] || exit 74
+# The non-newline sentinel preserves every trailing LF of the exact source.
+b0_with_sentinel=$(b0_decode || exit 75; printf '.') || exit 75
+b0_source=${b0_with_sentinel%.}
+b0_actual_bytes=$(printf '%s' "$b0_source" | wc -c) || exit 76
+[ "$b0_actual_bytes" -eq "$b0_expected_bytes" ] || exit 76
+b0_actual_sha=$(printf '%s' "$b0_source" | sha256sum) || exit 77
+[ "$b0_actual_sha" = "$b0_expected_sha  -" ] || exit 77
+exec sh -c "$b0_source" "$0" "$@"
+'''
 
 BASE = r'''set -eu
 umask 077
@@ -209,6 +273,43 @@ def program_sha256(body_shell: str) -> str:
     return hashlib.sha256(source(body_shell).encode()).hexdigest()
 
 
+def encoded_source_argv(fixed_source: str, command_zero: str, arguments: list[str]) -> list[str]:
+    """Encode trusted source only; every caller parameter remains a data argv."""
+    if not isinstance(fixed_source, str) or not fixed_source or '\x00' in fixed_source:
+        raise ValueError('Expected nonempty NUL-free trusted source')
+    raw = fixed_source.encode('utf-8')
+    output = io.BytesIO()
+    # GzipFile fixes the header OS byte as well as time/name metadata.
+    with gzip.GzipFile(fileobj=output, mode='wb', filename='', compresslevel=9, mtime=0) as stream:
+        stream.write(raw)
+    packed = base64.b64encode(output.getvalue()).decode('ascii')
+    return ['sh', '-c', SOURCE_DECODER, command_zero, packed,
+            hashlib.sha256(raw).hexdigest(), str(len(raw)), *arguments]
+
+
+def exec_request_line_bytes(namespace: str, pod: str, container: str, command: list[str]) -> int:
+    """Pinned kubectl 1.32.5 noninteractive exec, origin-form POST HTTP/1.1.
+
+    PodExecOptions omits false stdin/tty, repeats command in argv order, and
+    enables stderr/stdout. urlencode uses the same UTF-8 QueryEscape rules as
+    Go net/url.Values.Encode (space '+', literal plus '%2B', '~' unescaped).
+    POST is one byte longer than its WebSocket GET alternative. This is a
+    request-line calculation, not captured network wire-byte accounting.
+    """
+    path = '/api/v1/namespaces/' + quote(namespace, safe='') + '/pods/' + quote(pod, safe='') + '/exec'
+    query = urlencode([('command', value) for value in command]
+                      + [('container', container), ('stderr', 'true'), ('stdout', 'true')])
+    return len(('POST ' + path + '?' + query + ' HTTP/1.1\r\n').encode('ascii'))
+
+
+def require_exec_budget(namespace: str, pod: str, container: str, command: list[str]) -> int:
+    size = exec_request_line_bytes(namespace, pod, container, command)
+    if size > MAX_EXEC_REQUEST_LINE_BYTES:
+        raise ValueError('Fixed exec request line exceeds conservative transport budget: '
+                         + str(size) + ' > ' + str(MAX_EXEC_REQUEST_LINE_BYTES))
+    return size
+
+
 def argv(body_shell: str, *, mode: str, root: str, action: str, binding: str,
          parameters_json: str, offset: int = 0, count: int = CHUNK_BYTES,
          stream: str = 'stdout', expected_root_identity: str | None = None,
@@ -228,6 +329,6 @@ def argv(body_shell: str, *, mode: str, root: str, action: str, binding: str,
     elif (not isinstance(expected_root_identity, str) or not expected_root_identity
           or not isinstance(expected_lifecycle, str) or not expected_lifecycle):
         raise ValueError('Original measured root and Linux lifecycle are required')
-    return ['sh', '-c', source(body_shell), 'sregym-fixed-action-v2', mode, root,
-            action, binding, parameters_json, str(offset), str(count), stream,
-            expected_root_identity, expected_lifecycle]
+    return encoded_source_argv(source(body_shell), 'sregym-fixed-action-v2',
+        [mode, root, action, binding, parameters_json, str(offset), str(count), stream,
+         expected_root_identity, expected_lifecycle])

@@ -2,7 +2,7 @@
   "accepted_intent_read_skip": "Only exact current-scope/current-ledger/current-intent permanent verified positives can suppress that intent send loop. Unknown owned actions or locks still block. Real execution and performance effect of this optimization require the new run.",
   "actual_new_business_executions": 0,
   "actual_new_original_evaluations": 0,
-  "candidate_version": "public_result_candidate_v2",
+  "candidate_version": "public_result_candidate_v3",
   "evidence_read_boundary": "native/agent and public fixed source only; no private provider/host state",
   "independent_diagnostics": [
     "Historical SMTP certificate remains qualified/unqualified/unknown/not_evaluated; no field is forced true.",
@@ -20,8 +20,45 @@
       "source_and_target_rebinding_required": true,
       "terminal_actions": 114
     },
+    "public_result_v2": {
+      "commit": "50db66cd26b95fc2d4d09a4b8d269f71e1779ebb",
+      "elapsed_incident_to_stop_seconds": 355.204049837,
+      "first_error": "fixed_start HTTP 414 Request-URI Too Long; original fixed_query also HTTP 414",
+      "independent_review_sha256": "443180d9c5cd04d5b952883c79c03ca81b8d1cd284bb29c9851b4efc8d7cfb3b",
+      "native_calls": 399,
+      "original_artifact_sha256": "76da0b47d15835e2b7db04150ebdfef742dee3f4ea598b2dcd48f1b97f7c8e99",
+      "original_evaluations": 0,
+      "original_submissions": 0,
+      "prior_unknown_action_or_locks_changed": false,
+      "raw_original_success": null,
+      "retained_locks": 3,
+      "run_id": 44492137969,
+      "run_url": "https://github.com/fan-2077/wzf/actions/runs/44492137969",
+      "successful_recovery_time_seconds": null,
+      "terminal_readonly_actions": 8,
+      "unknown_actions": 1,
+      "writer_identity_and_final_submission_paths_reached": false
+    },
     "replay_scope": "actual POST201 and GET200 created one issue, but old client-ID completion lookup was empty; old action remains unresolved",
-    "ruby_syntax": "Earlier syntax evidence applies only to earlier frozen inputs. This candidate changes five generated Ruby bodies, all of which must compile in the exact fixed image before the original business run.",
+    "ruby_syntax": {
+      "artifact_id": 14514279181,
+      "artifact_sha256": "c055034716377a45a52fbc6341f715387244aae3f076e603ef97f0874690fbc6",
+      "business_execution_proved": false,
+      "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
+      "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+      "independent_review_sha256": "0e218f2c4fa01065b8eea8757d6efb18f3eb88dbb8953debf8cca8fdc8cfa658",
+      "programs": [
+        "background_contract",
+        "identity_authorization",
+        "notification_send",
+        "service_control",
+        "service_inventory"
+      ],
+      "repeat_compilation_required_for_identical_bytes": false,
+      "run_id": 44492137969,
+      "status": "inherited_exact_v2_body_bytes_independently_verified",
+      "transport_execution_proved": false
+    },
     "v6_full_run": "44125067108",
     "writer_permission_probe": {
       "artifact_id": 14512790830,
@@ -58,7 +95,7 @@
     "Missing, conflicting, partial or ambiguous current owned terminal evidence remains unknown and blocks submission."
   ],
   "new_real_conditions_pending": [
-    "exact five changed Ruby body compilation in the fixed image",
+    "actual complete compressed-source decoder on all three unchanged native targets",
     "actual complete writer observations inside the loaded Rails application",
     "actual response-assigned API completion lookup on the new instance",
     "actual notification send and atomic snapshot settlement path",
@@ -78,5 +115,5 @@
     "All own actions/effects and locks closed, current source/target/ledger qualification, no prior final action before original evaluation."
   ],
   "schema": "b0-public-result-actual-qualification-conditions-v1",
-  "status": "v2_candidate_pending_same_run_fixed_image_syntax_and_original_business_execution"
+  "status": "v3_candidate_pending_actual_native_transport_and_original_business_execution"
 }

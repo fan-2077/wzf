@@ -1,0 +1,68 @@
+name: B0-P v3 original-task result with bounded fixed-program transport
+on:
+  push:
+    branches: [sre-b0-public-result-v3-20261119]
+    paths: [b0-run/**, tests/test_final_admission_contract.py, tests/test_fixed_transport_contract.py, .github/workflows/sre-b0-public-result-v3-20261119.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-b0-public-result-v3-20261119
+  cancel-in-progress: false
+jobs:
+  original-public-b0:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-b0-public-result-v3-20261119'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - name: Read the exact reviewed candidate
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: |
+            /b0-run/
+            /tests/test_final_admission_contract.py
+            /tests/test_fixed_transport_contract.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Verify transport and final admission contracts before the incident
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir b0-transport-contract-results
+          python3 -B -m unittest discover -s tests -p 'test_*_contract.py' -v 2>&1 | tee b0-transport-contract-results/tests.log
+      - name: Run one fresh original-task public baseline
+        timeout-minutes: 204
+        run: python3 -B b0-run/run_remote_baseline.py
+      - name: Verify owned cleanup on every outcome
+        if: always() && hashFiles('b0-results/ownership.json') != ''
+        timeout-minutes: 2
+        run: python3 -B b0-run/cleanup_owned.py --scope b0-results/ownership.json --full
+      - name: Seal complete owned evidence after cleanup
+        id: seal
+        if: always()
+        timeout-minutes: 2
+        run: python3 -B b0-run/seal_remote_evidence.py
+      - name: Preserve original evidence including failed attempts
+        if: always() && steps.seal.outputs.evidence_paths_ready == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 3
+        with:
+          name: sre-b0-public-result-v3-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sre-b0-export-${{ github.run_id }}-${{ github.run_attempt }}/evidence.tar.gz
+            ${{ runner.temp }}/sre-b0-export-${{ github.run_id }}-${{ github.run_attempt }}/EXPORT_STATUS.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 14
+      - name: Preserve exact local contract gate output
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 2
+        with:
+          name: sre-b0-v3-contracts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: b0-transport-contract-results/
+          if-no-files-found: warn
+          include-hidden-files: false
+          retention-days: 14

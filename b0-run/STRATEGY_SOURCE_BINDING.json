@@ -1,25 +1,24 @@
 {
   "business_programs_byte_identical_to_full_v6": false,
   "business_programs_byte_identical_to_public_v1": false,
-  "changed_generated_programs": [
-    "background_contract",
-    "identity_authorization",
-    "notification_send",
-    "service_control",
-    "service_inventory"
-  ],
-  "common_manifest_is_inherited": true,
-  "common_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
+  "changed_generated_programs": [],
+  "common_manifest_is_inherited": false,
+  "common_manifest_path": "COMMON_SOURCE_MANIFEST.json",
+  "common_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
   "common_source_hashes": {
     "lifecycle.py": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c",
-    "native_bridge.py": "20fd308510179cbc2bab2ab1ad62a191b7d7d7de0ce63cf84d12ed8a2cce940f",
+    "native_bridge.py": "dec7e625ff632b34f9de64f089fb61d1a500af526b5540ff1ab3f1dc77c3c2d7",
     "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
-    "target_shell.py": "3cabcf21065bc3f6a31c095b6bd923d3b314058418883fa64f602e214fc05349"
+    "target_shell.py": "b2772c3c4f208e80bd711f3d41df607acc062b0d6ca9e212e4964055c2078b24"
   },
+  "comparison_parent_commit": "50db66cd26b95fc2d4d09a4b8d269f71e1779ebb",
   "current_changed_Ruby_syntax": {
+    "artifact_id": 14514279181,
+    "artifact_sha256": "c055034716377a45a52fbc6341f715387244aae3f076e603ef97f0874690fbc6",
     "business_execution_proved": false,
     "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
     "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "independent_review_sha256": "0e218f2c4fa01065b8eea8757d6efb18f3eb88dbb8953debf8cca8fdc8cfa658",
     "programs": [
       "background_contract",
       "identity_authorization",
@@ -27,8 +26,10 @@
       "service_control",
       "service_inventory"
     ],
-    "script": "tools/check_b0_ruby_syntax.py",
-    "status": "pending_same_run_preincident_fixed_image_gate"
+    "repeat_compilation_required_for_identical_bytes": false,
+    "run_id": 44492137969,
+    "status": "inherited_exact_v2_body_bytes_independently_verified",
+    "transport_execution_proved": false
   },
   "deployed_files": [
     {
@@ -177,6 +178,15 @@
       "sha256": "5743819b1450d6a828c7ee86f5225aa1fe258a395a24627d7cc20461ab413a4d"
     }
   ],
+  "execution_candidate_version": "public_result_candidate_v3",
+  "historical_v2_changed_generated_programs": [
+    "background_contract",
+    "identity_authorization",
+    "notification_send",
+    "service_control",
+    "service_inventory"
+  ],
+  "inherited_common_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
   "inherited_five_changed_Ruby_syntax": {
     "actual_business_actions": 0,
     "actual_native_calls": 0,
@@ -287,10 +297,11 @@
     }
   },
   "protocol_id": "public_result_v1",
-  "schema": "b0-public-result-frozen-source-binding-v2",
+  "schema": "b0-public-result-frozen-source-binding-v3",
   "source_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
   "source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
   "source_version": "public_result_candidate_v2",
-  "status": "v2_sources_frozen_pending_actual_native_execution",
-  "unchanged_generated_program_count": 12
+  "status": "v2_strategy_bytes_inherited_v3_common_transport_pending_actual_execution",
+  "strategy_source_is_exact_inherited_parent": true,
+  "unchanged_generated_program_count": 17
 }

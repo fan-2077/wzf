@@ -1,0 +1,237 @@
+{
+  "actual_new_native_execution": "pending",
+  "all_17_decoded_fixed_programs_byte_identical_to_parent": true,
+  "all_29_strategy_files_byte_identical_to_parent": true,
+  "available_to_all_later_comparison_arms": true,
+  "candidate_version": "public_result_candidate_v3",
+  "changes": [
+    "Transport the complete fixed source using deterministic gzip and base64; preserve decoded source bytes and original program SHA-256.",
+    "Target decoder preserves terminal newlines, checks dependency/decoding status and original size/hash, then execs the original shell source with the original positional arguments.",
+    "Validate a conservative complete exec request-line bound before reservation and dispatch, and again before native sending. Oversized input is rejected without a new dispatch permit.",
+    "Every new target bootstrap traverses the actual decoder. Missing decoder capability fails before business action admission."
+  ],
+  "common_source_manifest_path": "COMMON_SOURCE_MANIFEST.json",
+  "common_source_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
+  "fixed_public_source_basis": [
+    {
+      "bytes": 54161,
+      "path": "sregym/service/k8s_proxy.py",
+      "sha256": "9570a45bf7d002aacd78335fd9f60f7913f9f2dfd29fca7532160e5922b89bd8",
+      "url": "https://github.com/SREGym/SREGym/blob/148dded7ca2737ded1085e7dc7bbf2a8fcfe7861/sregym/service/k8s_proxy.py"
+    },
+    {
+      "bytes": 13054,
+      "path": "mcp_server/kubectl_server_helper/kubectl_cmd_runner.py",
+      "sha256": "761ab0df34424fc5672b412fe8a54fc37aa4c692342dcfa41665b882b9aaa1f8",
+      "url": "https://github.com/SREGym/SREGym/blob/148dded7ca2737ded1085e7dc7bbf2a8fcfe7861/mcp_server/kubectl_server_helper/kubectl_cmd_runner.py"
+    },
+    {
+      "bytes": 11541,
+      "path": "mcp_server/kubectl_server_helper/kubectl.py",
+      "sha256": "1d1971f7821bf04e84d6afaae024c4d07eb0e928d016ed683c3bc3996e6f8c88",
+      "url": "https://github.com/SREGym/SREGym/blob/148dded7ca2737ded1085e7dc7bbf2a8fcfe7861/mcp_server/kubectl_server_helper/kubectl.py"
+    },
+    {
+      "bytes": 12394,
+      "path": "kubernetes/exec.go",
+      "sha256": "0afa06032ecd1d80bbd834faa659d55b7735e333666ee7b500d27e6feb3d9dfa",
+      "url": "https://github.com/kubernetes/kubernetes/blob/v1.32.5/staging/src/k8s.io/kubectl/pkg/cmd/exec/exec.go"
+    },
+    {
+      "bytes": 5057,
+      "path": "kubernetes/queryparams_convert.go",
+      "sha256": "dcb7874e095685bfcd9b4f5a2a72b7a8b09e90700b9e6b671272cc6b98616939",
+      "url": "https://github.com/kubernetes/kubernetes/blob/v1.32.5/staging/src/k8s.io/apimachinery/pkg/conversion/queryparams/convert.go"
+    },
+    {
+      "bytes": 49202,
+      "path": "cpython/server.py",
+      "sha256": "12f8db637047c12ec053bfaa6671ad1cb7ca9ca8d1dae82b562e5866c5b02990",
+      "url": "https://github.com/python/cpython/blob/v3.12.13/Lib/http/server.py"
+    }
+  ],
+  "fresh_original_instance_required": true,
+  "host_branch_binding": {
+    "files": [
+      "native_b0_entry.py",
+      "cleanup_owned.py",
+      "export_owned_evidence.py"
+    ],
+    "new": "refs/heads/sre-b0-public-result-v3-20261119",
+    "old": "refs/heads/sre-b0-public-result-v2-20261119",
+    "only_change_to_each_host_file": "literal branch identity replacement"
+  },
+  "inherited_fixed_image_syntax": {
+    "artifact_id": 14514279181,
+    "artifact_sha256": "c055034716377a45a52fbc6341f715387244aae3f076e603ef97f0874690fbc6",
+    "business_execution_proved": false,
+    "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "independent_review_sha256": "0e218f2c4fa01065b8eea8757d6efb18f3eb88dbb8953debf8cca8fdc8cfa658",
+    "programs": [
+      "background_contract",
+      "identity_authorization",
+      "notification_send",
+      "service_control",
+      "service_inventory"
+    ],
+    "repeat_compilation_required_for_identical_bytes": false,
+    "run_id": 44492137969,
+    "status": "inherited_exact_v2_body_bytes_independently_verified",
+    "transport_execution_proved": false
+  },
+  "parent_commit": "50db66cd26b95fc2d4d09a4b8d269f71e1779ebb",
+  "permission_boundary": {
+    "new_permission_or_hidden_namespace_access": false,
+    "original_entry_preserved": true,
+    "original_proxy_and_executor_unchanged": true,
+    "scope": "Lossless representation of the same 17 authorized, source-bound programs; no replacement transport or access-control change.",
+    "source_basis": "Frozen executor parses the top-level quoted kubectl command and checks its prefix; the fixed proxy authenticates and filters targets/resources. Neither recursively interprets the existing sh -c source word."
+  },
+  "preimplementation_request_length_analysis": {
+    "actual_proxy_parser_limit_bytes": 65536,
+    "does_not_qualify_all_catalog_inputs": true,
+    "not_wire_capture": true,
+    "original_failed_request_line_reconstruction_bytes": {
+      "GET": 65645,
+      "POST": 65646
+    },
+    "sha256": "4cfd0b8d998ef5db7d83600d1d6239086452e71bfb60d956ebcd7ade8c7758a9"
+  },
+  "prior_attempt": {
+    "commit": "50db66cd26b95fc2d4d09a4b8d269f71e1779ebb",
+    "elapsed_incident_to_stop_seconds": 355.204049837,
+    "first_error": "fixed_start HTTP 414 Request-URI Too Long; original fixed_query also HTTP 414",
+    "independent_review_sha256": "443180d9c5cd04d5b952883c79c03ca81b8d1cd284bb29c9851b4efc8d7cfb3b",
+    "native_calls": 399,
+    "original_artifact_sha256": "76da0b47d15835e2b7db04150ebdfef742dee3f4ea598b2dcd48f1b97f7c8e99",
+    "original_evaluations": 0,
+    "original_submissions": 0,
+    "prior_unknown_action_or_locks_changed": false,
+    "raw_original_success": null,
+    "retained_locks": 3,
+    "run_id": 44492137969,
+    "run_url": "https://github.com/fan-2077/wzf/actions/runs/44492137969",
+    "successful_recovery_time_seconds": null,
+    "terminal_readonly_actions": 8,
+    "unknown_actions": 1,
+    "writer_identity_and_final_submission_paths_reached": false
+  },
+  "programs": {
+    "archive_check": {
+      "body_shell_sha256": "ff3bb13ea94cf626e0e7dc6dd0c06a09db2412a72a53a82ded6f49fac986e2f7",
+      "decoded_program_sha256": "ebde945dd4c48331c93b051573a685420ade74ca8f24305f84f855e531d256d9",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "archive_restore": {
+      "body_shell_sha256": "5771a1d44a8f9fbf7cd5f97f36311fb5df6852bfa9dcdf5fc4decbd990e310eb",
+      "decoded_program_sha256": "528aa878b950a9ef6ecda158fe07b6ee2e17126aaac4440bd624dedf8d12d148",
+      "operation": "restore_database",
+      "target": "recovery_console"
+    },
+    "background_contract": {
+      "body_shell_sha256": "23766db5af22a722975bf7e61c95b60e2e943158d12467bfe211fee318743403",
+      "decoded_program_sha256": "7e44b3829b481a58c73d1c8b3a4dae4867ac9c11a1d8aa9910b5e731474aff7d",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "database_state": {
+      "body_shell_sha256": "225788fde7781490e8f5a8c75760dc5cd92378616c878a54fed7d81734eb2c88",
+      "decoded_program_sha256": "858ae3ddddab231e6b9b8af4bbec42a95cdb93f4c90517a7fc23390a0e8f3af1",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "history_logs": {
+      "body_shell_sha256": "eb4216e5d6a0ca6def74eb3eb022255c5bbf5acd90a085d81c7c4c7fe2a062d1",
+      "decoded_program_sha256": "0ac3147f6588c722fe9f76da241792f42fa0971c1f32104a0b7a095760d8c6fd",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "http_completion": {
+      "body_shell_sha256": "c8f23489256cb9c634d31977364a467f86c443ead77b52e7bed0da22d3334468",
+      "decoded_program_sha256": "08dbe16b58bb8dff265dec7610f78cfaa7cdba972c2b78b0589d9c67e7399ad4",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "identity_authorization": {
+      "body_shell_sha256": "0c2115fd0e887b498dffcba97821066fe95aa4158a2ff4751d9596a328095d79",
+      "decoded_program_sha256": "8d5b032c6a4d78892b6a2fd29a3965542d906502c3b60ec1c270b8b20c585842",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "issue_inventory": {
+      "body_shell_sha256": "c4a5bb15f4e98d70ccd4fbe546554e4b515c2c9fe4e4a6990cdaa04d49b152c4",
+      "decoded_program_sha256": "44d8e40d6249169b14d41b9910b10f83c005c021baffb4f7965c809d6e91fe55",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "issue_replay": {
+      "body_shell_sha256": "c3932bc6dc25094a326b6cb4c003b6ec225ec92668394ad440f32f63324c4229",
+      "decoded_program_sha256": "332f7e6b833813fb31f69d16a42714583e01bbb16db19fb846be490ca06c1dfd",
+      "operation": "replay_issue",
+      "target": "application_client"
+    },
+    "notification_send": {
+      "body_shell_sha256": "293876cc2aca219445f62ee3ed1cfe835f439f9edeb9435c7353d37408c371dc",
+      "decoded_program_sha256": "574a69315076d029028d22e8122b85498ab00eb21139357c1d96023407d87b72",
+      "operation": "send_notification",
+      "target": "gitlab"
+    },
+    "public_audit": {
+      "body_shell_sha256": "70f5c2307f1362eca9e96cdbc9d85fb3b8994a5b874895f83d96865dc1e08a4f",
+      "decoded_program_sha256": "efe2c7afcb3563af5a4125d9ea434f02f9c4e07a0190c9c36ec8a6ef0156268a",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "queue_inventory": {
+      "body_shell_sha256": "3a577cc9aa76e0ee25f4c1284d5b2c0bbdd2daa7811f94c5008a37627128d2b1",
+      "decoded_program_sha256": "def849aeb4fe31d2f06371e2ecdb1804fc90059b0f5af1730dfcab81b699b488",
+      "operation": "observe",
+      "target": "application_client"
+    },
+    "queue_prune": {
+      "body_shell_sha256": "4945b7daa5e76fa2de259396a88b233f7e30784751115367debb63c1f9741120",
+      "decoded_program_sha256": "07dc212b5cdfd9f116d07b07b91303c9e85a4994ba424fe83ddba57b2a84487e",
+      "operation": "queue_prune",
+      "target": "application_client"
+    },
+    "recovery_files": {
+      "body_shell_sha256": "e0f0fe25043a7b900975ec16873b3ecf041cce8def0b4b6ae6faff5f63d761f0",
+      "decoded_program_sha256": "acea9fcd88b9340aea96fea9f6b4fb37e6f98d2e4052f9d907d2790fe11f9e6d",
+      "operation": "observe",
+      "target": "recovery_console"
+    },
+    "runtime_contract": {
+      "body_shell_sha256": "e74852a4d45c1f0cd2ced4803cb699e5a3e32ccf6997c33f97f9b3b18c0e9ca5",
+      "decoded_program_sha256": "5197ceed90854d914ead895780acde8945ce4f49292181a0e57fec82e8357325",
+      "operation": "observe",
+      "target": "gitlab"
+    },
+    "service_control": {
+      "body_shell_sha256": "38460fabf2d90a5e38e4e2d6d37d92aeffd05cec7f8e1a2526e7c8ce801d945f",
+      "decoded_program_sha256": "e9d7da7400064288baad53981172f1a3c6a17cf71e1cf0afe97465f793821f18",
+      "operation": "service_control",
+      "target": "gitlab"
+    },
+    "service_inventory": {
+      "body_shell_sha256": "1e7b4737c1a7edce030fa5715c166f393001e569aa0c2f74cc444603f1560f90",
+      "decoded_program_sha256": "bb6597adf1c39302ffc0e637d187f0841c60c6394c2d4bf227367f12848d1dd8",
+      "operation": "observe",
+      "target": "gitlab"
+    }
+  },
+  "protocol_id": "public_result_v1",
+  "raw_new_original_result": null,
+  "request_line_budget_bytes": 61440,
+  "request_line_upper_bound_scope": "Fixed kubectl exec endpoint, original target and quoted argv. Dynamic parameters remain unchanged; no claim that every catalog-validator input fits.",
+  "schema": "b0-public-result-v3-transport-amendment-v1",
+  "strategy_source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
+  "unchanged": [
+    "original SREGym source, proxy, filter, tool entry and task oracle",
+    "BASE shell action envelope and all 17 decoded business programs",
+    "registry, lock, dispatch epoch, lifecycle and terminal evidence semantics",
+    "incident budget, resource budget, call budget and per-intent send budget",
+    "all original-source and business evidence checks and single original evaluation limit"
+  ]
+}

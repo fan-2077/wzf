@@ -10,12 +10,12 @@
     "final_submit"
   ],
   "baseline_variant": "B0-P",
-  "branch_ref": "refs/heads/sre-b0-public-result-v2-20261119",
-  "candidate_version": "public_result_candidate_v2",
+  "branch_ref": "refs/heads/sre-b0-public-result-v3-20261119",
+  "candidate_version": "public_result_candidate_v3",
   "formal_competition_result": false,
   "mode": "public_b0",
   "protocol_id": "public_result_v1",
-  "purpose_zh": "在全新原始故障实例上验证写入者观察权限与最终准入接口修复，测量公开确定性基线的原任务结果；保持原协议、预算、评估器和全量失败记录。",
+  "purpose_zh": "在全新原始故障实例上验证固定程序的无损压缩传输与发送前长度检查，继续取得公开确定性基线的原题结果；策略正文、原题评估器、预算及旧失败材料保持原样。",
   "reference_informed": true,
   "schema": "public-result-v1-execution-plan-v1"
 }

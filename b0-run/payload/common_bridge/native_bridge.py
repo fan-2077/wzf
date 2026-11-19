@@ -270,14 +270,34 @@ class NativeActionBridge:
             raise BridgeError('Actual Pod/container changed; original action remains unknown')
         return actual
 
+    def _preflight_exec_budget(self, target: dict, body: str, parameters: dict):
+        """Bound start and all later original-action reads before any grant.
+
+        Action/binding hashes always use 64 URL-safe hexadecimal bytes. The
+        largest legal capture offset covers every query/chunk for this action.
+        Measured Pod/root/lifecycle identities and exact parameters are used.
+        """
+        sizes = {}
+        for mode in ('init', 'start', 'query', 'chunk'):
+            command = target_shell.argv(body, mode=mode, root=target['root'],
+                action='0' * 64, binding='0' * 64, parameters_json=canonical(parameters).decode(),
+                offset=target_shell.MAX_CAPTURE_BYTES, count=target_shell.CHUNK_BYTES,
+                stream='stderr', expected_root_identity=target.get('root_identity') if mode != 'init' else None,
+                expected_lifecycle=target.get('linux_lifecycle') if mode != 'init' else None)
+            sizes[mode] = target_shell.require_exec_budget(self.namespace,
+                target['pod']['name'], target['pod']['container'], command)
+        return sizes
+
     def _exec(self, target: dict, body: str, *, mode: str, action_digest: str,
               binding_digest: str, parameters: dict, offset=0, count=target_shell.CHUNK_BYTES, stream='stdout'):
         argv = ['kubectl', 'exec', target['pod']['name'], '-n', self.namespace, '-c', target['pod']['container'], '--']
-        argv += target_shell.argv(body, mode=mode, root=target['root'], action=action_digest,
+        command = target_shell.argv(body, mode=mode, root=target['root'], action=action_digest,
                                   binding=binding_digest, parameters_json=canonical(parameters).decode(),
                                   offset=offset, count=count, stream=stream,
                                   expected_root_identity=target.get('root_identity') if mode != 'init' else None,
                                   expected_lifecycle=target.get('linux_lifecycle') if mode != 'init' else None)
+        target_shell.require_exec_budget(self.namespace, target['pod']['name'], target['pod']['container'], command)
+        argv += command
         text, call_id = self._native(argv, 'fixed_' + mode)
         try:
             result = json.loads(text)
@@ -351,6 +371,7 @@ class NativeActionBridge:
         item = self._validate(name, arguments)
         if item['operation'] not in self.allowed_operations:
             raise BridgeError('Operation is explicitly disabled for this original attempt')
+        self._preflight_exec_budget(self.targets[item['target']], item['body_shell'], arguments)
         if item['operation'] != 'observe' and not self.qualification.get('actual_native_mcp_qualified'):
             raise BridgeError('Actual common native path qualification is required before a business write')
         prior = None
@@ -454,6 +475,8 @@ class NativeActionBridge:
             raise BridgeError('Actual common native path qualification is required before a business dispatch')
         if action['execution'] != 'reserved':
             return {'dispatch_granted': False, 'target_start_attempted': False, 'query': self.query(action_id)}
+        self._preflight_exec_budget(self.targets[item['target']], item['body_shell'],
+                                    action['request']['parameters']['arguments'])
         self._current_target(item['target'])
         dispatch_precondition = None
         if item['operation'] != 'observe':

@@ -1,0 +1,17 @@
+{
+  "candidate_version": "public_result_candidate_v3",
+  "file_base": "payload/common_bridge",
+  "files": {
+    "lifecycle.py": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c",
+    "native_bridge.py": "dec7e625ff632b34f9de64f089fb61d1a500af526b5540ff1ab3f1dc77c3c2d7",
+    "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
+    "target_shell.py": "b2772c3c4f208e80bd711f3d41df607acc062b0d6ca9e212e4964055c2078b24"
+  },
+  "lineage": {
+    "parent_commit": "50db66cd26b95fc2d4d09a4b8d269f71e1779ebb",
+    "previous_common_source_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f"
+  },
+  "protocol_id": "public_result_v1",
+  "schema": "b0-fixed-transport-common-source-manifest-v3",
+  "scope": "Exact common transport source; unchanged registry and lifecycle are included. This manifest does not assert actual target qualification."
+}

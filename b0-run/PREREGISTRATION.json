@@ -15,7 +15,7 @@
   },
   "actual_strategy_policy_sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6",
   "baseline": "B0-P",
-  "branch_ref": "refs/heads/sre-b0-public-result-v2-20261119",
+  "branch_ref": "refs/heads/sre-b0-public-result-v3-20261119",
   "budgets": {
     "agent_cpu": 4,
     "agent_memory_bytes": 8589934592,
@@ -25,10 +25,10 @@
     "maximum_send_attempts_per_public_intent": 8,
     "model_calls": 0
   },
-  "candidate_version": "public_result_candidate_v2",
+  "candidate_version": "public_result_candidate_v3",
   "capture_transport": {
     "chunk_bytes": 6144,
-    "common_repair_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
+    "common_repair_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
     "complete_json_parser": true,
     "complete_original_http_pages_logs_queues_retained": true,
     "decoded_size_hash_and_complete_stream_required": true,
@@ -53,11 +53,12 @@
   ],
   "common_source_hashes": {
     "lifecycle.py": "c2e3d86f89b521cd5d2931de88a60551b461d9d074568862db5530f861b98f7c",
-    "native_bridge.py": "20fd308510179cbc2bab2ab1ad62a191b7d7d7de0ce63cf84d12ed8a2cce940f",
+    "native_bridge.py": "dec7e625ff632b34f9de64f089fb61d1a500af526b5540ff1ab3f1dc77c3c2d7",
     "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
-    "target_shell.py": "3cabcf21065bc3f6a31c095b6bd923d3b314058418883fa64f602e214fc05349"
+    "target_shell.py": "b2772c3c4f208e80bd711f3d41df607acc062b0d6ca9e212e4964055c2078b24"
   },
-  "common_source_manifest_sha256": "43b9ab0f069ca829f26ef312e28fd8830e514bc8bef18cc5a684add1dcd4449f",
+  "common_source_manifest_path": "COMMON_SOURCE_MANIFEST.json",
+  "common_source_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
   "comparison_limits": {
     "formal_competition_result": false,
     "future_timing_comparison": "Same multiagent policy serialized versus parallel, all read/wait/retry/coordination costs included; independent held-out runs and all-started denominator.",
@@ -73,7 +74,12 @@
     "prior_run_id": 44125067108
   },
   "current_changed_Ruby_syntax": {
-    "original_incident_clock_not_started": true,
+    "artifact_id": 14514279181,
+    "artifact_sha256": "c055034716377a45a52fbc6341f715387244aae3f076e603ef97f0874690fbc6",
+    "business_execution_proved": false,
+    "image": "gitlab/gitlab-ce@sha256:9dc94c49789d1ffec78e1998b088c83d7d1d9d5f2dc8b388cbb2bd2de328dd21",
+    "image_id": "sha256:0029d206bc0ef152211b66627f8e06705a20a475bd4169aa6b9c2adf88d41f09",
+    "independent_review_sha256": "0e218f2c4fa01065b8eea8757d6efb18f3eb88dbb8953debf8cca8fdc8cfa658",
     "programs": [
       "background_contract",
       "identity_authorization",
@@ -81,18 +87,28 @@
       "service_control",
       "service_inventory"
     ],
-    "status": "pending_same_run_preincident_fixed_image_gate"
+    "repeat_compilation_required_for_identical_bytes": false,
+    "run_id": 44492137969,
+    "status": "inherited_exact_v2_body_bytes_independently_verified",
+    "transport_execution_proved": false
   },
   "date_local": "2026-11-19",
-  "definition_zh": "参考实现已知的公开确定性结果基线第二个工程候选；修复原工具身份保留与最终守卫接口，在新原始故障实例执行，原结果协议不变。",
+  "definition_zh": "参考实现已知的公开确定性结果基线第三个工程候选；修复固定源码传输长度并保留原程序字节，在全新原始故障实例执行。",
   "deploy_loki": false,
   "draft_sha256": "1537e9f5dd6b90ce03c366067a36c90b06f010f11c05b4206f7c5beeabdcd454",
   "engineering_amendment_path": "ENGINEERING_AMENDMENT.json",
   "engineering_amendment_sha256": "1fdb26b4d038fb964fcd283b40bcb5a1a51c73cb9e0ea70e64f2553e49b71c69",
+  "fixed_source_request_transport": {
+    "all_comparison_arms_same_mechanism": true,
+    "check_before_reservation_and_dispatch": true,
+    "codec": "gzip+base64",
+    "decoded_source_sha256_unchanged": true,
+    "request_line_budget_bytes": 61440
+  },
   "fresh_original_instance_required": true,
   "historical_terminal_required_for_original_result": false,
   "host_finite_counterexamples_sha256": "60f4a87c4080625ec802b1e8a45bfc5e0f9848a2d45b95ee4fb4a7a5410e2aa5",
-  "host_result_interface_sha256": "42ce2bb4e5d79992baefde3e03eb403b22e657e6d7e3b1ea25b0c6e5ef47bb39",
+  "host_result_interface_sha256": "316e91385c21f8aa90dbd59c7ebe78e1199b40b268c0cbf44ad380c63df07aa5",
   "inherited_five_changed_Ruby_syntax": {
     "applies_to_current_changed_bodies": false,
     "artifact_id": 14346486080,
@@ -103,6 +119,7 @@
     "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
     "run_id": 44122275623
   },
+  "inherited_strategy_candidate_version": "public_result_candidate_v2",
   "known_policy_failure_path": {
     "actual_failure_details": "Retained in public snapshot; execution exceptions remain errors and never convert to successful execution.",
     "allowed": true,
@@ -184,20 +201,41 @@
     "original_evaluation": "Retain exact original bool or null from host evidence before reference cleanup; never replace it with self-check or acceptance acknowledgement.",
     "public_business_snapshot": "pass, known_fail or incomplete; preserve accepted, missing, duplicate, wrong-recipient, issue, service and queue facts without defaulting absent evidence to pass."
   },
-  "resume_note_zh": "本候选为2026-11-19的新工程尝试；保留44476033731等全部旧运行，旧失败不改判。",
-  "retained_prior_public_result_attempt": {
-    "commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
-    "elapsed_incident_to_stop_seconds": 1127.52709,
-    "elapsed_is_success_time": false,
-    "final_admission_error": "Guard reason is a fixed local accounting label",
-    "first_error": "writer_barrier_not_current",
-    "original_evaluations": 0,
-    "raw_original_success": null,
-    "run_id": 44476033731,
-    "unrecorded_old_barrier_predicate_not_reconstructed": true
-  },
+  "resume_note_zh": "本候选保留全部旧运行。上一场HTTP 414后的未知动作与三把锁不作改判；仅在全新场次验证传输修复。",
+  "retained_prior_public_result_attempts": [
+    {
+      "commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
+      "elapsed_incident_to_stop_seconds": 1127.52709,
+      "elapsed_is_success_time": false,
+      "final_admission_error": "Guard reason is a fixed local accounting label",
+      "first_error": "writer_barrier_not_current",
+      "original_evaluations": 0,
+      "raw_original_success": null,
+      "run_id": 44476033731,
+      "unrecorded_old_barrier_predicate_not_reconstructed": true
+    },
+    {
+      "commit": "50db66cd26b95fc2d4d09a4b8d269f71e1779ebb",
+      "elapsed_incident_to_stop_seconds": 355.204049837,
+      "first_error": "fixed_start HTTP 414 Request-URI Too Long; original fixed_query also HTTP 414",
+      "independent_review_sha256": "443180d9c5cd04d5b952883c79c03ca81b8d1cd284bb29c9851b4efc8d7cfb3b",
+      "native_calls": 399,
+      "original_artifact_sha256": "76da0b47d15835e2b7db04150ebdfef742dee3f4ea598b2dcd48f1b97f7c8e99",
+      "original_evaluations": 0,
+      "original_submissions": 0,
+      "prior_unknown_action_or_locks_changed": false,
+      "raw_original_success": null,
+      "retained_locks": 3,
+      "run_id": 44492137969,
+      "run_url": "https://github.com/fan-2077/wzf/actions/runs/44492137969",
+      "successful_recovery_time_seconds": null,
+      "terminal_readonly_actions": 8,
+      "unknown_actions": 1,
+      "writer_identity_and_final_submission_paths_reached": false
+    }
+  ],
   "same_capabilities_for_later_comparison_arms": true,
-  "schema": "public-result-B0-P-preregistration-v2",
+  "schema": "public-result-B0-P-preregistration-v3",
   "service_stop_revision": {
     "actual_old_exit1_cause_inferred": false,
     "all_arms_same": true,
@@ -216,7 +254,7 @@
   "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
   "source_repository": "https://github.com/SREGym/SREGym",
   "started_attempt_denominator": "All starts of this declared profile, including failure, unknown, timeout and engineering gaps; prior different profiles reported separately and never erased.",
-  "status": "v2_frozen_candidate_pending_actual_native_execution",
+  "status": "v3_frozen_candidate_pending_actual_native_execution",
   "strategy_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
   "strategy_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
   "submission_protocol": {
@@ -244,5 +282,7 @@
     "formal_speed_comparison": false,
     "pre_incident_build_and_environment_setup_recorded_separately": true,
     "start": "original stage:mitigation start monotonic timestamp"
-  }
+  },
+  "transport_amendment_path": "TRANSPORT_AMENDMENT.json",
+  "transport_amendment_sha256": "1c0c9c57fca0b11d51f0f79793a61d09bc4ae9fcbaea5d271b41aa21d0309547"
 }
