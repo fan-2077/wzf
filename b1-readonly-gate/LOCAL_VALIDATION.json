@@ -1,15 +1,36 @@
 {
+  "all_generated_payload_files_identical_to_v2": true,
   "business_native_calls": 0,
+  "candidate_cmake_script_executed": false,
+  "candidate_docker_build_executed": false,
+  "candidate_scope_note": "zero model/native/remote/publication fields refer to this new local candidate preparation, not a claim that the previous candidate never ran",
+  "changes_from_v2_generated_package": {
+    "Dockerfile": "exactly one additional CMake argument line: -DLLAMA_USE_PREBUILT_UI=OFF -DLLAMA_BUILD_UI=OFF",
+    "OVERLAY_MANIFEST.json": "updated provenance only",
+    "cleanup_owned.py": "same unique branch replacement receives new UI-off branch",
+    "execution_plan.json": "proposed_branch only",
+    "export_owned_evidence.py": "same unique branch replacement receives new UI-off branch",
+    "native_g1_entry.py": "same unique branch replacement receives new UI-off branch",
+    "run_remote_smoke.py": "same unique branch replacement receives new UI-off branch"
+  },
+  "cmake_available": false,
   "date_utc": "2026-11-19",
+  "docker_available": false,
   "efficiency_improvement": null,
   "frozen_g1_manifest_sha256": "948a410a3ecc63954ad505df14dd0c9845742119c7f98a96da808d273a7bbfce",
   "frozen_g1_verified_files": 262,
-  "generated_manifest_sha256": "a77752030368364c139b44bf99feb0257393cc348e057eaac6ba04eeac63f2ef",
-  "generated_modified_original_files": 12,
+  "generated_manifest_sha256": "812707dfc9e3dd1d31744b058b4e1c3ed4dd78b279b2d760422b6c911eabb67a",
+  "generated_manifest_verified_files": 264,
+  "generated_modified_original_files": 13,
+  "generated_package_directory": "/workspace/scratch/a11dd1f2a296/b1-ui-off-review-v3",
   "known_original_unmodified_issue": "Unused aios/utils/calculator.py has pre-existing IndentationError; no full-tree syntax pass claimed.",
   "model_and_agent_deadlines_changed": false,
   "model_api_calls": 0,
+  "model_sdk_budget_and_agent_deadlines_changed_from_v2": false,
   "not_verified": [
+    "actual CMake execution with both official UI switches OFF",
+    "full llama-server compilation and Docker image build for this candidate",
+    "model API behavior of the compiled server without embedded UI assets",
     "real OpenAI-compatible SDK construction and HTTPX integration with pinned OpenAI version",
     "original AIOS scheduler executing three model requests",
     "actual Qwen model JSON output within 192 tokens per turn",
@@ -18,12 +39,20 @@
     "full container import qualification",
     "strong B1 recovery or baseline performance"
   ],
+  "original_repo_b1_v2_source_manifest_sha256": "b34b86c77e011e8857b2e72d5c8a0a994a228404c197f4cb6afbf5ab5cc642f1",
+  "original_repo_b1_v2_source_manifest_unchanged": true,
   "paid_api_calls": 0,
+  "previous_remote_attempt": {
+    "details": "UI_BUILD_SOURCE_BINDING.json",
+    "qualification_passed": false,
+    "run_id": 44493647753,
+    "status": "failed_before_model_image_build_completed"
+  },
   "publication_by_this_task": false,
   "real_model_qualification_passed": false,
   "recovery_score": null,
   "remote_workflow_runs": 0,
-  "revision": "B1_READONLY_GATE_v2_branch_binding_correction",
+  "revision": "B1_READONLY_GATE_v3_ui_off",
   "runtime": {
     "PyYAML": "6.0.2",
     "httpx": "0.28.1",
@@ -33,13 +62,14 @@
     "requests": "2.32.3"
   },
   "schema_version": 1,
-  "scope": "local source generation, actual SDK schemas, HTTP transport fixtures, and actual host branch guards only",
+  "scope": "this unexecuted UI-off candidate: local source generation, exact Dockerfile and payload comparison, actual SDK schemas, HTTP transport fixtures, and actual host branch guards only",
   "source_sha256": {
-    "README.md": "deebab7a14127353ea6e1c2ed257b1e3be4c12da889d8a43d1cac35cfa45bdf6",
+    "README.md": "980b9b61e738a58044f29473eb66ad7d74636f6dd65c3bdd2ed4af71cc491791",
+    "UI_BUILD_SOURCE_BINDING.json": "32ecdaad709f65e65d8765783cac9060b891131f6de300114f1e2964e17a7203",
     "b1_metering.py": "6020a7175103130fb0ec6617c1f8ad1741fce9aab69c65ce5a00790188a12acd",
     "b1_sdk_client.py": "5e456d0b9706d4bf592206a4413640b7d88958f5a046c323bad30fb91dfc5576",
-    "build_overlay.py": "93f4493a6006ebade4833e876a54692b6f8d2e5ab462a35529d299d81a28e7b3",
-    "tests/test_gate.py": "0e0a1d59f2834a0dc69e1f89c16ce31e6f98b30fee1a60ced5f2665a2d520553"
+    "build_overlay.py": "5f3f53418c185d4accb93173074f0cb5a5d79eafc8d29011cc1337ad9ce9516d",
+    "tests/test_gate.py": "635f02822cf27734720c5dda77e0a47e1fb06c30c32ff4dafc0e11320bc1a82c"
   },
   "status": "local_fixture_checks_passed_real_qualification_pending",
   "submissions": 0,
@@ -51,7 +81,7 @@
     "failures": 0,
     "fixture_transport_explicit": true,
     "host_guard_fixture": {
-      "accepted_ref": "refs/heads/sre-b1-readonly-20261119",
+      "accepted_ref": "refs/heads/sre-b1-readonly-ui-off-20261119",
       "actual_functions": [
         "run_remote_smoke.configure",
         "native_g1_entry.main initial guard",
@@ -67,5 +97,6 @@
     "network_calls": 0,
     "skipped": 0
   },
+  "ui_build_source_binding_sha256": "32ecdaad709f65e65d8765783cac9060b891131f6de300114f1e2964e17a7203",
   "whole_workflow_timeout_minutes": 96
 }

@@ -79,6 +79,11 @@ def build(base, destination, branch):
     adapter = "payload/integration/source_terminal/aios/llm_core/adapter.py"
     entry = "payload/integration/agent_entry.py"
 
+    overlay.replace("Dockerfile",
+        '       -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=ON -DLLAMA_CURL=OFF \\\n',
+        '       -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=ON -DLLAMA_CURL=OFF \\\n'
+        '       -DLLAMA_USE_PREBUILT_UI=OFF -DLLAMA_BUILD_UI=OFF \\\n',
+        "disable_unused_web_ui_download_and_npm_build_at_pinned_llama_commit")
     overlay.install("b1_metering.py", "payload/integration/b1_metering.py")
     overlay.install("b1_sdk_client.py", "payload/integration/g1_sdk_client.py")
     overlay.replace(sdk_api, '    query_class: str = "llm"\n',

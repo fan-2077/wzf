@@ -1,0 +1,118 @@
+{
+  "candidate_branch": "sre-b1-readonly-ui-off-20261119",
+  "candidate_change": {
+    "added_cmake_options": [
+      "-DLLAMA_USE_PREBUILT_UI=OFF",
+      "-DLLAMA_BUILD_UI=OFF"
+    ],
+    "all_generated_payload_files_identical_to_b1_v2": true,
+    "candidate_docker_sha256": "a2cd157b1239807279805149e8e79fc647be25102f9c7a0e518be49feffe9e56",
+    "generated_file": "Dockerfile",
+    "host_changes_from_v2": "same reviewed branch substitution rules receive sre-b1-readonly-ui-off-20261119; no guard predicates removed",
+    "inherited_docker_sha256": "3321fc84f1e3f4c3f8f1b0869017f0fc8b6234de7220bf4a1fe3af859f958c48",
+    "model_weight_commit_sdk_budget_or_deadlines_changed": false,
+    "previous_b1_docker_identical_to_frozen_g1": true,
+    "unique_source_anchor": "-DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=ON -DLLAMA_CURL=OFF"
+  },
+  "candidate_parent_repository_commit": "ae0c28b94fbdaca65ccef22a94caa16c14045ba1",
+  "date_utc": "2026-11-19",
+  "fixed_llama_commit": "f7591a6a01f9273de03331732bdc0b39721168be",
+  "fixed_llama_repository": "https://github.com/ggml-org/llama.cpp",
+  "fixed_source_reasoning": {
+    "clean_path_basis": "Dockerfile starts a fresh /tmp/llama checkout; no source dist directory at fixed commit; changed RUN instruction does not reuse a failed partial filesystem layer",
+    "emit_files_without_index": "asset list stays empty; ui_validate_assets returns for zero assets; template generation still runs",
+    "empty_template_semantics": "LLAMA_UI_HAS_ASSETS CMake value is 0, so the header leaves the macro undefined; N_ASSETS=0, USE_GZIP=false; find_asset returns nullptr and get_assets returns an empty array",
+    "hf_path_guard": "if(NOT provisioned AND HF_ENABLED)",
+    "npm_path_guard": "if(BUILD_UI)",
+    "priority_one_exception": "pre-existing UI_SOURCE_DIR/dist/index.html is used before both guards",
+    "qualifier": "source control-flow inspection only; server compilation and model API behavior under these flags remain unexecuted locally",
+    "server_target": "llama-server target retained; this change neither edits server code nor disables LLAMA_BUILD_SERVER",
+    "stale_binary_assets_exception": "pre-existing UI_BINARY_DIR/dist/index.html may still be embedded and validated",
+    "top_level_defaults": {
+      "LLAMA_BUILD_UI": "OFF",
+      "LLAMA_USE_PREBUILT_UI": "ON"
+    },
+    "ui_custom_target_forwarding": {
+      "LLAMA_BUILD_UI": "BUILD_UI",
+      "LLAMA_USE_PREBUILT_UI": "HF_ENABLED"
+    }
+  },
+  "local_limitations": {
+    "candidate_image_built": false,
+    "candidate_remote_run_started_by_this_task": false,
+    "cmake_available": false,
+    "cmake_ui_script_executed": false,
+    "docker_available": false,
+    "llama_server_compiled": false,
+    "model_api_calls_by_this_task": 0,
+    "paid_api_calls_by_this_task": 0,
+    "publication_by_this_task": false
+  },
+  "observed_failure": {
+    "classification": "inherited optional UI resource path reached mutable external assets incompatible with the pinned validator",
+    "cmake_configure_succeeded": true,
+    "docker_build_success": false,
+    "failed_target": "tools/ui/CMakeFiles/llama-ui-assets",
+    "fallback_archive_checksum_and_extraction": "succeeded according to the original build log",
+    "fallback_ui_version": "latest",
+    "fatal_validation": "ui_validate_assets rejected missing workbox[hash].js",
+    "fatal_validation_source": "scripts/ui-assets.cmake:137, called by emit_files at 196 and script at 592",
+    "log_bytes": 71200,
+    "log_path_relative_to_workspace": "runs/b1_44493647753/expanded/g1-results/build_isolated_agent_image.log",
+    "log_sha256": "12b1b83d7ec55bd528338574f49eecfc0e0a27baa2a54f9f6b43d75a876c3704",
+    "model_qualification_demonstrated": false,
+    "new_python_sdk_runtime_error_demonstrated": false,
+    "observed_target_progress": "157/183: Provisioning UI assets",
+    "observed_ui_command": "/usr/bin/cmake -DUI_SOURCE_DIR=/tmp/llama/tools/ui -DUI_BINARY_DIR=/tmp/llama/build/tools/ui -DLLAMA_SOURCE_DIR=/tmp/llama -DLLAMA_BUILD_NUMBER=1 -DHF_BUCKET=ggml-org/llama-ui -DHF_VERSION=b1 -DHF_ENABLED=ON -DBUILD_UI=OFF -DLLAMA_UI_GZIP=ON -P /tmp/llama/scripts/ui-assets.cmake",
+    "pure_temporary_download_failure_explains_entire_failure": false,
+    "requested_ui_version": "b1",
+    "requested_version_checksum_download": "HTTP response code said error; numeric HTTP status not recorded",
+    "run_id": 44493647753,
+    "source_checkout_succeeded": true,
+    "step": "build_isolated_agent_image",
+    "version_origin": "tools/ui/CMakeLists.txt derives b1 from observed LLAMA_BUILD_NUMBER=1; unrelated to the experiment label B1"
+  },
+  "official_sources": [
+    {
+      "bytes": 11159,
+      "git_blob_sha1": "b8b40e75f68f9d50cd292e9978a5e7bb2fa176a3",
+      "retrieved_content_sha256": "e5fb7c8de3ec5d9c6518ca06c8e1bd36fcb214713c4525a7ee69f53b02aaa1a2",
+      "url": "https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/CMakeLists.txt"
+    },
+    {
+      "bytes": 3010,
+      "git_blob_sha1": "79ffe9fc17188cf6c37badf095fbe49cea30a49b",
+      "retrieved_content_sha256": "51b6c585fab1dcb59a44aad2bf81b927fa3e62a6ac33308a82f93b604ff6bf72",
+      "url": "https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/tools/ui/CMakeLists.txt"
+    },
+    {
+      "bytes": 20614,
+      "git_blob_sha1": "dec34ebda96cd61fb2034536e3b57294dc3192f0",
+      "retrieved_content_sha256": "d3abf3ced6aa329a000b6c0df9c19fabfa83581d95f90b1cdd686007edb5fa8e",
+      "url": "https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/scripts/ui-assets.cmake"
+    },
+    {
+      "bytes": 576,
+      "git_blob_sha1": "4555b0dd5295b87f9357e61dac4e19607be7ea43",
+      "retrieved_content_sha256": "9153477cacbcef7d44eb43bf02610cc6e131cc749e63f36b28a609cde51244f6",
+      "url": "https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/tools/ui/ui.h.in"
+    },
+    {
+      "bytes": 744,
+      "git_blob_sha1": "7f91ef2a224e7b9412959a78ea2d7ff677b10c2c",
+      "retrieved_content_sha256": "f23eb7c1b26992138f8f69e7bf45533ae8928de849f26839c0a9c6456043b1ea",
+      "url": "https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/tools/ui/ui.cpp.in"
+    }
+  ],
+  "official_ui_directory": {
+    "canonical_listing_sha256": "0c1967c5a75e5cc619cfb7e69b9954e24952f827feb279d094003c6b1762e511",
+    "entry_count": 28,
+    "interpretation": "fresh pinned checkout has no supplied tools/ui/dist assets",
+    "tracked_dist_directory_present": false,
+    "url": "https://github.com/ggml-org/llama.cpp/tree/f7591a6a01f9273de03331732bdc0b39721168be/tools/ui"
+  },
+  "previous_source_manifest_sha256": "b34b86c77e011e8857b2e72d5c8a0a994a228404c197f4cb6afbf5ab5cc642f1",
+  "revision": "B1_READONLY_GATE_v3_ui_off",
+  "schema_version": 1,
+  "scope": "fixed-source and observed-build evidence for an unexecuted two-option Dockerfile candidate; not model qualification"
+}

@@ -2,7 +2,7 @@
 
 本目录提供一个可审查、可重新生成的最小接入补丁。它复用冻结 G1 的真实 Cerebrum SDK（开发工具包）→ AIOS（智能体操作系统）调度器 → 固定本地 Qwen3-8B 模型 → 原生只读工具调用链，增加三轮模型请求、两次实际工具结果反馈、逐请求原始正文留存和预算计量。
 
-**当前状态是本地准备及夹具验证完成。没有启动模型、原生故障环境或远程工作流，没有取得真实模型资格，也没有得到 B1 恢复成绩。** 本目录没有修改 `g1-smoke` 或 `b0-run`。
+**本次关闭 Web 界面的新候选仅作本地生成和有限验证，尚未发布或运行，没有取得真实模型资格，也没有得到 B1 恢复成绩。** 上一候选的真实运行 `44493647753` 在模型服务镜像构建阶段失败；该结果不能算作模型接入验证。本目录没有修改 `g1-smoke` 或 `b0-run`。
 
 ## 1. 从实际源码定位的缺口
 
@@ -75,6 +75,7 @@ SDK 另保存两份完整公开文档、实际反馈投影以及各轮结构化�
 | `b1_sdk_client.py` | 使用原 SDK 与原工具路径执行三轮只读反馈驱动 |
 | `tests/test_gate.py` | 本地测试夹具，检验预算、断连、正文完整性、原 SDK 数据类型及反馈绑定；不模拟取得真实模型资格 |
 | `LOCAL_VALIDATION.json` | 本次本地验证记录，明确标注未执行的远程条件 |
+| `UI_BUILD_SOURCE_BINDING.json` | 固定 llama.cpp 构建来源、上一场真实错误证据和关闭 Web 界面的适用前提 |
 
 冻结 G1 包清单摘要为 `948a410a3ecc63954ad505df14dd0c9845742119c7f98a96da808d273a7bbfce`。任何基包文件、文件集合或清单变化都会拒绝生成。所有改动只写入新目标目录，禁止覆盖现有目标，也拒绝把目标放入冻结基包内部。
 
@@ -83,7 +84,7 @@ SDK 另保存两份完整公开文档、实际反馈投影以及各轮结构化�
 ```bash
 python -B b1-readonly-gate/build_overlay.py \
   --dest /workspace/scratch/a11dd1f2a296/b1-local-review-new \
-  --branch sre-b1-readonly-20261119
+  --branch sre-b1-readonly-ui-off-20261119
 ```
 
 `--branch` 仅把未来专用分支写入生成包的已有宿主运行入口；生成器不创建或推送分支，不生成工作流，不调用远程服务。审查新包的 `OVERLAY_MANIFEST.json` 与 `execution_plan.json` 后，主线再按现有授权安排后续行动。
@@ -101,7 +102,17 @@ PYTHONPATH=/usr/lib/python3/dist-packages python -B -m unittest discover \
 
 生成器仅对本次增加或修改的十二个 Python 文件作语法检查。冻结包中未被本路径导入的 `aios/utils/calculator.py` 已有缩进错误，本补丁未修改该文件，也没有把全仓库语法检查误报为通过。
 
-## 6. 后续真实资格仍待验证
+## 6. 固定版本 Web 界面构建修正
+
+上一候选保留了冻结 G1 的原 Dockerfile（镜像构建配方）。真实运行日志显示固定的 llama.cpp 提交 `f7591a6a01f9273de03331732bdc0b39721168be` 已完成源码抓取、配置并进入编译，随后在提供 Web 界面资源时失败。其命令中 `HF_ENABLED=ON`、`BUILD_UI=OFF`；请求版本 `b1` 的校验文件发生 HTTP 错误后，下载器回退到 `latest`（浮动最新版本），成功校验并解压该资源，但固定脚本要求的 `workbox[hash].js` 缺失，因此停止构建。这属于原构建路径与外部界面资源不相容，不能仅解释为临时下载失败；模型、SDK 和新增 Python 逻辑当时尚未得到运行验证。
+
+本次生成器只在派生 Dockerfile 的原 CMake 命令中增加 `-DLLAMA_USE_PREBUILT_UI=OFF -DLLAMA_BUILD_UI=OFF`，使用该固定提交已经提供的两个官方选项。固定源码的[顶层 CMake 配置](https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/CMakeLists.txt)定义选项，[界面目标](https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/tools/ui/CMakeLists.txt)将其传给[资源生成脚本](https://github.com/ggml-org/llama.cpp/blob/f7591a6a01f9273de03331732bdc0b39721168be/scripts/ui-assets.cmake)。两项关闭时，脚本跳过 npm（前端包管理器）构建与 Hugging Face 界面资源下载；在没有已有 `dist/index.html` 的情况下，仍由原 `emit_files` 函数生成零资源表及对应头文件，保留服务端构建目标。
+
+该行为有明确前提：脚本仍会优先使用源码目录中预先存在的界面资源，也会检查已有构建目录中的资源。当前 Dockerfile 在新的 `/tmp/llama` 目录检出固定提交，官方目录清单不含预构建 `tools/ui/dist`；没有把旧失败镜像层中的下载文件复制进来。本修正没有放宽资源校验、加入临时重试、修改模型权重或源码提交，也没有改变模型、SDK、词元预算、上下文和期限。
+
+现有十四项本地夹具验证继续使用原调用链及预算逻辑，宿主分支检查绑定新候选 `sre-b1-readonly-ui-off-20261119`。本地环境没有 Docker 和 CMake，因此没有执行这条 CMake 分支、编译服务端或验证最终镜像。固定源码阅读、派生文件差异与夹具结果仅支持这项最小候选修正；真实构建和模型资格仍待新的远程结果。
+
+## 7. 后续真实资格仍待验证
 
 真实模型阶段仍需检查固定镜像能否导入新增字段与适配器、固定 OpenAI 兼容 SDK 能否触发这些 HTTPX 钩子、模型在 192 个输出词元内是否稳定返回约定 JSON、4096 上下文是否符合 8 GiB 限制，以及原生文档反馈是否确实出现在后两次实际模型请求中。任何失败保留原记录，不补作成功数据、不静默扩大预算、不改用测试答案。
 

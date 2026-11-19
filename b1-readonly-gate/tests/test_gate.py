@@ -172,7 +172,7 @@ class OriginalSDKOverlayFixtures(unittest.TestCase):
         cls.temporary = tempfile.TemporaryDirectory(prefix="b1-overlay-fixture-")
         cls.destination = Path(cls.temporary.name) / "generated"
         cls.base = HERE.parent / "g1-smoke"
-        cls.branch = "sre-b1-readonly-20261119"
+        cls.branch = "sre-b1-readonly-ui-off-20261119"
         cls.result = build(cls.base, cls.destination, cls.branch)
         cls.paths = [str(cls.destination / "payload/sdk"), str(cls.destination / "payload/integration"),
                      str(cls.destination)]

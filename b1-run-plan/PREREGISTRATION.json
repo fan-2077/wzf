@@ -9,9 +9,10 @@
     "sdk_and_backend_http_application_bodies_retained": true,
     "unknown_or_disconnected_request": "keep slot and reservation, stop later model requests"
   },
-  "base_commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
+  "base_commit": "ae0c28b94fbdaca65ccef22a94caa16c14045ba1",
+  "base_frozen_g1_origin_commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
   "base_g1_manifest_sha256": "948a410a3ecc63954ad505df14dd0c9845742119c7f98a96da808d273a7bbfce",
-  "branch": "sre-b1-readonly-20261119",
+  "branch": "sre-b1-readonly-ui-off-20261119",
   "budgets": {
     "agent_deadline_seconds": 1200,
     "automatic_retries": 0,
@@ -31,7 +32,7 @@
     "total_output_reservation": 576,
     "workflow_timeout_minutes": 96
   },
-  "candidate": "B1_READONLY_GATE_v2",
+  "candidate": "B1_READONLY_GATE_v3",
   "comparison_limits": [
     "The context profile differs from earlier one-call G1; no direct timing comparison.",
     "This constrained three-turn connection check is not the strongest single-agent B1.",
@@ -39,6 +40,16 @@
     "No claim of four-agent necessity, three meaningful bidirectional pairs, or 20 percent improvement."
   ],
   "date_local": "2026-11-19",
+  "engineering_amendment": {
+    "all_generated_payload_bytes_unchanged_from_prior_candidate": true,
+    "change": "Add -DLLAMA_BUILD_UI=OFF -DLLAMA_USE_PREBUILT_UI=OFF to the existing pinned llama.cpp build.",
+    "clean_checkout_required": true,
+    "model_weights_inference_source_sdk_and_budgets_unchanged": true,
+    "new_build_or_model_execution_claimed": false,
+    "reason": "The prior fixed source attempted the absent b1 UI artifact, fell back to latest, and rejected its changed asset layout. Optional UI is unused by the loopback API experiment.",
+    "source_note": "b1-readonly-gate/UI_BUILD_SOURCE_BINDING.json",
+    "source_note_sha256": "32ecdaad709f65e65d8765783cac9060b891131f6de300114f1e2964e17a7203"
+  },
   "failure_policy": "Retain every started attempt including pre-incident build/import failures, budget failures, unknown requests and export failures. Never automatically rerun or replace missing model output with fixtures.",
   "feedback": {
     "binding_check": "Second and third actual model responses must echo their immediately preceding document digest and row counts.",
@@ -49,11 +60,11 @@
     "public_documents": 2,
     "second_choice_constrained_to_remaining_option": true
   },
-  "generated_package_manifest_sha256": "a77752030368364c139b44bf99feb0257393cc348e057eaac6ba04eeac63f2ef",
+  "generated_package_manifest_sha256": "812707dfc9e3dd1d31744b058b4e1c3ed4dd78b279b2d760422b6c911eabb67a",
   "local_validation": {
     "real_model_calls": 0,
     "remote_native_calls": 0,
-    "source_report_sha256": "cf2e2a4ca88fb3f6573e76ec7717fc189cc2069676941c36bba75ffa91c7b01f",
+    "source_report_sha256": "1059b7697f459fd19ee562fb4a5b0b3578f1ce3cba174e46636c2bab0215a0f5",
     "tests_passed": 14
   },
   "model_weights": {
@@ -84,13 +95,27 @@
     "unchanged original framework sources",
     "all owned cleanup and complete exported archive"
   ],
+  "retained_prior_attempts": [
+    {
+      "actual_model_requests": 0,
+      "artifact_sha256": "8264a326000568a6fdc8ca056860fb608babdf0021b5189832c44886b1944693",
+      "classification": "preincident_model_image_build_failure",
+      "cleanup_verified": true,
+      "commit": "ae0c28b94fbdaca65ccef22a94caa16c14045ba1",
+      "evidence_library_file_id": "libfile_fde3_f-94f8091cb56481919356178ebbcc97a3_4808b7207c608191a025a8abe4e9f2c3",
+      "incident_started": false,
+      "original_evaluations": 0,
+      "provider_usage": null,
+      "run_id": 44493647753
+    }
+  ],
   "schema": "b1-readonly-feedback-preregistration-v1",
   "scope_zh": "验证真实模型与原生只读工具之间的连续反馈，以及逐请求原文和用量的保留；不是业务恢复、强单智能体或速度比较。",
   "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
-  "source_manifest_sha256": "b34b86c77e011e8857b2e72d5c8a0a994a228404c197f4cb6afbf5ab5cc642f1",
+  "source_manifest_sha256": "c79161393d434702107a9572efd3f2e611da710cd8abb879b396c2f876907ea3",
   "status": "frozen_candidate_pending_remote_qualification",
   "task": "gitlab_notification_intermittent_replicated",
   "timezone": "Asia/Shanghai",
-  "workflow": ".github/workflows/sre-b1-readonly-20261119.yml",
-  "workflow_sha256": "e43ab78d1e2387a0433b6633b91805e877a2241732ed5df6bb0c36f71a25667a"
+  "workflow": ".github/workflows/sre-b1-readonly-ui-off-20261119.yml",
+  "workflow_sha256": "9638bb52bb57994f45197e7c4894faf1fb66fb63cc7efe7d45ddd0c1f40051a0"
 }
