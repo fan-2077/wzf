@@ -1,0 +1,72 @@
+{
+  "schema": "b1-session-source-manifest-v1",
+  "base_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+  "candidate_branch": "sre-b1-session-contract-20261119",
+  "excluded": [
+    "b1-common-session/SESSION_SOURCE_MANIFEST.json"
+  ],
+  "qualification_scope": "source binding only; remote contract, AIOS and business recovery each separate",
+  "files": {
+    "b1-common-session/BASE_BINDING.json": {
+      "bytes": 4195,
+      "sha256": "9eca1095ce5280430b5ab1a35da8d5f5d678da5205cc5f3facb1c33b7993cee8"
+    },
+    "b1-common-session/CANDIDATE_SCOPE.json": {
+      "bytes": 1160,
+      "sha256": "d01aba435a429095c8f896180a625dcd5d9473fc64594640a06b32a750626c84"
+    },
+    "b1-common-session/CONTRACT.json": {
+      "bytes": 7520,
+      "sha256": "2ce2667bc2fba0353dac8e34569ebc381d365c63db131f13aa864ac190e51a67"
+    },
+    "b1-common-session/LOCAL_VALIDATION.json": {
+      "bytes": 5185,
+      "sha256": "83520566cd3f3ba504410602e0a2c64234ee09ddbf3ff4564a3cc8be206ef77d"
+    },
+    "b1-common-session/README.md": {
+      "bytes": 4808,
+      "sha256": "95494d053da3f14c0694decbde52c5b1cec4625463ff4048c54b12faa687788d"
+    },
+    "b1-common-session/SDK_INTEGRATION_NOTES.json": {
+      "bytes": 9705,
+      "sha256": "b9f93a2b401287973581c701eab79d798788b6a20326ffac207b05bcf90c09b8"
+    },
+    "b1-common-session/controller_adapter.py": {
+      "bytes": 15402,
+      "sha256": "80e03fe599692363df23c7a7bb69fb49a9a046a180dddedf798453ddb63282d1"
+    },
+    "b1-common-session/run_ci_contract.py": {
+      "bytes": 16908,
+      "sha256": "0776873a050e5ebdf468e2bf64c6362231c34941a0af88380bff50e2905b16e3"
+    },
+    "b1-common-session/run_contract_tests.py": {
+      "bytes": 19715,
+      "sha256": "1d9af147ff39e0e5853f33492b3cf91e9b7e24fc8fe886b48a96b12552020610"
+    },
+    "b1-common-session/sdk_tool.py": {
+      "bytes": 2126,
+      "sha256": "65d5de3b4c53e80b4aec6000784a5db2415c4754409510f1bef2304403f1f28c"
+    },
+    "b1-common-session/session_client.py": {
+      "bytes": 17428,
+      "sha256": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f"
+    },
+    "b1-common-session/session_owner.py": {
+      "bytes": 24147,
+      "sha256": "946b18bd7b8f5ddcbb9425b8bbae2fefbbaf94d9cb584ecc3a80f9994e8fa669"
+    },
+    "b1-common-session/tests/test_sdk_session.py": {
+      "bytes": 24853,
+      "sha256": "9a66fcc0832969fa9d5d71319e6b66452adea8963fc014a0eb3655738be1292d"
+    },
+    "b1-common-session/tests/test_session_owner.py": {
+      "bytes": 20660,
+      "sha256": "df8dc2df4b88f21c7c8967c6f17a9e96987ad74c9bb9de52933094acc2fe39dc"
+    }
+  },
+  "workflow": {
+    "path": ".github/workflows/sre-b1-session-contract-20261119.yml",
+    "bytes": 1951,
+    "sha256": "cc150d0964477543e6857b43d18f693a717f1f4fcae77878808c48da6adf3a2c"
+  }
+}

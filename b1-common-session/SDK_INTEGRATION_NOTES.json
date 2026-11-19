@@ -1,0 +1,178 @@
+{
+  "base_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+  "date_utc": "2026-11-19",
+  "dispatch_and_lifecycle": {
+    "automatic_retries": 0,
+    "before_send": "先读取稳定helper_id，再将完整start帧以独占创建/fsync保存为dispatch-claim，然后才连接owner。",
+    "bounds": {
+      "default_lock_wait_seconds": 5,
+      "default_network_exchange_seconds": 5,
+      "network_deadline": "单次网络交换共用绝对期限，逐片回复不会重新获得完整超时。",
+      "request_bytes_including_lf": 16384,
+      "response_bytes_including_lf": 65536
+    },
+    "budget_refund": false,
+    "different_request_id": "保留新请求与owner原请求两种标识；owner已有永久预留时只返回原辅助任务，不启动第二个宏。",
+    "dispatch_claim_scope": "客户端传输去重收据，独立于原B0动作账本；不保存业务动作预算或提交次数，不创建新的Controller/Driver。",
+    "reply_loss_or_timeout": "返回原helper_id/request_id、unknown和next_allowed_operation=poll；不发第二次start，不发送取消/kill，不退预留。",
+    "same_request_changed_parent": "本地request_id_conflict，发送前拒绝。",
+    "same_request_same_payload": "显式再次调用start时仅发送poll帧；不重新发送start。",
+    "unknown_liveness_boundary": "即使连接在发送前失败，已写dispatch-claim仍只允许原请求poll；不会为了恢复活性自动再次start。若owner仍ready，该事实仅以状态返回。"
+  },
+  "evidence": {
+    "business_success": null,
+    "capture_layer": "unix_owner_application_frames_including_lf",
+    "causality_gap": "须以后与真实SDK/AIOS/模型请求原记录核对后，才能判断工具是否由模型返回决定；本候选不根据字符串声明因果成立。",
+    "exchange_identity": "每次显式start/poll生成新的本地exchange_id目录；同一个原请求ID不会覆盖前次字节。",
+    "files_per_exchange": [
+      "request.bin",
+      "response.bin",
+      "metadata.json"
+    ],
+    "model_causality_verified": false,
+    "original_host_evaluation_result": null,
+    "outer_sdk_http_capture": "尚未接入；当前字节不是Cerebrum→AIOS HTTP原文，也不是模型HTTP原文。",
+    "parent_model_request_id": "仅调用方声明；同一start绑定中保存，后续原请求poll从本地claim继承。",
+    "process_exit_semantics": "OS退出码和controller_reported_status保持独立；即使退出码0，SDK也不升格为业务恢复或原题成功。",
+    "public_result_handle": "只返回owner提供的公共结果句柄及状态，不按响应中任意relative_path或绝对路径读取文件。",
+    "raw_semantics": "保存实际应用请求帧与收到的原始响应字节，包括超时/EOF/非法JSON/超限响应前缀；记录长度、SHA256、阶段和验证状态。",
+    "receipt_failure": "响应或元数据写入失败单列evidence_errors/capture_complete=false；仍保留原稳定句柄并只允许poll，不把不完整取证称为完整。",
+    "request_identity_fields": [
+      "request_id",
+      "owner_original_request_id",
+      "exchange_id"
+    ],
+    "response_limit": "超限时最多保留65537字节以证实超过65536限制，不声称捕获被拒绝响应的未读取尾部。"
+  },
+  "implementation_sha256": {
+    "sdk_tool.py": "65d5de3b4c53e80b4aec6000784a5db2415c4754409510f1bef2304403f1f28c",
+    "session_client.py": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f",
+    "tests/test_sdk_session.py": "9a66fcc0832969fa9d5d71319e6b66452adea8963fc014a0eb3655738be1292d"
+  },
+  "local_validation": {
+    "command": "python3 -B -m unittest discover -s b1-common-session/tests -p test_sdk_session.py -v",
+    "connection_double_tests_passed": 11,
+    "initial_environment_probe": "初版11项真实套接字测试因同一EPERM未进入通信；后续显式拆分11项连接替身和6项真实IPC门禁，未将初跑改称通过。",
+    "owner_malformed_frame_regression": "由owner测试组独立覆盖原始畸形帧拒绝后owner仍活及原helper可poll，本文件不重复该服务端测试。",
+    "real_components_in_connection_double_group": [
+      "SessionOwner状态核心",
+      "SQLite持久数据库和事务",
+      "受控真实子进程",
+      "真实客户端文件收据与文件锁"
+    ],
+    "real_ipc_retained_cases": [
+      "Tool.run首次start及重复poll独立原文",
+      "已接受start回执丢失后查询原任务",
+      "并发同请求start只启动一次",
+      "新ID与原请求冲突不启动第二个宏",
+      "首次start前poll零预留",
+      "实际读超时不取消或再次启动原进程"
+    ],
+    "real_unix_ipc_tests_passed": 0,
+    "real_unix_ipc_tests_skipped": 6,
+    "required_ci_environment": {
+      "B1_REQUIRE_REAL_IPC": "1"
+    },
+    "required_gate_local_negative_check": {
+      "command_from_tests_directory": "B1_REQUIRE_REAL_IPC=1 python3 -B -m unittest test_sdk_session.RealUnixSDKSessionTests -v",
+      "exit_code": 1,
+      "failures": 6,
+      "interpretation": "预期失败，证实严格门禁不会把EPERM跳过；不是IPC通过。",
+      "skipped": 0,
+      "tests": 6
+    },
+    "sdk_malformed_operation_regression": "operation=[]和{}均在集合成员判断前拒绝；SessionClient抛固定ClientError，Tool.run返回固定公共错误，连接构造调用数0、owner接收请求数0、受控业务启动数0。",
+    "skip_reason": "真实socket(AF_UNIX,SOCK_STREAM)被本地环境拒绝：PermissionError errno=1 (EPERM)。",
+    "substituted_components": [
+      "连接字节流及故障/超时；此组不能证明实际进程间通信或AIOS接入"
+    ],
+    "syntax_ast_parsed": [
+      "sdk_tool.py",
+      "session_client.py",
+      "tests/test_sdk_session.py"
+    ],
+    "tests_total": 17
+  },
+  "reference": {
+    "commit": "43b15ea58de5d33603ac6ef60e2add74c3ea514d",
+    "not_yet_retained_as_live_integration": "本候选未注册ToolPackage/AutoTool，未实际通过SDK HTTP、AIOS加载器或原模型调用；不能由类签名相同推断整条调用链已经接通。",
+    "qualified_readonly_run_id": 44496858838,
+    "reference_file_sha256": {
+      "payload/integration/g1_register_tools.py": "bfe5aa6da85ffb95e3a611793e89c3ff51868bc4c777fd2f4489060e03133c33",
+      "payload/integration/g1_sdk_tool.py": "d465dd079ea2b111c41ea35589f1f9fe48bd54147d4a8148e1f59f339fd412e5",
+      "payload/integration/g1_tool_manager.py": "0a3661031ab3c9544d7463eba54ef3daf9f2390ea28bd5c1a2bb01bfd4d03619",
+      "payload/sdk/cerebrum/utils/communication.py": "000200efc07b52a4cded45f147fa934789375ce7df263096e5db0121a7b10cd7"
+    },
+    "retained_shape": "Cerebrum工具类Tool.run(params)返回JSON字符串，供将来的原SDK→AIOS工具加载链使用。"
+  },
+  "remaining_gaps": [
+    "固定组合镜像及原运行时验证",
+    "真实Unix IPC隔离CI尚待执行",
+    "Cerebrum/AIOS写能力注册与策略",
+    "外层真实SDK HTTP原始字节及请求关联",
+    "真实模型决策因果与新模型预算",
+    "完整低层工具组合",
+    "原题全流程及强B1远程资格"
+  ],
+  "schema": "b1-common-session-sdk-integration-notes-v1",
+  "scope": {
+    "aios_started": false,
+    "full_macro_write_capability": true,
+    "implemented": "Tool.run(params)薄入口及可信宿主Unix套接字客户端；仅一次完整B0辅助宏的start/poll接口。",
+    "lower_level_tool_surface_implemented": false,
+    "model_called": false,
+    "new_aios_registration_created": false,
+    "original_business_executed": false,
+    "original_task_success": null,
+    "remote_run_started": false,
+    "strong_b1_qualification": null
+  },
+  "status": "local_candidate_not_remote_qualified",
+  "tool_surface": {
+    "caller_forbidden_fields": [
+      "role",
+      "endpoint",
+      "paths",
+      "command",
+      "attempt_id",
+      "clock",
+      "budget",
+      "source_binding"
+    ],
+    "future_registration_requirement": "start不得沿用既有只读资格工具的read资源、只读标签或read_*名称；注册策略必须显式允许完整宏写入。poll才属于状态读取。本轮保留此接入缺口，不创建注册。",
+    "no_second_submit_endpoint": true,
+    "poll": {
+      "effect": "读取原任务状态及公共结果句柄，不重建Controller/Driver、不新增B0账本、不重置时钟或预算。",
+      "exact_fields": [
+        "operation",
+        "request_id",
+        "helper_id"
+      ],
+      "operation": "poll"
+    },
+    "proposed_name": "full_recovery_session_start_poll",
+    "schema_constant": "sdk_tool.TOOL_PARAMETER_SCHEMA",
+    "start": {
+      "effect": "启动完整恢复宏，具有业务写入和原宏内最终提交的能力。",
+      "exact_fields": [
+        "operation",
+        "request_id",
+        "parent_model_request_id"
+      ],
+      "operation": "start"
+    }
+  },
+  "trusted_host_configuration": {
+    "environment_only": [
+      "B1_COMMON_SESSION_IDENTITY_PATH",
+      "B1_COMMON_SESSION_SOCKET_PATH",
+      "B1_COMMON_SESSION_RECEIPTS_DIR"
+    ],
+    "identity_default": "/logs/b1-common-session/session_identity.json",
+    "identity_validation": "读取有界普通身份文件，核精确字段、single角色、两项来源SHA256、由七项身份绑定导出的helper_id与宿主配置socket一致。",
+    "receipts_default": "/logs/b1-common-session/sdk-receipts",
+    "role": "single",
+    "socket_default": "/logs/b1-common-session/owner.sock",
+    "trust_boundary": "宿主负责路径、文件权限、环境及owner身份的安装隔离；身份摘要是绑定校验，不能当作独立签名认证。模型参数无路径读取能力。"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema": "b1-session-local-validation-v1",
+  "recorded_at_utc": "2026-11-19T10:52:10.762758+00:00",
+  "scope_zh": "本地状态机、受控子进程与连接替身验证；8项真实IPC尚待固定Linux契约CI，非完整AIOS或原题恢复资格。",
+  "independent_local_check": {
+    "schema": "b1-session-independent-final-local-check-v1",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "b1-common-session/tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.1639723120006238,
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1",
+    "counts": {
+      "discovered_and_run": 30,
+      "passed": 22,
+      "skipped": 8,
+      "failed": 0
+    },
+    "skip_reason": "actual AF_UNIX creation denied locally with EPERM; all 8 actual IPC cases remain unqualified",
+    "groups": {
+      "direct_owner_fixture_passed": 9,
+      "source_derivation_fixture_passed": 2,
+      "connection_double_passed": 11,
+      "actual_unix_ipc_passed": 0,
+      "actual_unix_ipc_skipped": 8
+    },
+    "source_sha256_before": {
+      "session_owner.py": "946b18bd7b8f5ddcbb9425b8bbae2fefbbaf94d9cb584ecc3a80f9994e8fa669",
+      "controller_adapter.py": "80e03fe599692363df23c7a7bb69fb49a9a046a180dddedf798453ddb63282d1",
+      "tests/test_session_owner.py": "df8dc2df4b88f21c7c8967c6f17a9e96987ad74c9bb9de52933094acc2fe39dc",
+      "CONTRACT.json": "2ce2667bc2fba0353dac8e34569ebc381d365c63db131f13aa864ac190e51a67",
+      "session_client.py": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f",
+      "sdk_tool.py": "65d5de3b4c53e80b4aec6000784a5db2415c4754409510f1bef2304403f1f28c",
+      "tests/test_sdk_session.py": "9a66fcc0832969fa9d5d71319e6b66452adea8963fc014a0eb3655738be1292d",
+      "SDK_INTEGRATION_NOTES.json": "b9f93a2b401287973581c701eab79d798788b6a20326ffac207b05bcf90c09b8",
+      "run_contract_tests.py": "1d9af147ff39e0e5853f33492b3cf91e9b7e24fc8fe886b48a96b12552020610"
+    },
+    "source_sha256_after": {
+      "session_owner.py": "946b18bd7b8f5ddcbb9425b8bbae2fefbbaf94d9cb584ecc3a80f9994e8fa669",
+      "controller_adapter.py": "80e03fe599692363df23c7a7bb69fb49a9a046a180dddedf798453ddb63282d1",
+      "tests/test_session_owner.py": "df8dc2df4b88f21c7c8967c6f17a9e96987ad74c9bb9de52933094acc2fe39dc",
+      "CONTRACT.json": "2ce2667bc2fba0353dac8e34569ebc381d365c63db131f13aa864ac190e51a67",
+      "session_client.py": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f",
+      "sdk_tool.py": "65d5de3b4c53e80b4aec6000784a5db2415c4754409510f1bef2304403f1f28c",
+      "tests/test_sdk_session.py": "9a66fcc0832969fa9d5d71319e6b66452adea8963fc014a0eb3655738be1292d",
+      "SDK_INTEGRATION_NOTES.json": "b9f93a2b401287973581c701eab79d798788b6a20326ffac207b05bcf90c09b8",
+      "run_contract_tests.py": "1d9af147ff39e0e5853f33492b3cf91e9b7e24fc8fe886b48a96b12552020610"
+    },
+    "source_unchanged": true,
+    "original_b0_g1_diff_empty": true,
+    "real_unix_ipc_qualification": false,
+    "remote_calls": 0,
+    "original_controller_runs": 0,
+    "model_calls": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "34f2fe10dcfb80492d0417a05f71d8a9fe22ec3c48e6926aedce27d844bfa0d6"
+  },
+  "strict_local_gate_check": {
+    "schema": "b1-session-independent-local-strict-gate-check-v1",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "b1-common-session/run_contract_tests.py",
+      "--output",
+      "/workspace/scratch/a11dd1f2a296/continuity_audit/b1_session/strict_local_gate"
+    ],
+    "exit_code": 1,
+    "counts": {
+      "discovered": 30,
+      "errors": 0,
+      "expected_failures": 0,
+      "failures": 0,
+      "run": 0,
+      "skipped": 0,
+      "successes": 0,
+      "unexpected_successes": 0
+    },
+    "runtime_exact": false,
+    "actual_unix_ipc_capability_available": false,
+    "capability_errno": 1,
+    "effective_require_real_ipc": "1",
+    "interpretation": "expected unavailable precondition; no contract test executed; not protocol success or business failure",
+    "report_sha256": "79f77434600b24bc215fbd9f50ff4f1165acdefc3bd21748e11608843e9f69a2",
+    "elapsed_seconds": 0.3704633929992269
+  },
+  "independent_records": [
+    {
+      "filename": "FINAL_LOCAL_CHECK.json",
+      "sha256": "f75eb010863e8ea280a278b48273d467a3e22ce00cda8295d54c9549c473cdd1"
+    },
+    {
+      "filename": "STRICT_LOCAL_GATE_CHECK.json",
+      "sha256": "3fcecc65a9d57788923dd15384edff55cabc77806602130ace88260d297d37fe"
+    }
+  ],
+  "compiled_scope": "AST parse of new Python sources only, not a target-runtime qualification",
+  "current_real_ipc_qualification": false,
+  "new_remote_contract_workflows_started": 0,
+  "original_task_or_model_started": false,
+  "next_gate": {
+    "branch": "sre-b1-session-contract-20261119",
+    "runtime": "Python3.11.17 SQLite3.54.1 with exact source ID",
+    "require_real_ipc": true,
+    "all_tests_must_run_without_skip": true,
+    "original_b0_run_untouched": 44499998488
+  }
+}
