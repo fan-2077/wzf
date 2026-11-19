@@ -1,0 +1,71 @@
+{
+  "business_native_calls": 0,
+  "date_utc": "2026-11-19",
+  "efficiency_improvement": null,
+  "frozen_g1_manifest_sha256": "948a410a3ecc63954ad505df14dd0c9845742119c7f98a96da808d273a7bbfce",
+  "frozen_g1_verified_files": 262,
+  "generated_manifest_sha256": "a77752030368364c139b44bf99feb0257393cc348e057eaac6ba04eeac63f2ef",
+  "generated_modified_original_files": 12,
+  "known_original_unmodified_issue": "Unused aios/utils/calculator.py has pre-existing IndentationError; no full-tree syntax pass claimed.",
+  "model_and_agent_deadlines_changed": false,
+  "model_api_calls": 0,
+  "not_verified": [
+    "real OpenAI-compatible SDK construction and HTTPX integration with pinned OpenAI version",
+    "original AIOS scheduler executing three model requests",
+    "actual Qwen model JSON output within 192 tokens per turn",
+    "two fresh native SREGym public-document reads",
+    "4096-token context within 8 GiB container resource limit",
+    "full container import qualification",
+    "strong B1 recovery or baseline performance"
+  ],
+  "paid_api_calls": 0,
+  "publication_by_this_task": false,
+  "real_model_qualification_passed": false,
+  "recovery_score": null,
+  "remote_workflow_runs": 0,
+  "revision": "B1_READONLY_GATE_v2_branch_binding_correction",
+  "runtime": {
+    "PyYAML": "6.0.2",
+    "httpx": "0.28.1",
+    "matches_remote_pinned_environment": false,
+    "pydantic": "2.13.4",
+    "python": "3.12.14",
+    "requests": "2.32.3"
+  },
+  "schema_version": 1,
+  "scope": "local source generation, actual SDK schemas, HTTP transport fixtures, and actual host branch guards only",
+  "source_sha256": {
+    "README.md": "deebab7a14127353ea6e1c2ed257b1e3be4c12da889d8a43d1cac35cfa45bdf6",
+    "b1_metering.py": "6020a7175103130fb0ec6617c1f8ad1741fce9aab69c65ce5a00790188a12acd",
+    "b1_sdk_client.py": "5e456d0b9706d4bf592206a4413640b7d88958f5a046c323bad30fb91dfc5576",
+    "build_overlay.py": "93f4493a6006ebade4833e876a54692b6f8d2e5ab462a35529d299d81a28e7b3",
+    "tests/test_gate.py": "0e0a1d59f2834a0dc69e1f89c16ce31e6f98b30fee1a60ced5f2665a2d520553"
+  },
+  "status": "local_fixture_checks_passed_real_qualification_pending",
+  "submissions": 0,
+  "syntax_checked_added_or_modified_python_files": 12,
+  "tests": {
+    "command": "PYTHONPATH=/usr/lib/python3/dist-packages python -B -m unittest discover -s b1-readonly-gate/tests -v",
+    "count": 14,
+    "errors": 0,
+    "failures": 0,
+    "fixture_transport_explicit": true,
+    "host_guard_fixture": {
+      "accepted_ref": "refs/heads/sre-b1-readonly-20261119",
+      "actual_functions": [
+        "run_remote_smoke.configure",
+        "native_g1_entry.main initial guard",
+        "cleanup_owned.claim",
+        "export_owned_evidence.context"
+      ],
+      "formal_verdict_scope": "unscored B1 readonly multi-turn feedback engineering qualification",
+      "native_stopped_before_first_output_directory_creation": true,
+      "real_host_or_infrastructure_qualified": false,
+      "rejected_ref": "refs/heads/sre-g1-connection-20261116",
+      "resource_inventory_mocked": true
+    },
+    "network_calls": 0,
+    "skipped": 0
+  },
+  "whole_workflow_timeout_minutes": 96
+}

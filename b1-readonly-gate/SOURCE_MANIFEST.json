@@ -1,0 +1,22 @@
+{
+  "base_g1_manifest_sha256": "948a410a3ecc63954ad505df14dd0c9845742119c7f98a96da808d273a7bbfce",
+  "base_repository_commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
+  "excludes": [
+    "SOURCE_MANIFEST.json itself",
+    "generated derived package outside repository",
+    "real model or native environment evidence: not executed"
+  ],
+  "files": {
+    "LOCAL_VALIDATION.json": "cf2e2a4ca88fb3f6573e76ec7717fc189cc2069676941c36bba75ffa91c7b01f",
+    "README.md": "deebab7a14127353ea6e1c2ed257b1e3be4c12da889d8a43d1cac35cfa45bdf6",
+    "b1_metering.py": "6020a7175103130fb0ec6617c1f8ad1741fce9aab69c65ce5a00790188a12acd",
+    "b1_sdk_client.py": "5e456d0b9706d4bf592206a4413640b7d88958f5a046c323bad30fb91dfc5576",
+    "build_overlay.py": "93f4493a6006ebade4833e876a54692b6f8d2e5ab462a35529d299d81a28e7b3",
+    "tests/test_gate.py": "0e0a1d59f2834a0dc69e1f89c16ce31e6f98b30fee1a60ced5f2665a2d520553"
+  },
+  "revision_reason": "Bind native entry, ownership claim and formal evidence export to the requested B1 branch; label final verdict; infrastructure workflow limit 96 minutes.",
+  "schema_version": 1,
+  "scope": "only this new source directory; no B0/G1 source mutation, remote run or recovery score",
+  "status": "frozen_local_preparation_remote_qualification_pending",
+  "version": "B1_READONLY_GATE_v2"
+}
