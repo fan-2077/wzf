@@ -1,0 +1,6 @@
+{
+  "boot_id": "1b1cddf7-a16e-46d7-a40f-bee304a94dce",
+  "schema": "b0-monotonic-clock-identity-v1",
+  "time_namespace": "time:[4026531834]",
+  "timens_offsets_sha256": "bd9f74ac5eaa3df538867b32ee7d9240020020a199963645d7ab92f008209ac5"
+}

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages/validation/run-003/reproduce_clock_dictionary_rejection.py", line 39, in <module>
+    evidence.validate_identity(identity)
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages/validation/run-003/PUBLIC_EVIDENCE_PREIMAGE.py", line 134, in validate_identity
+    require(_text(identity[key]), "identity_value_invalid")
+  File "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages/validation/run-003/PUBLIC_EVIDENCE_PREIMAGE.py", line 67, in require
+    raise EvidenceError(code)
+pages_before_clock_fix.EvidenceError: identity_value_invalid

@@ -1,0 +1,21 @@
+{
+  "schema": "b1-evidence-pages-public-clock-projection-source-v1",
+  "original_run_id": 44499998488,
+  "original_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+  "original_source": {
+    "path": "runs/b0v3_44499998488/expanded/b0-results/native/agent/b0-launch-context.json",
+    "bytes": 1394,
+    "sha256": "0213591c3b1f469f99758d5287fd917861cb6497f8983d6a2bab3b8baa3d5104"
+  },
+  "projection_json_pointer": "/clock_identity",
+  "projection_only": true,
+  "full_launch_context_copied": false,
+  "projection_serialization": "四字段字典值按 JSON 排序并缩进保存；不是声称原文件的连续原字节片段。",
+  "fixture": {
+    "path": "tests/fixtures/b0-public-clock-identity.json",
+    "bytes": 238,
+    "sha256": "d175b69ab38774ad02fbda70c67574e603d94f4d22ddfc7ecd7851a559132b34"
+  },
+  "identity_scope": "仅 clock_identity 来自真实公开原件；角色 single、attempt、scope、ledger、预算及其它身份全部是新受控夹具，未声称存在于原件。",
+  "source_qualification": "原时钟字段值可复核，不证明当前事故时钟新鲜性、业务来源或模型/AIOS接线。"
+}

@@ -1,0 +1,43 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages-gate/validation/local-001/check_gate_locally.py"
+  ],
+  "checker": {
+    "bytes": 5537,
+    "sha256": "283d09afb1c76b98c6663409c060c16c4617c1e32fa758680abfef4dffa3913b"
+  },
+  "cwd": "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix",
+  "elapsed_seconds": 0.14481934800278395,
+  "production_sources": {
+    "gate_common.py": {
+      "bytes": 5562,
+      "sha256": "ba3ec56c22adec0353bc2e415be37443d647a4a5fb0ad1fdf5b8bb559a77e3c3"
+    },
+    "run_ci_gate.py": {
+      "bytes": 21463,
+      "sha256": "2e92adab3608f3c4948e3882ad6c297f7657cff0847c0c533c69183923df4bf0"
+    },
+    "run_contract_tests.py": {
+      "bytes": 11626,
+      "sha256": "be765db3f96e3f881499ed1990870292a036b7031e566a6a06efe0ce89f69d52"
+    }
+  },
+  "returncode": 0,
+  "scope": "Local helper/source/permissions/identity checks only; no Docker or original 19-test execution.",
+  "started_at_utc": "2026-11-19T13:09:45.371602+00:00",
+  "stderr": {
+    "bytes": 0,
+    "path": "stderr.raw",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdin": "DEVNULL",
+  "stdout": {
+    "bytes": 4319,
+    "path": "stdout.raw",
+    "sha256": "38d9a069726a8395dc977b32f289e45fc2a549cb56570a9d6ca0273ebdff03ca"
+  },
+  "timed_out": false,
+  "timeout_seconds": 30
+}

@@ -1,0 +1,51 @@
+name: B1 public evidence pages in fixed Python 3.11.17
+on:
+  push:
+    branches: [sre-b1-evidence-pages-clock-v2-20261119]
+    paths: [b1-evidence-pages/**, b1-evidence-pages-gate/**, .github/workflows/sre-b1-evidence-pages-clock-v2-20261119.yml]
+permissions:
+  contents: read
+concurrency:
+  group: sre-b1-evidence-pages-clock-v2-20261119
+  cancel-in-progress: false
+jobs:
+  pagination-contracts:
+    if: github.repository == 'fan-2077/wzf' && github.ref == 'refs/heads/sre-b1-evidence-pages-clock-v2-20261119'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Read the exact isolated source candidate
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        timeout-minutes: 2
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: |
+            /b1-evidence-pages/
+            /b1-evidence-pages-gate/
+            /.github/workflows/sre-b1-evidence-pages-clock-v2-20261119.yml
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Run only the 19 contracts in fixed isolated Python
+        timeout-minutes: 8
+        run: python3 -B b1-evidence-pages-gate/run_ci_gate.py run
+      - name: Verify exact owned container cleanup on every outcome
+        if: always()
+        timeout-minutes: 2
+        run: python3 -B b1-evidence-pages-gate/run_ci_gate.py cleanup
+      - name: Seal all original evidence including failures
+        if: always()
+        timeout-minutes: 1
+        run: python3 -B b1-evidence-pages-gate/run_ci_gate.py seal
+      - name: Preserve complete fixed interpreter evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        timeout-minutes: 2
+        with:
+          name: sre-b1-evidence-pages-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            b1-evidence-pages-results/EVIDENCE.tar.gz
+            b1-evidence-pages-results/EXPORT_STATUS.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 14

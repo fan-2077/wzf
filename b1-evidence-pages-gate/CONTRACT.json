@@ -1,0 +1,139 @@
+{
+  "attempt": "1 only; an actual failure must remain archived and a changed candidate is required instead of retrying the same run",
+  "branch": "sre-b1-evidence-pages-clock-v2-20261119",
+  "cleanup": {
+    "before_create": "require exact name unoccupied; persist nonce ownership and creation reservation before docker create",
+    "name": "b1-evidence-pages-<run_id>-1",
+    "never": [
+      "global prune",
+      "delete unrelated containers",
+      "delete shared official base image",
+      "automatically retry tests"
+    ],
+    "ownership": "exact platform repo/ref/commit/run1 plus random nonce labels and full container ID",
+    "rounds": [
+      "run finally",
+      "separate always workflow step"
+    ]
+  },
+  "cli": {
+    "container": "python -B /contract-src/b1-evidence-pages-gate/run_contract_tests.py --output /results",
+    "host_run": "python3 -B b1-evidence-pages-gate/run_ci_gate.py run",
+    "seal": "python3 -B b1-evidence-pages-gate/run_ci_gate.py seal",
+    "second_cleanup": "python3 -B b1-evidence-pages-gate/run_ci_gate.py cleanup"
+  },
+  "container": {
+    "actual_repo_digest": null,
+    "cap_drop": [
+      "ALL"
+    ],
+    "cgroup_namespace": "private",
+    "cpus": 1,
+    "docker_or_kubernetes_socket_mounted": false,
+    "identity": "exact actual nonroot host uid/gid",
+    "image_tag": "python:3.11.17-slim-trixie",
+    "memory_bytes": 268435456,
+    "network": "none",
+    "no_new_privileges": true,
+    "only_writable_bind_mount": "/results",
+    "pids_limit": 128,
+    "result_directory_mode": "0700",
+    "rootfs": "read-only",
+    "swap_total_bytes": 268435456,
+    "tmpfs": {
+      "/tmp": "256MiB, rw/nosuid/nodev/noexec, mode1777"
+    }
+  },
+  "evidence": {
+    "archive": [
+      "EVIDENCE.tar.gz",
+      "EXPORT_STATUS.json"
+    ],
+    "failure_rule": "export completion and contract qualification are independent booleans; failure evidence is still sealed and uploaded",
+    "host_directory": "b1-evidence-pages-results",
+    "inner_result": "inner/CONTRACT_TEST_RESULT.json",
+    "logs": [
+      "inner/tests.stdout.raw",
+      "inner/tests.stderr.raw",
+      "raw stdout/stderr for every actual Docker/Git command"
+    ],
+    "resources": "raw Docker inspect/stats and private cgroup before/after cpu/memory data; memory peak is lifetime, not summed RSS",
+    "runtime": "inner/RUNTIME.json",
+    "source": "full exact source snapshot with Git blob/SHA256 before and after, plus inner original/copy inventories"
+  },
+  "limits": {
+    "container_attach_seconds": 90,
+    "host_seconds_including_first_cleanup": 360,
+    "image_pull_seconds": 120,
+    "main_host_seconds": 300,
+    "meaning": "Infrastructure limits for this contract gate only; no solver/model/comparison budget is selected.",
+    "seal_seconds": 30,
+    "second_cleanup_seconds": 60,
+    "test_subprocess_seconds": 60,
+    "workflow_minutes": 15
+  },
+  "not_performed_at_authoring": {
+    "actor": true,
+    "aios": true,
+    "docker_run": true,
+    "fixed_python_3_11_runtime": true,
+    "models": true,
+    "original_controller": true,
+    "original_task": true
+  },
+  "repo": "fan-2077/wzf",
+  "result_rules": {
+    "complete_test_ids": [
+      "__main__.EvidencePagesTests.test_archived_public_documents_reassemble_exact_original_bytes",
+      "__main__.EvidencePagesTests.test_assembler_rejects_tail_only_changed_binding_and_changed_full_hash",
+      "__main__.EvidencePagesTests.test_binary_over_one_mebibyte_tail_and_empty_stderr",
+      "__main__.EvidencePagesTests.test_clock_dictionary_boot_namespace_and_digest_rejections_before_store_creation",
+      "__main__.EvidencePagesTests.test_clock_dictionary_shape_schema_rejections_before_store_creation",
+      "__main__.EvidencePagesTests.test_concurrent_republish_and_reads_preserve_original_inode",
+      "__main__.EvidencePagesTests.test_cross_block_page_checks_both_whole_touched_blocks",
+      "__main__.EvidencePagesTests.test_directory_descriptor_survives_parent_path_replacement",
+      "__main__.EvidencePagesTests.test_failed_publish_cleans_only_its_own_pending_directory",
+      "__main__.EvidencePagesTests.test_historical_generations_remain_readable_without_freshness",
+      "__main__.EvidencePagesTests.test_incomplete_unsettled_and_byte_mismatch_cannot_publish",
+      "__main__.EvidencePagesTests.test_oversized_metadata_rejected_and_existing_directory_never_replaced",
+      "__main__.EvidencePagesTests.test_process_crash_after_rename_reuses_verified_complete_object",
+      "__main__.EvidencePagesTests.test_process_crash_before_atomic_rename_is_not_public",
+      "__main__.EvidencePagesTests.test_ranges_reject_bool_negative_zero_count_and_out_of_bounds",
+      "__main__.EvidencePagesTests.test_real_public_clock_projection_publish_read_assemble_preserves_binding",
+      "__main__.EvidencePagesTests.test_symlink_length_and_manifest_tampering_fail_closed",
+      "__main__.EvidencePagesTests.test_unread_block_boundary_and_duplicate_full_verification",
+      "__main__.EvidencePagesTests.test_wrong_identity_digest_and_extra_path_fields_are_rejected"
+    ],
+    "exact_python": "CPython sys.version_info[:3]==(3,11,17)",
+    "original_test_flags_zh": "原测试脚本保守硬编码fixed_python_3_11_runtime_qualified=false；原stdout与解析记录逐字/原值保留。外层仅凭真实运行时另给固定解释器合同资格，不回填原结果。",
+    "required": [
+      "original unchanged test result passed",
+      "actual module/test source hashes and path match",
+      "component and gate original sources unchanged",
+      "execution-copy source bytes unchanged",
+      "container terminal exit0 and no OOM",
+      "both exact owned cleanup rounds pass"
+    ],
+    "test_counts": {
+      "error": 0,
+      "failure": 0,
+      "run": 19,
+      "skipped": 0
+    }
+  },
+  "schema": "b1-evidence-pages-fixed-interpreter-gate-contract-v1",
+  "scope_zh": "只验证固定Python3.11.17中的19项公共证据分页合同；不证明actor/AIOS/模型/原Controller/原题/求解器安全边界。",
+  "source_execution": {
+    "actual_loading_zh": "runpy执行原测试文件的__main__；finally记录实际导入public_evidence模块的__file__/SHA及同一解释器，不覆盖测试中的ROOT或实现函数。",
+    "component_files": 33,
+    "copy_rule_zh": "按完整冻结清单核原件、逐文件复制并再核全字节；原测试不改字节。源文件0400，除validation/tmp外目录0500；validation/tmp为0700并明确排除源清单。运行后原件与副本均再核全清单。",
+    "dont_write_bytecode": "-B plus PYTHONDONTWRITEBYTECODE=1 inherited by all child tests",
+    "execution_copy": "/tmp/b1-evidence-pages-contract-execution",
+    "readonly_mounts": [
+      "/contract-src/b1-evidence-pages",
+      "/contract-src/b1-evidence-pages-gate"
+    ],
+    "same_uid_hostile_isolation_claimed": false
+  },
+  "status": "source_candidate_not_remote_qualified"
+}

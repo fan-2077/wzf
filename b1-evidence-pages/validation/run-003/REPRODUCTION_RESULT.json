@@ -1,0 +1,24 @@
+{
+  "schema": "b1-evidence-pages-old-clock-rejection-result-v1",
+  "defect_reproduced": true,
+  "old_validation_passed": false,
+  "observed_exit_code": 1,
+  "observed_exception": "EvidenceError",
+  "observed_public_code": "identity_value_invalid",
+  "actual_clock_projection_only": true,
+  "role_single_is_controlled_fixture": true,
+  "full_launch_context_copied": false,
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "implementation": "CPython",
+    "uid": 1000,
+    "gid": 1000
+  },
+  "model_calls": 0,
+  "native_business_calls": 0,
+  "actor_integrated": false,
+  "aios_qualified": false,
+  "fixed_python_3_11_runtime_qualified": false,
+  "business_result": null
+}

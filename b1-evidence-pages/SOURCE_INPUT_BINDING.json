@@ -1,5 +1,5 @@
 {
-  "candidate_base_commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+  "candidate_base_commit": "e461572149996d0518cacec6cc390a6ce1eda7b1",
   "design_report": {
     "bytes": 65456,
     "path": "research/b1_full_tool_parity_patch_map.json",
@@ -18,7 +18,8 @@
       "path": "b0-run/payload/common_bridge/target_shell.py",
       "purpose_zh": "6144字节原捕获块上界",
       "sha256": "b2772c3c4f208e80bd711f3d41df607acc062b0d6ca9e212e4964055c2078b24",
-      "symbols": "CHUNK_BYTES"
+      "symbols": "CHUNK_BYTES",
+      "also_identical_at_candidate_base": "e461572149996d0518cacec6cc390a6ce1eda7b1"
     },
     {
       "bytes": 17428,
@@ -27,7 +28,8 @@
       "path": "b1-common-session/session_client.py",
       "purpose_zh": "65536字节含LF响应帧上界",
       "sha256": "8867e1f38a8e2fc60249c1255f00dbcaa981a8f541f1032cb2c525c005769b6f",
-      "symbols": "RESPONSE_LIMIT"
+      "symbols": "RESPONSE_LIMIT",
+      "also_identical_at_candidate_base": "e461572149996d0518cacec6cc390a6ce1eda7b1"
     },
     {
       "bytes": 66527,
@@ -36,7 +38,8 @@
       "path": "b0-run/payload/common_bridge/native_bridge.py",
       "purpose_zh": "未来真实捕获/来源核验入口；本组件未调用",
       "sha256": "dec7e625ff632b34f9de64f089fb61d1a500af526b5540ff1ab3f1dc77c3c2d7",
-      "symbols": "NativeActionBridge.capture_all / _verified_capture_binding"
+      "symbols": "NativeActionBridge.capture_all / _verified_capture_binding",
+      "also_identical_at_candidate_base": "e461572149996d0518cacec6cc390a6ce1eda7b1"
     },
     {
       "bytes": 46124,
@@ -45,10 +48,61 @@
       "path": "b0-run/payload/strategy/common_facade.py",
       "purpose_zh": "未来可信结算后发布位置与独立当前写入证据门槛；本组件未调用",
       "sha256": "ddf9dcc4cace57f64c3b0e8a00d469f589f408b3f178370e84adb5e8a2d10127",
-      "symbols": "CommonFacade.ingest / _fresh"
+      "symbols": "CommonFacade.ingest / _fresh",
+      "also_identical_at_candidate_base": "e461572149996d0518cacec6cc390a6ce1eda7b1"
+    },
+    {
+      "path": "b0-run/payload/strategy/catalog.py",
+      "commit": "e461572149996d0518cacec6cc390a6ce1eda7b1",
+      "method": "exact_git_object_bytes_compared_with_base_worktree",
+      "purpose_zh": "clock_identity 原四字段字典、schema、boot/time namespace/SHA正则",
+      "symbols": "validate_arguments(service_control stop), lines 123-127",
+      "bytes": 12464,
+      "sha256": "caed181d0da839051c4521ccac395102c0abf8ee706302acc34e247b5fa2fffc"
     }
   ],
   "new_remote_or_model_execution": false,
   "only_new_prefix": "b1-evidence-pages/",
-  "schema": "b1-evidence-pages-source-input-binding-v1"
+  "schema": "b1-evidence-pages-source-input-binding-v1",
+  "previous_component_snapshot": {
+    "git_commit": "256d2178158f8d140c24bdd0722d9e8458383a95",
+    "original_base_commit": "31cb1b8cd1587a410879a0f614013fb5edb73a03",
+    "source_manifest": {
+      "path": "SOURCE_MANIFEST.json",
+      "bytes": 3117,
+      "sha256": "8c01b54bfcd2ae8326db431b63c48b6d92f4fae874de2dc57d21709618316eee"
+    },
+    "all_19_files": {
+      "path": "validation/run-003/OLD_SNAPSHOT_MANIFEST.json",
+      "bytes": 3306,
+      "sha256": "1bd05f5681f6630fe2b17bf390e20d9c1d68752b85f4e2879da3f9d038855cde"
+    },
+    "original_directory_untouched": true,
+    "preserved_module_preimage": {
+      "path": "validation/run-003/PUBLIC_EVIDENCE_PREIMAGE.py",
+      "bytes": 27675,
+      "sha256": "5685087701b7ff5795e062b0397cbcb4a4fd95d4f2c5f449d0b351393ac9cdce"
+    },
+    "publication_status_at_copy": "旧19文件尚未收到发布身份；由root后续保存为无运行父版本，不在本地假定已发布。",
+    "published_after_snapshot": {
+      "commit": "256d2178158f8d140c24bdd0722d9e8458383a95",
+      "tree": "f1c0397d75adb0bbd64a42e99eec5bf58c0db942",
+      "parent": "e461572149996d0518cacec6cc390a6ce1eda7b1",
+      "exact_git_object_bytes_reverified_files": 19,
+      "workflow_added": false,
+      "remote_run_started": false,
+      "evidence": {
+        "path": "research/b1_pages_old_publish_inputs/ACTUAL_GIT_BINDING.json",
+        "bytes": 5129,
+        "sha256": "39b800fbf8f7b158288bc8a4d60978bb2c7ca66ec2d306047745463ce0eea0bb"
+      }
+    }
+  },
+  "clock_projection_source": {
+    "path": "validation/run-003/CLOCK_PROJECTION_SOURCE.json",
+    "bytes": 1138,
+    "sha256": "3a4b4590ea57afc23a704f0fa6519cfcce4193fd0ad3c8733292c01630bee586"
+  },
+  "modification_scope": "仅新 b1-evidence-pages 副本的时钟结构校验、针对测试/夹具、合同和来源/验证记录；原 b0-run、b1-common-session、g1-smoke、宿主/AIOS接线未改。",
+  "publication_parent_commit": "256d2178158f8d140c24bdd0722d9e8458383a95"
 }

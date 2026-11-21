@@ -1,0 +1,38 @@
+diff --git a/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py b/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages/public_evidence.py
+index 509ba02..63e8cfc 100644
+--- a/workspace/scratch/a11dd1f2a296/b1-evidence-pages-candidate/b1-evidence-pages/public_evidence.py
++++ b/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages/public_evidence.py
+@@ -27,6 +27,7 @@ HANDLE = re.compile(r"ep1:([0-9a-f]{64}):(document|stdout|stderr)\Z")
+ IDENTITY_FIELDS = frozenset(("attempt_id", "physical_scope_id", "ledger_epoch",
+     "namespace_uid", "role", "launch_context_sha256", "derived_payload_binding_sha256",
+     "clock_identity", "incident_visible_mono", "original_budgets"))
++CLOCK_FIELDS = frozenset(("schema", "boot_id", "time_namespace", "timens_offsets_sha256"))
+ BINDING_FIELDS = frozenset(("identity", "action_id", "capture_sha256", "capture_complete",
+     "settlement_status", "source_complete", "semantic_validation_status", "coverage",
+     "consistency_class", "database_generation", "queue_generation", "services_generation",
+@@ -128,10 +129,24 @@ def _integer(value):
+     return type(value) is int and value >= 0
+ 
+ 
++def validate_clock(clock):
++    """Match the original public B0 monotonic-clock dictionary contract."""
++    require(type(clock) is dict and set(clock) == CLOCK_FIELDS, "clock_identity_fields_invalid")
++    require(clock["schema"] == "b0-monotonic-clock-identity-v1", "clock_identity_schema_invalid")
++    require(type(clock["boot_id"]) is str and re.fullmatch(r"[a-f0-9-]{36}", clock["boot_id"]) is not None,
++            "clock_boot_identity_invalid")
++    require(type(clock["time_namespace"]) is str and
++            re.fullmatch(r"time:\[[0-9]+\]", clock["time_namespace"]) is not None,
++            "clock_time_namespace_invalid")
++    require(_sha(clock["timens_offsets_sha256"]), "clock_timens_digest_invalid")
++    return _copy_json(clock)
++
++
+ def validate_identity(identity):
+     require(type(identity) is dict and set(identity) == IDENTITY_FIELDS, "identity_fields_invalid")
+-    for key in IDENTITY_FIELDS - {"original_budgets", "incident_visible_mono"}:
++    for key in IDENTITY_FIELDS - {"original_budgets", "incident_visible_mono", "clock_identity"}:
+         require(_text(identity[key]), "identity_value_invalid")
++    validate_clock(identity["clock_identity"])
+     require(identity["role"] == "single", "trusted_role_must_be_single")
+     for key in ("launch_context_sha256", "derived_payload_binding_sha256"):
+         require(_sha(identity[key]), "identity_digest_invalid")

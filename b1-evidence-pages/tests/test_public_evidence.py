@@ -20,12 +20,18 @@ sys.path.insert(0, str(ROOT))
 import public_evidence as evidence
 
 
+def fixture_clock_identity():
+    return {"schema": "b0-monotonic-clock-identity-v1",
+        "boot_id": "00000000-0000-0000-0000-000000000001", "time_namespace": "time:[1]",
+        "timens_offsets_sha256": evidence.digest(b"controlled local clock offsets only")}
+
+
 def fixture_identity():
     return {"attempt_id": "controlled-local-attempt-a", "physical_scope_id": "controlled-local-scope",
         "ledger_epoch": "controlled-local-ledger", "namespace_uid": "controlled-local-namespace",
         "role": "single", "launch_context_sha256": evidence.digest(b"local fixture launch identity"),
         "derived_payload_binding_sha256": evidence.digest(b"local fixture source identity"),
-        "clock_identity": "controlled-local-clock-only", "incident_visible_mono": 0.0,
+        "clock_identity": fixture_clock_identity(), "incident_visible_mono": 0.0,
         "original_budgets": {"fixture_only": "no_incident_or_model_budget_selected"}}
 
 
@@ -93,6 +99,91 @@ class EvidencePagesTests(unittest.TestCase):
         with self.assertRaises(evidence.EvidenceError) as caught:
             callable(*args, **kwargs)
         self.assertEqual(caught.exception.code, code)
+
+    def test_clock_dictionary_shape_schema_rejections_before_store_creation(self):
+        cases = [("string", "controlled-local-clock-only", "clock_identity_fields_invalid"),
+            ("none", None, "clock_identity_fields_invalid"),
+            ("list", [], "clock_identity_fields_invalid"),
+            ("bool", True, "clock_identity_fields_invalid")]
+        for field in sorted(evidence.CLOCK_FIELDS):
+            missing = fixture_clock_identity()
+            del missing[field]
+            cases.append(("missing_" + field, missing, "clock_identity_fields_invalid"))
+        extra = fixture_clock_identity()
+        extra["caller_clock_override"] = "forbidden"
+        cases.append(("extra", extra, "clock_identity_fields_invalid"))
+        wrong_schema = fixture_clock_identity()
+        wrong_schema["schema"] = "caller-defined-clock"
+        cases.append(("schema", wrong_schema, "clock_identity_schema_invalid"))
+        for label, clock, code in cases:
+            with self.subTest(case=label):
+                identity = fixture_identity()
+                identity["clock_identity"] = clock
+                destination = self.base / ("bad-clock-" + label)
+                self.assert_code(code, evidence.create_store, destination, identity)
+                self.assertFalse(destination.exists())
+
+    def test_clock_dictionary_boot_namespace_and_digest_rejections_before_store_creation(self):
+        cases = {
+            "boot_id": ("clock_boot_identity_invalid", [None, 1, "", "g" * 36,
+                "00000000-0000-0000-0000-00000000000A", "0" * 35]),
+            "time_namespace": ("clock_time_namespace_invalid", [None, 1, "pid:[1]",
+                "time:[]", "time:[x]", "time:[1]\n"]),
+            "timens_offsets_sha256": ("clock_timens_digest_invalid", [None, 1,
+                "a" * 63, "A" * 64, "g" * 64, "a" * 64 + "\n"]),
+        }
+        for field, (code, values) in cases.items():
+            for index, value in enumerate(values):
+                with self.subTest(field=field, value=value):
+                    identity = fixture_identity()
+                    identity["clock_identity"][field] = value
+                    destination = self.base / ("bad-" + field + "-" + str(index))
+                    self.assert_code(code, evidence.create_store, destination, identity)
+                    self.assertFalse(destination.exists())
+
+    def test_real_public_clock_projection_publish_read_assemble_preserves_binding(self):
+        clock_file = ROOT / "tests" / "fixtures" / "b0-public-clock-identity.json"
+        clock_raw = clock_file.read_bytes()
+        self.assertEqual(evidence.digest(clock_raw),
+            "d175b69ab38774ad02fbda70c67574e603d94f4d22ddfc7ecd7851a559132b34")
+        clock = json.loads(clock_raw)
+        identity = fixture_identity()
+        identity["clock_identity"] = copy.deepcopy(clock)
+        copied = evidence.validate_identity(identity)
+        self.assertEqual(copied["clock_identity"], clock)
+        self.assertIsNot(copied["clock_identity"], identity["clock_identity"])
+        # Only the clock came from the real public artifact. The single role,
+        # attempt, budget, capture and settlement below are controlled fixtures.
+        store = self.base / "real-public-clock-controlled-store"
+        evidence.create_store(store, identity)
+        document = (ROOT / "tests" / "fixtures" / "b1-public-document-01.json").read_bytes()
+        stdout, stderr = b"controlled fixture stdout\n", b""
+        binding = fixture_binding(identity, document, stdout, stderr)
+        with evidence.TrustedPublisher(store, identity) as publisher, evidence.EvidenceReader(store, identity) as reader:
+            publication = publisher.publish_capture(document_bytes=document, stdout_bytes=stdout,
+                stderr_bytes=stderr, source_binding=binding)
+            identity["clock_identity"]["boot_id"] = "00000000-0000-0000-0000-000000000002"
+            self.assert_code("store_identity_mismatch", evidence.EvidenceReader, store, identity)
+            item = publication["contents"]["document"]
+            assembler = evidence.DocumentAssembler(item["evidence_handle"], item["document_sha256"])
+            offset, pages = 0, 0
+            while True:
+                frame = reader.read_page(self.request(publication, offset=offset))
+                page = json.loads(frame)
+                self.assertEqual(page["source_binding"]["identity"]["clock_identity"], clock)
+                self.assertEqual(page["source_binding"]["identity"]["role"], "single")
+                self.assertIs(page["source_limits"]["native_capture_verified"], False)
+                self.assertIs(page["source_limits"]["write_precondition_eligible"], False)
+                self.assertIsNone(page["source_limits"]["model_received"])
+                status = assembler.add(frame)
+                pages += 1
+                if page["next_offset"] is None:
+                    break
+                offset = page["next_offset"]
+            self.assertEqual(pages, 3)
+            self.assertEqual(assembler.finish(), document)
+            self.assertIs(status["transport_complete"], True)
+            self.assertIsNone(status["source_limits"]["business_result"])
 
     def mutate_file(self, path, raw):
         path.chmod(0o600)

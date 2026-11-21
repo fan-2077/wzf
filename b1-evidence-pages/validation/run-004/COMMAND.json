@@ -1,0 +1,31 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages/tests/test_public_evidence.py"
+  ],
+  "cwd": "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages",
+  "started_at_utc": "2026-11-19T12:50:36.896380+00:00",
+  "elapsed_seconds": 0.8861310530010087,
+  "returncode": 0,
+  "timeout_seconds": 60,
+  "timed_out": false,
+  "stdin": "DEVNULL",
+  "scope": "Controlled local files/subprocess crash tests plus a real public clock-only projection; no actor, AIOS, model, original Controller or business.",
+  "source_sha256": {
+    "public_evidence.py": "a05f5b2733030c93f3a9fb0e07207c79f60801e910a8260bf4a58574859a2683",
+    "tests/test_public_evidence.py": "40039accae424df49aef3d04b6866f4f59fc5632ea032beffdc3c2fd6c9e1df9",
+    "tests/fixtures/b0-public-clock-identity.json": "d175b69ab38774ad02fbda70c67574e603d94f4d22ddfc7ecd7851a559132b34"
+  },
+  "python_ast_parse": true,
+  "stdout": {
+    "path": "stdout.raw",
+    "bytes": 3195,
+    "sha256": "6203b759b27be4c8943cc7cb0a6b49d7c2d94e883ec697530fcd0296f2dfbf39"
+  },
+  "stderr": {
+    "path": "stderr.raw",
+    "bytes": 3180,
+    "sha256": "3099de44467609dadc31e58b1d775d0155e2462443d8b61dd960aae4809b25e6"
+  }
+}

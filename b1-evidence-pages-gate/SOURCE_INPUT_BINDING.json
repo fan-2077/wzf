@@ -1,0 +1,54 @@
+{
+  "candidate_commit_at_authoring": null,
+  "component": {
+    "expected_test_count": 19,
+    "manifest": {
+      "bytes": 5613,
+      "path": "SOURCE_MANIFEST.json",
+      "sha256": "b7b858c098a8e7470a8cea7d2f23869935389d98a779414a78ed575692ffbbee"
+    },
+    "production": {
+      "bytes": 28572,
+      "path": "public_evidence.py",
+      "sha256": "a05f5b2733030c93f3a9fb0e07207c79f60801e910a8260bf4a58574859a2683"
+    },
+    "root": "b1-evidence-pages",
+    "tests": {
+      "bytes": 30242,
+      "path": "tests/test_public_evidence.py",
+      "sha256": "40039accae424df49aef3d04b6866f4f59fc5632ea032beffdc3c2fd6c9e1df9"
+    },
+    "total_files": 33
+  },
+  "local_worktree_base_commit": "e461572149996d0518cacec6cc390a6ce1eda7b1",
+  "no_hidden_input_read": true,
+  "no_new_network_permissions": true,
+  "publication_parent_commit": "256d2178158f8d140c24bdd0722d9e8458383a95",
+  "published_or_remote_qualified_at_authoring": false,
+  "python_image": {
+    "actual_repo_digest_at_authoring": null,
+    "docker_build": false,
+    "required_cpython_version": "3.11.17",
+    "resolution": "Only actual CI docker pull plus two image inspections establish the RepoDigest/ImageID; docker create uses that RepoDigest.",
+    "tag": "python:3.11.17-slim-trixie"
+  },
+  "ref": "refs/heads/sre-b1-evidence-pages-clock-v2-20261119",
+  "repository": "fan-2077/wzf",
+  "reuse_scope_zh": "仅复用已审宿主的精确所有权、两轮清理、原件封存思想；不导入、不运行、不复制其模型/镜像构建/原题路径。",
+  "reviewed_design_anchors": [
+    {
+      "bytes": 18445,
+      "commit": "e461572149996d0518cacec6cc390a6ce1eda7b1",
+      "path": "b1-common-session/run_ci_contract.py",
+      "sha256": "90c947146bca2714a2ea0bd46408cbc0960063d30cc15d6873b2dfa24348e331"
+    },
+    {
+      "bytes": 24079,
+      "commit": "e461572149996d0518cacec6cc390a6ce1eda7b1",
+      "path": "b1-composition-gate/run_ci_composition.py",
+      "sha256": "b5528390426b83f2342da74e7a8691454cd8ecd8afef9d0c527cc049f2168b07"
+    }
+  ],
+  "schema": "b1-evidence-pages-gate-input-binding-v1",
+  "source_commit_rule_zh": "真实CI要求GITHUB_SHA与git HEAD一致；全部组件、gate、workflow原字节均核Git blob。编写时的null不充当已发布身份。"
+}

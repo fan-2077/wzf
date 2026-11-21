@@ -1,10 +1,10 @@
 {
   "business_result": null,
   "comparison_budget_selected": false,
-  "latest_command": "validation/run-002/COMMAND.json",
-  "latest_raw_stderr": "validation/run-002/stderr.raw",
-  "latest_raw_stdout": "validation/run-002/stdout.raw",
-  "latest_result": "validation/run-002/TEST_RESULT.json",
+  "latest_command": "validation/run-004/COMMAND.json",
+  "latest_raw_stderr": "validation/run-004/stderr.raw",
+  "latest_raw_stdout": "validation/run-004/stdout.raw",
+  "latest_result": "validation/run-004/TEST_RESULT.json",
   "model_calls": 0,
   "native_business_calls": 0,
   "not_qualified": {
@@ -15,7 +15,7 @@
     "sdk_aios": true
   },
   "passed": true,
-  "passed_tests": 16,
+  "passed_tests": 19,
   "retained_prior_failure": {
     "classification": "real local cross-parent rename of already sealed0500 directory was denied; same-parent sealed rename verified and implementation corrected",
     "command": "validation/run-001/COMMAND.json",
@@ -24,7 +24,7 @@
     "result": "validation/run-001/TEST_RESULT.json"
   },
   "runtime": {
-    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
     "gid": 1000,
     "implementation": "CPython",
     "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
@@ -39,11 +39,30 @@
     "base_anchors_compared_to_exact_git_object": true,
     "existing_tracked_sources_modified": false,
     "latest_test_source_sha256": {
-      "public_evidence.py": "5685087701b7ff5795e062b0397cbcb4a4fd95d4f2c5f449d0b351393ac9cdce",
-      "tests/test_public_evidence.py": "0bf0f32edc70bdeae61febe01e2ed0bfe4dda5cb1c0c71502e565385f432ed48"
+      "public_evidence.py": "a05f5b2733030c93f3a9fb0e07207c79f60801e910a8260bf4a58574859a2683",
+      "tests/test_public_evidence.py": "40039accae424df49aef3d04b6866f4f59fc5632ea032beffdc3c2fd6c9e1df9",
+      "tests/fixtures/b0-public-clock-identity.json": "d175b69ab38774ad02fbda70c67574e603d94f4d22ddfc7ecd7851a559132b34"
     },
-    "python_ast_parse": true
+    "python_ast_parse": true,
+    "candidate_base_commit": "e461572149996d0518cacec6cc390a6ce1eda7b1",
+    "old_19_file_directory_unchanged": true,
+    "prior_run_001_002_bytes_retained": true
   },
-  "tests_run": 16,
-  "validation_scope": "controlled_local_files_and_subprocess_crash_only"
+  "tests_run": 19,
+  "validation_scope": "controlled_local_files_and_subprocess_crash_only",
+  "retained_clock_contract_failure": {
+    "classification": "旧字符串校验错误拒绝实际公开四字段clock字典；本地复现exit1，不把预期复现称为旧实现通过。",
+    "command": "validation/run-003/COMMAND.json",
+    "raw_stdout": "validation/run-003/stdout.raw",
+    "raw_stderr": "validation/run-003/stderr.raw",
+    "result": "validation/run-003/REPRODUCTION_RESULT.json",
+    "original_module": "validation/run-003/PUBLIC_EVIDENCE_PREIMAGE.py",
+    "clock_source": "validation/run-003/CLOCK_PROJECTION_SOURCE.json"
+  },
+  "clock_projection_scope": "仅clock字典源自真实公开原件；角色single及其它身份/业务来源声明是受控夹具。",
+  "new_specific_tests": [
+    "__main__.EvidencePagesTests.test_clock_dictionary_boot_namespace_and_digest_rejections_before_store_creation",
+    "__main__.EvidencePagesTests.test_clock_dictionary_shape_schema_rejections_before_store_creation",
+    "__main__.EvidencePagesTests.test_real_public_clock_projection_publish_read_assemble_preserves_binding"
+  ]
 }

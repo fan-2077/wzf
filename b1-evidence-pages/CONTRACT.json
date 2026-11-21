@@ -21,7 +21,23 @@
       "root": "0700"
     },
     "role": "single",
-    "root": "宿主提供的绝对路径；每一级目录使用 O_DIRECTORY|O_NOFOLLOW 打开，不创建/替换已有 root。"
+    "root": "宿主提供的绝对路径；每一级目录使用 O_DIRECTORY|O_NOFOLLOW 打开，不创建/替换已有 root。",
+    "clock_identity": {
+      "type": "dict",
+      "exact_fields": [
+        "schema",
+        "boot_id",
+        "time_namespace",
+        "timens_offsets_sha256"
+      ],
+      "schema_value": "b0-monotonic-clock-identity-v1",
+      "boot_id_pattern": "[a-f0-9-]{36}",
+      "time_namespace_pattern": "time:\\[[0-9]+\\]",
+      "timens_offsets_sha256_pattern": "[0-9a-f]{64}",
+      "source": "固定 B0 catalog.validate_arguments 的 service_control/stop 时钟结构与正则；不另行收紧或放宽原字段语义。",
+      "checks": "拒字符串、非字典、缺失/额外字段、错误 schema/boot/time namespace/SHA；规范化深拷贝后作为完整身份的一部分绑定。",
+      "trust_limit": "结构合法不等于当前宿主时钟真实或新鲜；由可信宿主提供原始时钟字典，本组件不重建时钟、不重置事故起点或预算。"
+    }
   },
   "integrity_boundary": {
     "cross_block": "跨6144字节边界的页面校验每一个涉及的完整块，再切出请求字节。",
@@ -163,5 +179,14 @@
       "stdout_sha256"
     ],
     "source_mapping": "同一封存manifest绑定公开文档、原stdout及原stderr三个内容对象，各有独立句柄、总字节数和摘要。"
+  },
+  "clock_identity_amendment": {
+    "revision": "clock-dictionary-fix-v1",
+    "previous_module_sha256": "5685087701b7ff5795e062b0397cbcb4a4fd95d4f2c5f449d0b351393ac9cdce",
+    "problem": "旧 validate_identity 将 clock_identity 放入字符串循环，真实四字段字典在本地复现被拒。",
+    "change": "新增 validate_clock 并从字符串循环排除 clock_identity；其它身份字段/角色、budget、capture/settlement声明及分页权限界线保持。",
+    "evidence": "validation/run-003 原失败；validation/run-004 为修正后的本地回归。",
+    "actual_projection_limit": "只有单独时钟字典来自原 B0 公开 launch context；测试中的 single 角色、其它身份、capture 与结算均为受控派生。没有复制完整 launch context。",
+    "qualification": "本地组件合同；固定 Python 3.11、真实 actor/AIOS/模型/业务仍未接入或未实测。"
   }
 }

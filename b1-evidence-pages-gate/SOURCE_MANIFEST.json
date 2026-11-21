@@ -1,0 +1,62 @@
+{
+  "candidate_commit_at_authoring": null,
+  "component_source_manifest_sha256": "b7b858c098a8e7470a8cea7d2f23869935389d98a779414a78ed575692ffbbee",
+  "external_files": {
+    ".github/workflows/sre-b1-evidence-pages-clock-v2-20261119.yml": {
+      "bytes": 2086,
+      "sha256": "d2fd1cfc7c095a1b80f88471176dd7b007b8fee37718ede9c313f32f11a3bde1"
+    }
+  },
+  "file_count": 11,
+  "files": {
+    "CONTRACT.json": {
+      "bytes": 6896,
+      "sha256": "6b606a5ef690f90c7a88a322f4f0bad99c9d1c3997ca2e6ed3a9353b36ad14e6"
+    },
+    "LOCAL_VALIDATION.json": {
+      "bytes": 2454,
+      "sha256": "fa35cefc0fe5fa83801f77883d687dd5149f64e28250a90d1b07e1dd0f58e786"
+    },
+    "SOURCE_INPUT_BINDING.json": {
+      "bytes": 2263,
+      "sha256": "06a2daa50c930dab1c7f75c7108e6c0b3d2a50a9ce875e01bf60789deebbb433"
+    },
+    "gate_common.py": {
+      "bytes": 5562,
+      "sha256": "ba3ec56c22adec0353bc2e415be37443d647a4a5fb0ad1fdf5b8bb559a77e3c3"
+    },
+    "run_ci_gate.py": {
+      "bytes": 21463,
+      "sha256": "2e92adab3608f3c4948e3882ad6c297f7657cff0847c0c533c69183923df4bf0"
+    },
+    "run_contract_tests.py": {
+      "bytes": 11626,
+      "sha256": "be765db3f96e3f881499ed1990870292a036b7031e566a6a06efe0ce89f69d52"
+    },
+    "validation/local-001/CHECK_RESULT.json": {
+      "bytes": 5197,
+      "sha256": "94777ee9cabe459268d68b3e83756b7ba5063bb4ce00b2de53c3705ae8fd3749"
+    },
+    "validation/local-001/COMMAND.json": {
+      "bytes": 1460,
+      "sha256": "b42e8171edd593a7ddd20a3e59fc644138c0f2291c965789d4a00e1209fab934"
+    },
+    "validation/local-001/check_gate_locally.py": {
+      "bytes": 5537,
+      "sha256": "283d09afb1c76b98c6663409c060c16c4617c1e32fa758680abfef4dffa3913b"
+    },
+    "validation/local-001/stderr.raw": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "validation/local-001/stdout.raw": {
+      "bytes": 4319,
+      "sha256": "38d9a069726a8395dc977b32f289e45fc2a549cb56570a9d6ca0273ebdff03ca"
+    }
+  },
+  "local_worktree_base_commit": "e461572149996d0518cacec6cc390a6ce1eda7b1",
+  "publication_parent_commit": "256d2178158f8d140c24bdd0722d9e8458383a95",
+  "schema": "b1-evidence-pages-gate-source-manifest-v1",
+  "self_excluded": true,
+  "status": "frozen_for_independent_review_not_remote_qualified"
+}

@@ -3,7 +3,8 @@
     "原字节三内容的完整摘要绑定和原子不可变发布",
     "只按句柄/SHA/offset/count的只读分页；并发读无新任务/可变游标",
     "旧代际保留且不具备写前置权限",
-    "本地全篇重组及原SHA验证；来源声明/送达/理解/业务结果分离"
+    "本地全篇重组及原SHA验证；来源声明/送达/理解/业务结果分离",
+    "与真实原 B0 四字段 clock_identity 格式一致；结构校验与规范化深拷贝，不主张真实时钟/当前性核验。"
   ],
   "first_failure_preserved": "validation/run-001 保留初版EACCES失败及权限诊断；validation/run-002为修正后的16/16真实本地通过。",
   "future_actor_requirements_zh": [
@@ -34,8 +35,10 @@
     "private_evaluator_reads": 0,
     "remote_runs": 0
   },
-  "public_fixture_scope_zh": "494B/15322B公开文档原字节来自已审计归档；新的capture、结算、identity、generation全为受控夹具声明，不冒充真实接入。6144分页在本地得到1页与3页，与原B1的1+7页协议不同。",
+  "public_fixture_scope_zh": "494B/15322B公开文档与独立238B clock字典投影来自既有公开原件；除该时钟值外，新的capture、结算、identity、single角色、预算和generation全为受控夹具声明，不冒充真实接入。6144分页在本地得到1页与3页，与原B1的1+7页协议不同。",
   "runtime_scope_zh": "实测CPython 3.12.14、SQLite 3.53.1（SQLite版本仅记录运行环境，本组件不使用SQLite存储）；没有固定3.11资格。",
   "schema": "b1-evidence-pages-integration-notes-v1",
-  "status": "standalone_local_component_only"
+  "status": "standalone_local_component_only",
+  "clock_failure_preserved": "validation/run-003 保留旧源码预像和真实公开clock投影触发 identity_value_invalid 的 exit1 原输出；validation/run-004 的19/19本地通过含新增3项针对测试。run-001/002原件逐字保留。",
+  "clock_wiring_limit": "当前只接收并绑定可信宿主提供的字典，未实现 actor/launch-context 到分页身份的生产适配，不导入真实业务 Controller。"
 }

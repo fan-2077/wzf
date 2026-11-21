@@ -1,0 +1,35 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages/validation/run-003/reproduce_clock_dictionary_rejection.py"
+  ],
+  "cwd": "/workspace/scratch/a11dd1f2a296/b1-evidence-pages-clock-fix/b1-evidence-pages",
+  "stdin": "DEVNULL",
+  "started_at_utc": "2026-11-19T12:49:21.435531+00:00",
+  "elapsed_seconds": 0.08393744099885225,
+  "returncode": 1,
+  "timeout_seconds": 15,
+  "timed_out": false,
+  "source": {
+    "path": "PUBLIC_EVIDENCE_PREIMAGE.py",
+    "bytes": 27675,
+    "sha256": "5685087701b7ff5795e062b0397cbcb4a4fd95d4f2c5f449d0b351393ac9cdce"
+  },
+  "reproducer": {
+    "path": "reproduce_clock_dictionary_rejection.py",
+    "bytes": 1772,
+    "sha256": "2084c8542b63e6d504999049fcf78bf50a7a66f1d330a13279d484626243c30e"
+  },
+  "stdout": {
+    "path": "stdout.raw",
+    "bytes": 652,
+    "sha256": "5b17df5ccc8b923e5910d4cbefe8cb37de98f5b32d88fd2a1e6925e35367d41d"
+  },
+  "stderr": {
+    "path": "stderr.raw",
+    "bytes": 716,
+    "sha256": "d8ed8f85f1a1c07ee9461b8f5fec32a314b245ab6bb1c41a6ae6513bced9297c"
+  },
+  "scope": "Old local validator with the real public clock-only projection; all other identity fields controlled; no controller, model, native calls or remote run."
+}
