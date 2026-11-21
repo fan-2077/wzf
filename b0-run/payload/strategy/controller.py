@@ -58,6 +58,7 @@ class Controller:
         self.known_failure_reason=None
         self.admission_error=None
         self.accepted_intent_skips=[]
+        self.post_send_evidence_pair=None
 
     def note(self,name,value):
         path=self.driver.output/(name+'.json')
@@ -241,6 +242,121 @@ class Controller:
             if settled['effect']!='settled_applied':raise StrategyFailure('precise_prune_did_not_apply_as_selected')
             self.pruned+=sum(row['delete_count'] for row in selections)
 
+    def post_send_pair_is_current(self,pair):
+        """A local scheduling choice, never a substitute for write admission."""
+        self.facade._unchanged_code()
+        require(not self.bridge.guard.invalid,'post_send_pair_ledger_guard_invalid')
+        require(self.facade.owned_execution_state()['all_owned_actions_closed'],
+                'post_send_pair_owned_actions_or_locks_unresolved')
+        if pair is None:return False
+        fields={'schema','attempt_id','physical_scope_id','ledger_epoch','send_action_id',
+                'queue_action_id','queue_handle','queue_capture_sha256','audit_action_id',
+                'audit_handle','audit_capture_sha256','capture_ticket','terminal_evidence_id',
+                'audit_evidence_id','snapshot_record_sha256'}
+        require(isinstance(pair,dict) and set(pair)==fields
+                and pair['schema']=='b0-adjacent-post-send-evidence-pair-v1',
+                'post_send_pair_fields_invalid')
+        require(pair['attempt_id']==self.bridge.attempt_id
+                and all(pair[key]==self.bridge.context[key] for key in ('physical_scope_id','ledger_epoch')),
+                'post_send_pair_attempt_scope_or_ledger_mismatch')
+        snapshot=self.bridge.read_notification_snapshot(pair['send_action_id'])
+        require(snapshot['attempt_id']==pair['attempt_id'] and snapshot['action_id']==pair['send_action_id']
+                and snapshot['ledger_lifecycle']==pair['ledger_epoch']
+                and snapshot['capture_ticket']==pair['capture_ticket']
+                and snapshot['audit_action_id']==pair['audit_action_id']
+                and snapshot['capture_sha256']==pair['audit_capture_sha256']
+                and snapshot['terminal_evidence_id']==pair['terminal_evidence_id']
+                and snapshot['audit_evidence_id']==pair['audit_evidence_id']
+                and snapshot['owned_action_terminal'] is True and snapshot['complete'] is True
+                and snapshot['causal_attribution_to_this_action']=='unknown'
+                and snapshot['original_action_may_be_redispatched'] is False
+                and digest(snapshot)==pair['snapshot_record_sha256'],
+                'post_send_pair_original_snapshot_binding_changed')
+        with closing(self.bridge.registry._connect(readonly=True)) as db:
+            attempt=db.execute('SELECT * FROM attempts WHERE id=?',(self.bridge.attempt_id,)).fetchone()
+            ticket=db.execute('SELECT * FROM audit_tickets WHERE token=?',(pair['capture_ticket'],)).fetchone()
+        require(attempt is not None and attempt['state']=='active'
+                and attempt['scope']==pair['physical_scope_id'] and attempt['ledger']==pair['ledger_epoch'],
+                'post_send_pair_current_attempt_identity_changed')
+        require(ticket is not None and ticket['finished']==1 and ticket['attempt']==pair['attempt_id']
+                and ticket['action']==pair['send_action_id'] and ticket['ledger']==pair['ledger_epoch']
+                and ticket['terminal_id']==pair['terminal_evidence_id'],
+                'post_send_pair_original_ticket_changed')
+        entries=[]
+        for prefix,program in (('queue','queue_inventory'),('audit','public_audit')):
+            require(pair[prefix+'_handle']=='capture:'+pair[prefix+'_action_id']+':'+pair[prefix+'_capture_sha256'],
+                    'post_send_pair_handle_binding_changed')
+            entry=self.facade.records.get(pair[prefix+'_handle'])
+            if entry is None:return False
+            capture=entry['capture']
+            action=self.bridge._verified_capture_binding(pair[prefix+'_action_id'],capture)
+            require(action['operation']=='observe' and action['execution']=='terminal' and action['effect']=='read_only'
+                    and action['request']['parameters']['fixed_program']==program
+                    and entry['program']==program and entry['action_id']==action['id']
+                    and entry['handle']==pair[prefix+'_handle']
+                    and entry['arguments']==action['request']['parameters']['arguments']
+                    and digest(capture['stdout'])==pair[prefix+'_capture_sha256']
+                    and proofs.parse_capture(capture)==entry['document']
+                    and entry['stamp']==self.facade._dispatch_stamp(action),
+                    'post_send_pair_original_capture_binding_changed')
+            entries.append(entry)
+        queue,audit=entries
+        require(audit['capture'].get('ledger_guards')=={
+                    'before':snapshot['before_guard'],'after':snapshot['after_guard']},
+                'post_send_pair_original_audit_guards_changed')
+        events=self.facade._events()
+        def sequence(action,kind):
+            selected=[row['seq'] for row in events if row['action']==action and row['kind']==kind]
+            require(len(selected)==1,'post_send_pair_original_event_not_unique')
+            return selected[0]
+        terminal=sequence(pair['send_action_id'],'execution_terminal')
+        closed=sequence(pair['send_action_id'],'notification_snapshot_closed')
+        require(terminal<queue['stamp']['sequence']<sequence(queue['action_id'],'execution_terminal')
+                <sequence(queue['action_id'],'effect_settled')<ticket['begin_seq']<audit['stamp']['sequence']
+                <sequence(audit['action_id'],'execution_terminal')<sequence(audit['action_id'],'effect_settled')<closed,
+                'post_send_pair_not_after_original_terminal_and_before_original_snapshot')
+        between=[row['action'] for row in events if terminal<row['seq']<closed
+                 and row['kind']=='dispatch_permit_issued']
+        require(between==[queue['action_id'],audit['action_id']],
+                'post_send_pair_has_intervening_dispatch')
+        current=self.bridge.state()
+        if any(entry['stamp'][key]!=current[key] for entry in entries for key in ('database','queue','services')):
+            return False
+        # A different read is not this explicitly paired capture, even when its
+        # generation numbers or message contents happen to be identical.
+        if self.facade.latest.get('queue_inventory') is not queue or self.facade.audit is not audit:return False
+        require(not any(row['seq']>closed and row['kind']=='dispatch_permit_issued'
+                        and row['operation']!='observe' for row in events),
+                'post_send_pair_business_dispatch_after_snapshot')
+        # A completed observer is not itself proof of a complete/stable queue.
+        # Reuse the original queue/configuration validator without weakening it.
+        self.facade._queue()
+        return True
+
+    def retain_post_send_pair(self,action_id,queue_capture,audit_capture,ticket):
+        snapshot=self.bridge.read_notification_snapshot(action_id)
+        pair={'schema':'b0-adjacent-post-send-evidence-pair-v1','attempt_id':self.bridge.attempt_id,
+              'physical_scope_id':self.bridge.context['physical_scope_id'],'ledger_epoch':self.bridge.context['ledger_epoch'],
+              'send_action_id':action_id,'capture_ticket':ticket,
+              'terminal_evidence_id':snapshot['terminal_evidence_id'],'audit_evidence_id':snapshot['audit_evidence_id'],
+              'snapshot_record_sha256':digest(snapshot)}
+        for prefix,capture in (('queue',queue_capture),('audit',audit_capture)):
+            pair.update({prefix+'_action_id':capture['action_id'],prefix+'_capture_sha256':digest(capture['stdout']),
+                         prefix+'_handle':'capture:'+capture['action_id']+':'+digest(capture['stdout'])})
+        require(self.post_send_pair_is_current(pair),'new_post_send_pair_not_current')
+        self.note('POST_SEND_EVIDENCE_PAIR_'+action_id,pair)
+        self.post_send_evidence_pair=pair
+
+    def prepare_notification_evidence(self):
+        pair=self.post_send_evidence_pair
+        self.post_send_evidence_pair=None
+        if self.post_send_pair_is_current(pair):
+            # Consume before recording or reserving another write. Neither a
+            # lost note nor a new Controller reconstructs a reuse permission.
+            self.note('POST_SEND_EVIDENCE_PAIR_CONSUMED_'+pair['send_action_id'],pair)
+            return
+        self.refresh_queue();self.audit()
+
     def send(self):
         self.phase='real_application_notification_snapshot_reconciliation'
         maximum=int(self.driver.context.get('budgets',{}).get('max_send_attempts_per_intent',8))
@@ -253,9 +369,10 @@ class Controller:
                 self.note('ACCEPTED_INTENT_SKIP_'+digest(list(key))[:32],skip)
                 continue
             for attempt in range(maximum):
-                # Every admission uses a fresh complete audit, including after
-                # a different intent's action or a prior failed attempt.
-                self.refresh_queue();self.audit()
+                # One explicitly bound post-terminal queue/audit pair may also
+                # serve as the next pre-send pair. Both original write guards
+                # still recheck every public precondition without modification.
+                self.prepare_notification_evidence()
                 report=self.facade.latch_acceptances();state=report['by_intent'][key]['state']
                 if state=='accepted':break
                 if state!='missing':raise StrategyFailure('notification_public_delivery_conflict')
@@ -264,6 +381,7 @@ class Controller:
                     settle=False,intent_ref=self.facade.notice_refs[key])
                 self.send_attempts[key]+=1
                 self.bridge.notification_terminal_verified(capture['action_id'],capture,verifier=proofs.smtp_terminal)
+                queue_capture,_=self.refresh_queue()
                 ticket=self.bridge.begin_notification_audit(capture['action_id'])
                 before=self.bridge.notification_audits[ticket]['before_guard']
                 audit_capture,_=self.driver.run('public_audit',{})
@@ -282,8 +400,9 @@ class Controller:
                         and snapshot.get('causal_attribution_to_this_action')=='unknown',
                         'notification_scoped_snapshot_record_missing')
                 state=snapshot['intent_snapshot_state']
+                if state not in {'accepted','missing'}:raise StrategyFailure('notification_snapshot_delivery_conflict')
+                self.retain_post_send_pair(capture['action_id'],queue_capture,audit_capture,ticket)
                 if state=='accepted':break
-                if state!='missing':raise StrategyFailure('notification_snapshot_delivery_conflict')
                 # This is only a new post-terminal snapshot with no acceptance.
                 # Historical requests may still be unqualified; no global
                 # absence or current-action causal attribution is claimed.

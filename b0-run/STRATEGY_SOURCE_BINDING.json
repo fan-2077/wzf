@@ -1,12 +1,10 @@
 {
   "business_programs_byte_identical_to_full_v6": false,
   "business_programs_byte_identical_to_public_v1": false,
-  "changed_generated_programs": [
-    "issue_inventory",
-    "issue_replay",
-    "public_audit",
-    "queue_inventory",
-    "queue_prune"
+  "changed_generated_programs": [],
+  "changed_strategy_files": [
+    "RUN_POLICY.json",
+    "controller.py"
   ],
   "common_manifest_is_inherited": true,
   "common_manifest_path": "COMMON_SOURCE_MANIFEST.json",
@@ -17,7 +15,7 @@
     "registry_v2.py": "78b0635fb0e8e50a17d3036292bb8661e2c70de14ce483b98a6f7c2c1627b2d3",
     "target_shell.py": "b2772c3c4f208e80bd711f3d41df607acc062b0d6ca9e212e4964055c2078b24"
   },
-  "comparison_parent_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+  "comparison_parent_commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
   "current_changed_Ruby_syntax": {
     "artifact_id": 14514279181,
     "artifact_sha256": "c055034716377a45a52fbc6341f715387244aae3f076e603ef97f0874690fbc6",
@@ -37,11 +35,19 @@
     "status": "inherited_exact_v2_body_bytes_independently_verified",
     "transport_execution_proved": false
   },
+  "current_policy": {
+    "candidate_version": "public_result_snapshot_reuse_v5",
+    "paths": [
+      "STRATEGY_RUN_POLICY.json",
+      "payload/strategy/RUN_POLICY.json"
+    ],
+    "sha256": "1c158ac534b3b433b8b8d322d4f56672427d76e3ef8285f124e9d160775229f0"
+  },
   "deployed_files": [
     {
-      "bytes": 9314,
+      "bytes": 13683,
       "path": "RUN_POLICY.json",
-      "sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6"
+      "sha256": "1c158ac534b3b433b8b8d322d4f56672427d76e3ef8285f124e9d160775229f0"
     },
     {
       "bytes": 12464,
@@ -59,9 +65,9 @@
       "sha256": "1773901c29dce02c0df8a638e9e515f4961ec6fb0517456124520f9117db8c30"
     },
     {
-      "bytes": 30184,
+      "bytes": 38720,
       "path": "controller.py",
-      "sha256": "4effd2233a3cbd8a75b7f2bc55a5fc899fde57ecd0ef79d507f924c3664c070e"
+      "sha256": "c9e5791c15507af4e12419c2bc53731b2b8989ff01b08d5297e415926199f922"
     },
     {
       "bytes": 10987,
@@ -184,7 +190,7 @@
       "sha256": "5743819b1450d6a828c7ee86f5225aa1fe258a395a24627d7cc20461ab413a4d"
     }
   ],
-  "execution_candidate_version": "public_result_candidate_v4",
+  "execution_candidate_version": "public_result_snapshot_reuse_v5",
   "historical_v2_changed_generated_programs": [
     "background_contract",
     "identity_authorization",
@@ -214,15 +220,38 @@
     "zip_bytes": 46799,
     "zip_sha256": "6f44a605275c34f7b97227cd119ba2f13d930a547e1bafd622c1e87e6a37eb71"
   },
-  "inherited_policy_bytes": {
-    "paths": [
-      "STRATEGY_RUN_POLICY.json",
-      "payload/strategy/RUN_POLICY.json"
-    ],
-    "scope": "The policy source_strategy, its source manifest and its frozen status are historical provenance, not the current deployed-source manifest or a live result.",
-    "sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6"
+  "inherited_source_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d",
+  "inherited_v4_provenance": {
+    "parent_commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
+    "policy_bytes": {
+      "paths": [
+        "STRATEGY_RUN_POLICY.json",
+        "payload/strategy/RUN_POLICY.json"
+      ],
+      "scope": "The policy source_strategy, its source manifest and its frozen status are historical provenance, not the current deployed-source manifest or a live result.",
+      "sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6"
+    },
+    "result_codec_only_changes": {
+      "all_ruby_shell_bodies_and_original_base_unchanged": true,
+      "changed_generated_python_bodies": [
+        "issue_inventory",
+        "issue_replay",
+        "public_audit",
+        "queue_inventory",
+        "queue_prune"
+      ],
+      "changed_strategy_sources": [
+        "common_io.py",
+        "programs/http_common.py",
+        "programs/redis_common.py"
+      ],
+      "common_registry_guard_target_identity_chunk_and_request_transport_unchanged": true,
+      "original_output_json_bytes_preserved_before_encoding": true,
+      "underlying_http_redis_requests_and_business_logic_unchanged": true
+    },
+    "scope": "Historical source changes and policy labels; they do not describe the new v5 Controller.",
+    "source_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d"
   },
-  "inherited_source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac",
   "programs": {
     "archive_check": {
       "body_shell_sha256": "ff3bb13ea94cf626e0e7dc6dd0c06a09db2412a72a53a82ded6f49fac986e2f7",
@@ -311,29 +340,12 @@
     }
   },
   "protocol_id": "public_result_v1",
-  "result_codec_only_changes": {
-    "all_ruby_shell_bodies_and_original_base_unchanged": true,
-    "changed_generated_python_bodies": [
-      "issue_inventory",
-      "issue_replay",
-      "public_audit",
-      "queue_inventory",
-      "queue_prune"
-    ],
-    "changed_strategy_sources": [
-      "common_io.py",
-      "programs/http_common.py",
-      "programs/redis_common.py"
-    ],
-    "common_registry_guard_target_identity_chunk_and_request_transport_unchanged": true,
-    "original_output_json_bytes_preserved_before_encoding": true,
-    "underlying_http_redis_requests_and_business_logic_unchanged": true
-  },
-  "schema": "b0-public-result-frozen-source-binding-v4",
+  "schema": "b0-public-result-frozen-source-binding-v5",
+  "snapshot_reuse_amendment_sha256": "0d5bc7e4c1bb74d4daa8d58811fb09635e2a761dd7d1971d3bedb6f53a1080cc",
   "source_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
-  "source_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d",
-  "source_version": "public_result_candidate_v4",
-  "status": "v4_result_codec_frozen_sources_pending_actual_execution",
+  "source_manifest_sha256": "1cbb18cfe699d83fa0d12970c0b740bd2eefed3c6b84d13c0136301840a24948",
+  "source_version": "public_result_snapshot_reuse_v5",
+  "status": "v5_snapshot_reuse_frozen_sources_pending_fresh_original_execution",
   "strategy_source_is_exact_inherited_parent": false,
-  "unchanged_generated_program_count": 12
+  "unchanged_generated_program_count": 17
 }

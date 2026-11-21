@@ -1,0 +1,139 @@
+{
+  "actual_prior_cost_basis": {
+    "chunk_calls_in_those_windows": 178,
+    "extra_post_send_queue_possible": true,
+    "first_pre_send_pair_preserved": true,
+    "historical_request_window_seconds": 652.299990864,
+    "measured_net_v5_speedup": null,
+    "native_calls_in_those_windows": 696,
+    "record": {
+      "bytes": 16031,
+      "path": "research/b0v4_business_cost_work/REPEATED_PRE_AUDIT_WINDOWS.json",
+      "sha256": "633304a0be37d262fa155f44604e1514c10c30abb10789ff57478edf1b4a9ace"
+    },
+    "repeated_pre_audit_pairs": 27,
+    "scope": "Historical request-window arithmetic, including wrappers and transport; not backend-only time or promised future savings.",
+    "v5_completion_or_20_percent_improvement_promised": false
+  },
+  "candidate_version": "public_result_snapshot_reuse_v5",
+  "fairness": "Same bound scheduling option and full helper are available to later B1/M1 arms; no prior attempt is retried, erased or relabelled.",
+  "implementation_review_records": [
+    {
+      "bytes": 4599,
+      "path": "research/b0_snapshot_reuse_v5_20261121/IMPLEMENTATION_FREEZE_REVIEW.json",
+      "sha256": "b4d47c2ea2c9e1731fcb2b8125940a9f296a8cc4dc6d33a5a5b7753e2a678a7a"
+    },
+    {
+      "bytes": 19964,
+      "path": "continuity_audit/snapshot_reuse_v5/INDEPENDENT_IMPLEMENTATION_REVIEW.json",
+      "sha256": "132a817386aa26070cd17ab0a8e2f5ebb9638d040f42390821c100006703e199"
+    }
+  ],
+  "parent_commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
+  "policy": {
+    "change_scope": "Controller evidence scheduling only; no program body, permission, business success predicate, causal claim or budget changes.",
+    "evidence_roles": "A complete post-audit may serve the next pre-audit role. Roles do not imply two distinct captures in this new policy; old v4 evidence is not rewritten.",
+    "final_checks": "Controller.finish normal-service restore, full final checks and unique original submission remain byte-identical.",
+    "first_actual_send": "Always execute the original complete pre queue -> audit pair.",
+    "integrity_failure": "Changed attempt/ledger/ticket, invalid guard, altered capture/snapshot/stamp or unexpected original ordering fails closed; no broad exception-to-refresh fallback.",
+    "late_external_effects": "Generation equality and same-ledger guards do not prove no future historical SMTP effect. Missing is snapshot-scoped; acceptance is noncausal; conflict still inhibits sends.",
+    "local_contract_scope": "Controlled target/lifecycle evidence with real SQLite and original common contracts only; no model, original recovery, native application or original evaluator qualification.",
+    "measured_new_speedup": null,
+    "no_pair_or_stale_or_replaced_read": "Read the full original pre queue -> audit pair again, only after the all-owned-closed/zero-lock check.",
+    "observed_new_native_runs": 0,
+    "one_use": "Remove the local pair before validating/recording its consumption and before any new reservation; consumption note failure propagates without reinstalling a pair. A new Controller never reconstructs a pair from old notes.",
+    "pair_origin": "One original send action, its actual terminal evidence, the following completed queue capture, its original consumed audit ticket, and the exact immutable snapshot closure / full audit capture.",
+    "post_send_sequence": [
+      "original notification_terminal_verified",
+      "original full refresh_queue and ingest",
+      "original begin_notification_audit",
+      "original complete public_audit",
+      "original finish_notification_snapshot",
+      "original audit ingest and acceptance latch, original send ingest",
+      "retain only an explicitly validated pair after all owned actions and locks close"
+    ],
+    "revalidation": [
+      "current attempt / physical scope / ledger identity and not-invalid original guard",
+      "all owned actions closed and zero retained locks before fallback or reuse",
+      "original bridge raw capture/query/journal binding for queue and audit",
+      "actual SQLite ticket finished, original terminal and immutable snapshot hash",
+      "strict terminal(send) < dispatch/terminal/settle(queue) < ticket begin < dispatch/terminal/settle(audit) < snapshot closure",
+      "only the paired queue and audit dispatch between original terminal and closure",
+      "original event-derived stamps, current database/queue/services generations, same latest queue and audit entries",
+      "unchanged original reserve and dispatch CommonFacade preconditions"
+    ],
+    "schema": "b0-adjacent-post-send-evidence-pair-policy-v1",
+    "unknown_original_action": "Preserve the same unknown action and its locks; no new write or new action ID retry, even if a previous pair or positive acceptance exists."
+  },
+  "prior_attempt": {
+    "actual_outcome_review_sha256": "abaeabc4ac05fb44c5954b30d10e9337ad66c3cdc9a41496e1a177f3002fbe55",
+    "actual_result_codec_xz_documents": 91,
+    "business_and_cost_review_sha256": "dd6123f0a82be9e40a6f0cb0cc7fb3320d9808dc920a9a5259a59e7a36675eea",
+    "commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
+    "cross_review_closure_sha256": "70f689c6181060d245ad165c52af13f818134c81a0d649c2f8945245541a8916",
+    "final_accepted_after_unknown_send": null,
+    "last_complete_snapshot_accepted": 29,
+    "last_complete_snapshot_missing": 1,
+    "native_calls_completed": 6330,
+    "native_calls_started": 6331,
+    "original_artifact_sha256": "fdddd465171b805da678709a59bd285304234719038ee743dd51e6ff01fc198d",
+    "original_evaluations": 0,
+    "original_submissions": 0,
+    "outcome": "original incident budget exhausted with one unknown original notification; raw evaluator result unavailable",
+    "prior_unknown_action_or_locks_changed": false,
+    "raw_original_result": null,
+    "registered_actions": 234,
+    "retained_locks": 5,
+    "run_id": 44527975933,
+    "run_url": "https://github.com/fan-2077/wzf/actions/runs/44527975933",
+    "successful_recovery_time_seconds": null,
+    "terminal_actions": 233,
+    "unknown_actions": 1
+  },
+  "protocol_id": "public_result_v1",
+  "qualification": {
+    "actual_new_native_executions": 0,
+    "actual_new_original_evaluations": 0,
+    "actual_new_speedup": null,
+    "historical_external_terminal_assurance": "unqualified_or_unknown",
+    "local_contracts_only": true,
+    "raw_original_result": null
+  },
+  "reason_zh": "第四场完整核验显示相邻发送之间存在27个重复发送前审计窗口；在同一已关闭原动作中绑定发送后队列与完整审计，只消费一次作为下一次发送前证据。",
+  "schema": "b0-adjacent-post-send-evidence-reuse-amendment-v1",
+  "source_scope": {
+    "changed_generated_programs": [],
+    "changed_strategy_files": [
+      "RUN_POLICY.json",
+      "controller.py"
+    ],
+    "common_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
+    "policy_sha256": "1c158ac534b3b433b8b8d322d4f56672427d76e3ef8285f124e9d160775229f0",
+    "strategy_manifest_sha256": "1cbb18cfe699d83fa0d12970c0b740bd2eefed3c6b84d13c0136301840a24948",
+    "unchanged_generated_program_count": 17
+  },
+  "static_boundary_review": {
+    "bytes": 11755,
+    "path": "continuity_audit/result_codec_v4/POLICY_POST_SEND_EVIDENCE_REUSE_BOUNDARY_REVIEW.json",
+    "sha256": "2a9581496658bbff4c00842b82e18a9185dba2168bc76ffdab5342f53ac449a7"
+  },
+  "unchanged": {
+    "accepted_intent_skips_and_conflict_inhibition": true,
+    "agent_cpus": 4,
+    "agent_memory_bytes": 8589934592,
+    "all_17_program_bodies": true,
+    "chunk_bytes": 6144,
+    "common_facade_registry_bridge_guard_transport_and_codec": true,
+    "finish_and_unique_original_evaluation": true,
+    "incident_seconds": 7200,
+    "ledger_check_limit": 4096,
+    "max_sends_per_intent": 8,
+    "native_call_limit": 30000,
+    "original_oracle_framework_native_filter": true,
+    "original_owned_terminal_and_atomic_snapshot_requirement": true,
+    "original_reserve_and_dispatch_preconditions": true,
+    "original_response_character_limit": 10000,
+    "original_source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
+    "original_task": "gitlab_notification_intermittent_replicated"
+  }
+}

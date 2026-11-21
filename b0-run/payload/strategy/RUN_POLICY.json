@@ -13,12 +13,46 @@
     "effect": "skip this accepted intent send loop, including its redundant leading queue/audit reads; no write, lock release, new permission or causal proof",
     "evidence": "record attempt/scope/ledger/intent, evidence ID, payload digest, original capture digest and delivery IDs",
     "measured_new_speedup": null,
-    "remaining_checks": "Every actual send retains fresh complete queue and pre-audit, owned SMTP terminal and post-audit; final complete public audit and original evaluator unchanged.",
+    "remaining_checks": "Every actual send retains fresh complete queue and pre-audit, owned SMTP terminal and a complete post-audit. One explicitly bound post-terminal queue/post-audit pair may also supply the next pre-send evidence; original reserve and dispatch validations, final complete checks and unique original evaluator remain unchanged.",
     "source": "real immutable public_acceptances record joined to current attempt scope/ledger and current public intent/ref/full receipt hash/semantic key"
   },
   "actual_new_business_executions": 0,
   "actual_new_original_evaluations": 0,
-  "approved_draft_sha256": "1537e9f5dd6b90ce03c366067a36c90b06f010f11c05b4206f7c5beeabdcd454",
+  "adjacent_post_send_evidence_reuse": {
+    "change_scope": "Controller evidence scheduling only; no program body, permission, business success predicate, causal claim or budget changes.",
+    "evidence_roles": "A complete post-audit may serve the next pre-audit role. Roles do not imply two distinct captures in this new policy; old v4 evidence is not rewritten.",
+    "final_checks": "Controller.finish normal-service restore, full final checks and unique original submission remain byte-identical.",
+    "first_actual_send": "Always execute the original complete pre queue -> audit pair.",
+    "integrity_failure": "Changed attempt/ledger/ticket, invalid guard, altered capture/snapshot/stamp or unexpected original ordering fails closed; no broad exception-to-refresh fallback.",
+    "late_external_effects": "Generation equality and same-ledger guards do not prove no future historical SMTP effect. Missing is snapshot-scoped; acceptance is noncausal; conflict still inhibits sends.",
+    "local_contract_scope": "Controlled target/lifecycle evidence with real SQLite and original common contracts only; no model, original recovery, native application or original evaluator qualification.",
+    "measured_new_speedup": null,
+    "no_pair_or_stale_or_replaced_read": "Read the full original pre queue -> audit pair again, only after the all-owned-closed/zero-lock check.",
+    "observed_new_native_runs": 0,
+    "one_use": "Remove the local pair before validating/recording its consumption and before any new reservation; consumption note failure propagates without reinstalling a pair. A new Controller never reconstructs a pair from old notes.",
+    "pair_origin": "One original send action, its actual terminal evidence, the following completed queue capture, its original consumed audit ticket, and the exact immutable snapshot closure / full audit capture.",
+    "post_send_sequence": [
+      "original notification_terminal_verified",
+      "original full refresh_queue and ingest",
+      "original begin_notification_audit",
+      "original complete public_audit",
+      "original finish_notification_snapshot",
+      "original audit ingest and acceptance latch, original send ingest",
+      "retain only an explicitly validated pair after all owned actions and locks close"
+    ],
+    "revalidation": [
+      "current attempt / physical scope / ledger identity and not-invalid original guard",
+      "all owned actions closed and zero retained locks before fallback or reuse",
+      "original bridge raw capture/query/journal binding for queue and audit",
+      "actual SQLite ticket finished, original terminal and immutable snapshot hash",
+      "strict terminal(send) < dispatch/terminal/settle(queue) < ticket begin < dispatch/terminal/settle(audit) < snapshot closure",
+      "only the paired queue and audit dispatch between original terminal and closure",
+      "original event-derived stamps, current database/queue/services generations, same latest queue and audit entries",
+      "unchanged original reserve and dispatch CommonFacade preconditions"
+    ],
+    "schema": "b0-adjacent-post-send-evidence-pair-policy-v1",
+    "unknown_original_action": "Preserve the same unknown action and its locks; no new write or new action ID retry, even if a previous pair or positive acceptance exists."
+  },
   "archive_policy": "first public completed catalog entry with actual matching SHA256 and successful pg_restore --list",
   "baseline": "B0-P",
   "budget_revision": {
@@ -35,7 +69,7 @@
     },
     "public_basis": "30 acknowledged public intents * 8 allowed attempts * at least 4 registered actions * at least 12 native requests exceeds 10000 before restore and other work; prior actual overhead is material. This is not hidden fault-count knowledge."
   },
-  "candidate_version": "public_result_candidate_v2",
+  "candidate_version": "public_result_snapshot_reuse_v5",
   "capture_codec": "unchanged complete JSON/length/SHA/eof-bound lossless codec, 64MiB decoded bound",
   "decision_inputs": [
     "complete agent-readable recovery catalog and acknowledged issue/notification journals",
@@ -47,12 +81,6 @@
     "opaque launcher ledger continuity guard"
   ],
   "denominator_policy": "Retain every planned/started attempt. Report raw original result, execution/protocol/artifact qualification, public snapshot and historical assurance separately. Historical unknown alone does not invalidate B0-P; own unresolved execution does.",
-  "derived_from_public_candidate": {
-    "commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
-    "source_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79"
-  },
-  "design_review_sha256": "6eb6764a0e33cbee7d0dbe61516ba60e5125998f95939aec2ed6fc37741c4aa6",
-  "engineering_amendment": "ENGINEERING_AMENDMENT.json",
   "final_submission": {
     "acknowledgement": "accepted_pending_evaluation only",
     "business_snapshot_status": "pass|known_fail|incomplete are recorded independently and do not replace raw original score",
@@ -64,21 +92,15 @@
     "request_max": 1
   },
   "fixed_SREGym_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
-  "fixed_program_bodies_changed": true,
-  "fixed_program_body_changes": [
-    "background_contract",
-    "identity_authorization",
-    "notification_send",
-    "service_control",
-    "service_inventory"
-  ],
+  "fixed_program_bodies_changed": false,
+  "fixed_program_body_changes": [],
   "fixed_steps": [
     "Qualify original public native chain, source and targets; read the unchanged public receipts/catalog.",
     "Select first actual valid completed public archive; stop actual application writers and establish zero conflicting PostgreSQL backends.",
     "Restore original database; replay missing acknowledged issues once through normal API with original response-assigned request ID and exact public server completion log.",
     "Recheck current public issue identity/recipient authorization and actual Rails queue configuration; retain historical terminal proof as diagnostic.",
     "Delete only exact receipt-bound old queue occurrences while original writer barriers and current evidence remain qualified.",
-    "For each missing intent, at most eight registered sends; each owned SMTP action must terminate before one complete guarded snapshot is atomically recorded; acceptance latches and conflict inhibits further sends.",
+    "For each missing intent, at most eight registered sends. First actual send uses a complete original pre queue/audit pair. Each owned SMTP action must terminate, then a complete queue is observed and ingested, then the original audit ticket and full guarded audit atomically close its scoped snapshot. Only this same completed post-terminal pair may also supply the next send preconditions; all original write guards are retained.",
     "Restore normal services after actual owned closure and unchanged source/identity/queue conditions; record pass, known_fail or incomplete public checks honestly.",
     "Invoke original evaluation at most once only after all prior owned actions and locks are closed; retain raw true/false/null solely from original host."
   ],
@@ -98,6 +120,27 @@
     "unknown_or_unqualified": "preserved with original handles/reasons; not an action-admission veto by itself"
   },
   "http_completion_binding": "original POST response x-request-id, same original action/capture; exactly one matching POST/path/201 completion record in fixed public api_json log files; never assume client ID propagation",
+  "inherited_policy_provenance": {
+    "approved_draft_sha256": "1537e9f5dd6b90ce03c366067a36c90b06f010f11c05b4206f7c5beeabdcd454",
+    "candidate_version": "public_result_candidate_v2",
+    "derived_from_public_candidate": {
+      "commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
+      "source_manifest_sha256": "58c805ab35f2bbac8af57fd8eca246ab4155f69d8e0d453bf22e3dc8ff06be79"
+    },
+    "design_review_sha256": "6eb6764a0e33cbee7d0dbe61516ba60e5125998f95939aec2ed6fc37741c4aa6",
+    "engineering_amendment": "ENGINEERING_AMENDMENT.json",
+    "fixed_program_bodies_changed": true,
+    "fixed_program_body_changes": [
+      "background_contract",
+      "identity_authorization",
+      "notification_send",
+      "service_control",
+      "service_inventory"
+    ],
+    "source_strategy": "full_candidate_v6",
+    "source_strategy_manifest_sha256": "25283615194db13b0f0f51e3e624dce43c3874bc9428b05354ffdc767dd7778f",
+    "status": "frozen_v2_candidate_pending_actual_native_execution"
+  },
   "issue_creation_mode": "explicit_public_iid_via_normal_GitLab_API_one_POST_per_missing_public_issue",
   "local_validation_is_not_native_qualification": true,
   "notification_policy": "unchanged real Notify.new_issue_email(...).deliver_now with actual loaded Rails stack, every SMTP session and DATA boundary; current identity/authorization rechecked inside send",
@@ -109,6 +152,12 @@
     "intent_snapshot_state": "accepted|missing|conflict from complete post-terminal same-ledger audit",
     "owned_action_terminal": "required from original action and every actual SMTP subtransaction"
   },
+  "parent_public_candidate": {
+    "all_17_fixed_program_bodies_inherited_exactly": true,
+    "commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
+    "common_facade_registry_guard_transport_and_budgets_inherited_exactly": true,
+    "package_manifest_sha256": "b888bbb936d96fb54a65833452cda2e885d4dde494ef1a8f02829033ffd06138"
+  },
   "protocol_id": "public_result_v1",
   "queue_policy": "exact public receipt, structured original job identity, raw payload digest, occurrence count and zset score; preserve other jobs and ordinary NewIssueWorker",
   "retry_policy": {
@@ -119,9 +168,8 @@
     "owned_unknown": "retain original action and exclusion locks; no new action ID to retry"
   },
   "schema": "b0-public-result-policy-v1",
-  "source_strategy": "full_candidate_v6",
-  "source_strategy_manifest_sha256": "25283615194db13b0f0f51e3e624dce43c3874bc9428b05354ffdc767dd7778f",
-  "status": "frozen_v2_candidate_pending_actual_native_execution",
+  "source_strategy": "adjacent_post_terminal_queue_and_audit_controller_v5",
+  "status": "candidate_not_native_qualified",
   "uniform_budgets": {
     "agent_cpu": 4,
     "agent_memory_gib": 8,

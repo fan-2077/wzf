@@ -13,9 +13,44 @@
     "no_default_guessing": true,
     "timing": "after database restoration and issue replay, before queue inventory/prune/send"
   },
-  "actual_strategy_policy_sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6",
+  "actual_strategy_policy_sha256": "1c158ac534b3b433b8b8d322d4f56672427d76e3ef8285f124e9d160775229f0",
+  "adjacent_post_send_evidence_reuse": {
+    "change_scope": "Controller evidence scheduling only; no program body, permission, business success predicate, causal claim or budget changes.",
+    "evidence_roles": "A complete post-audit may serve the next pre-audit role. Roles do not imply two distinct captures in this new policy; old v4 evidence is not rewritten.",
+    "final_checks": "Controller.finish normal-service restore, full final checks and unique original submission remain byte-identical.",
+    "first_actual_send": "Always execute the original complete pre queue -> audit pair.",
+    "integrity_failure": "Changed attempt/ledger/ticket, invalid guard, altered capture/snapshot/stamp or unexpected original ordering fails closed; no broad exception-to-refresh fallback.",
+    "late_external_effects": "Generation equality and same-ledger guards do not prove no future historical SMTP effect. Missing is snapshot-scoped; acceptance is noncausal; conflict still inhibits sends.",
+    "local_contract_scope": "Controlled target/lifecycle evidence with real SQLite and original common contracts only; no model, original recovery, native application or original evaluator qualification.",
+    "measured_new_speedup": null,
+    "no_pair_or_stale_or_replaced_read": "Read the full original pre queue -> audit pair again, only after the all-owned-closed/zero-lock check.",
+    "observed_new_native_runs": 0,
+    "one_use": "Remove the local pair before validating/recording its consumption and before any new reservation; consumption note failure propagates without reinstalling a pair. A new Controller never reconstructs a pair from old notes.",
+    "pair_origin": "One original send action, its actual terminal evidence, the following completed queue capture, its original consumed audit ticket, and the exact immutable snapshot closure / full audit capture.",
+    "post_send_sequence": [
+      "original notification_terminal_verified",
+      "original full refresh_queue and ingest",
+      "original begin_notification_audit",
+      "original complete public_audit",
+      "original finish_notification_snapshot",
+      "original audit ingest and acceptance latch, original send ingest",
+      "retain only an explicitly validated pair after all owned actions and locks close"
+    ],
+    "revalidation": [
+      "current attempt / physical scope / ledger identity and not-invalid original guard",
+      "all owned actions closed and zero retained locks before fallback or reuse",
+      "original bridge raw capture/query/journal binding for queue and audit",
+      "actual SQLite ticket finished, original terminal and immutable snapshot hash",
+      "strict terminal(send) < dispatch/terminal/settle(queue) < ticket begin < dispatch/terminal/settle(audit) < snapshot closure",
+      "only the paired queue and audit dispatch between original terminal and closure",
+      "original event-derived stamps, current database/queue/services generations, same latest queue and audit entries",
+      "unchanged original reserve and dispatch CommonFacade preconditions"
+    ],
+    "schema": "b0-adjacent-post-send-evidence-pair-policy-v1",
+    "unknown_original_action": "Preserve the same unknown action and its locks; no new write or new action ID retry, even if a previous pair or positive acceptance exists."
+  },
   "baseline": "B0-P",
-  "branch_ref": "refs/heads/sre-b0-public-result-codec-v4-20261119",
+  "branch_ref": "refs/heads/sre-b0-public-snapshot-reuse-v5-20261121",
   "budgets": {
     "agent_cpu": 4,
     "agent_memory_bytes": 8589934592,
@@ -25,7 +60,7 @@
     "maximum_send_attempts_per_public_intent": 8,
     "model_calls": 0
   },
-  "candidate_version": "public_result_candidate_v4",
+  "candidate_version": "public_result_snapshot_reuse_v5",
   "capture_transport": {
     "chunk_bytes": 6144,
     "common_repair_manifest_sha256": "f230426b74b715d889c55a0214f511debbec9f9773bab9c3590ad549e942edcd",
@@ -95,28 +130,28 @@
     "status": "inherited_exact_v2_body_bytes_independently_verified",
     "transport_execution_proved": false
   },
-  "current_deployed_strategy_candidate_version": "public_result_candidate_v4",
-  "date_local": "2026-11-19",
-  "definition_zh": "参考实现已知的公开确定性结果基线第四个工程候选；仅在三个策略源中加入有界无损结果编码，重新冻结五个Python生成正文，在全新原始故障实例执行。",
+  "current_deployed_strategy_candidate_version": "public_result_snapshot_reuse_v5",
+  "date_local": "2026-11-21",
+  "definition_zh": "参考实现已知的公开确定性结果基线第五个工程候选；仅修改控制器证据调度及对应策略，将同一已关闭原发送后的完整队列/审计对一次性用于下一次发送前检查，在全新原始故障实例执行。",
   "deploy_loki": false,
   "draft_sha256": "1537e9f5dd6b90ce03c366067a36c90b06f010f11c05b4206f7c5beeabdcd454",
   "engineering_amendment_path": "ENGINEERING_AMENDMENT.json",
   "engineering_amendment_sha256": "1fdb26b4d038fb964fcd283b40bcb5a1a51c73cb9e0ea70e64f2553e49b71c69",
   "fixed_source_request_transport": {
     "all_comparison_arms_same_mechanism": true,
-    "all_program_bodies_byte_identical_to_parent_v3": false,
+    "all_program_bodies_byte_identical_to_parent_v4": true,
     "check_before_reservation_and_dispatch": true,
     "codec": "gzip+base64",
     "decoded_source_identity_scope": "current_frozen_program_body",
     "decoded_source_matches_current_frozen_program_sha256": true,
-    "decoded_source_scope": "Five current Python program bodies differ from parent v3 solely through the common result emitter. The inherited request gzip codec preserves the exact current frozen body bytes and SHA; all other twelve generated bodies and request-codec source are unchanged.",
+    "decoded_source_scope": "All 17 current frozen program bodies and the request codec are byte-identical to v4; controller scheduling is outside the fixed program payload.",
     "decoded_source_sha256_unchanged": true,
     "request_line_budget_bytes": 61440
   },
   "fresh_original_instance_required": true,
   "historical_terminal_required_for_original_result": false,
   "host_finite_counterexamples_sha256": "60f4a87c4080625ec802b1e8a45bfc5e0f9848a2d45b95ee4fb4a7a5410e2aa5",
-  "host_result_interface_sha256": "f53924fe678f706d3afaaee8f35e6f4085884caa401b1ef6d9ad92237f4d1bea",
+  "host_result_interface_sha256": "69e7f1b1e34c91fd45d8c69a78a672cabf38252332d884526d14945adf988159",
   "inherited_five_changed_Ruby_syntax": {
     "applies_to_current_changed_bodies": false,
     "artifact_id": 14346486080,
@@ -127,88 +162,10 @@
     "qualification_scope": "exact frozen input syntax only; no Rails/application/effect execution",
     "run_id": 44122275623
   },
+  "inherited_pre_start_budget_basis_scope": "The earlier budget correction and conditional four-action lower-bound derivation are historical provenance; all declared aggregate budgets are unchanged in v5.",
   "inherited_strategy_candidate_version": null,
-  "inherited_strategy_scope": "No whole strategy is inherited byte-identically: 26 of 29 strategy sources and 12 of 17 generated bodies retain parent bytes. Parent execution was v3 while its deployed strategy manifest was v2; current strategy is v4.",
-  "known_policy_failure_path": {
-    "actual_failure_details": "Retained in public snapshot; execution exceptions remain errors and never convert to successful execution.",
-    "allowed": true,
-    "conditions": "No unresolved owned actions or locks; normal failure cleanup/control reaches real terminals; actual final preconditions pass. Known business failure or incomplete public self-check alone does not suppress original evaluation.",
-    "does_not_prove_single_agent_inability": true,
-    "original_submission_limit": 1
-  },
-  "mode": "public_b0",
-  "notification_snapshot_contract": {
-    "accepted_intent_resent": false,
-    "causal_attribution_to_this_action": "unknown",
-    "historical_terminal_proof": "actual declared status, not an admission gate",
-    "known_conflict": "stop further sending; finish owned work and record original task result when admissible",
-    "maximum_dispatched_sends_per_intent": 8,
-    "scope": "Fresh complete same-ledger audit after the original owned SMTP terminal; accepted/missing/conflict describe bounded observations, not permanent absence of old in-flight effects.",
-    "state": "snapshot_closed",
-    "transaction": "one atomic record of snapshot, positive acceptance latch, conflict inhibition, consumed ticket, closed occupancy and only original action locks removed",
-    "unknown_owned_action_redispatched": false
-  },
-  "notification_snapshot_contract_sha256": "dcd75e8f0446f877e5c72ce3ee233dbadaf39042f6e619ff89f7dcab19e09351",
-  "original_full_oracle_required": true,
-  "own_action_terminal_required": true,
-  "parent_deployed_strategy_candidate_version": "public_result_candidate_v2",
-  "parent_execution_candidate_version": "public_result_candidate_v3",
-  "planned_fresh_engineering_attempts": 1,
-  "positive_acceptance_read_elision": {
-    "chosen_before_first_profile_start": true,
-    "conditional_cost_model_not_speed_claim": true,
-    "measured_performance_gain": null,
-    "purpose": "Avoid spending full queue and audit captures on an intent whose positive latch already permanently prohibits sending.",
-    "scope": "Skip the send loop for an exact already-latched positive public acceptance in the same physical scope and ledger.",
-    "source": "Actual registry public_acceptances; no summary inference.",
-    "unchanged": [
-      "no accepted intent can be resent",
-      "no unknown original action locks released",
-      "fresh complete checks before every other new send",
-      "final public audit still required",
-      "historical and causal uncertainty stay separate",
-      "all raw existing facts retained"
-    ]
-  },
-  "pre_start_budget_correction": {
-    "actual_cost_context": "Previous v6:25 registered actions,632 native calls,594.254436022 controller seconds; incomplete first issue replay, not a complete-run performance sample.",
-    "future_comparison_arms_same_aggregate_caps": true,
-    "interpretation": "Increase finite ceilings before first new-profile run using public loop structure and measured read overhead. Per-intent limits do not promise every intent exhausts its limit. Actual observed prior instance already had 9 accepted intents and 21 missing, so it is not described as 240 required sends. No worst-case completion guarantee is made.",
-    "new_profile": {
-      "native_calls": 30000,
-      "seconds": 7200
-    },
-    "old_draft_or_runs_rewritten": false,
-    "original_draft": {
-      "native_calls": 10000,
-      "seconds": 3600
-    },
-    "public_lower_bound": "Conditional policy branch, not the observed 9-accepted instance: if a fresh instance has 30 public intents all requiring 8 attempts, then 4 fixed actions per attempt and at least 12 native calls per action imply at least 11520 calls for the send loop alone; other recovery work adds cost.",
-    "source_of_hidden_fault_period_or_count": false,
-    "unchanged": [
-      "4CPU",
-      "8GiB",
-      "8 original sends per intent",
-      "4096 ledger checks",
-      "120-second own stop action budget",
-      "original task and oracle",
-      "all started attempts retained"
-    ]
-  },
-  "profile": "full",
-  "protected_provider_inputs_available_to_solver": false,
-  "protocol_id": "public_result_v1",
-  "reference_informed": true,
-  "reporting_constraints_zh": [
-    "保留所有真实尝试及其失败材料，不把只读资格或语法检查计作完整B0。",
-    "工作流绿色可以只表示完整有效尝试；必须单列原始业务结果。",
-    "一次独立核验通过的B0成功即表明该实例存在集中式公开解法，不延迟承认这一点。",
-    "失败、未知、超预算或工程缺口均不能证明单智能体无法解决。",
-    "本轮没有多智能体速度优势或正式比赛合格结论；后续速度比较必须使用同一多智能体策略的串行与并行版本。"
-  ],
-  "result_codec_amendment_path": "RESULT_CODEC_AMENDMENT.json",
-  "result_codec_amendment_sha256": "6d06d4e8e58364bf44c8879986a8a14780f5954868a2fe5085dce4f23a901e70",
-  "result_codec_review": {
+  "inherited_strategy_scope": "27 of 29 strategy files and all 17 generated program bodies are byte-identical to v4. Only Controller scheduling and its matching RUN_POLICY change. Original common implementation, codecs and business programs remain identical.",
+  "inherited_v4_result_codec_pre_start_review": {
     "actual_new_xz_output_roundtrip_and_target_resource_qualification": "pending fresh run",
     "dependency": "Unconditional module-level lzma imports in both emitters and common_io; receiver import and the original initial public audit precede all business writes.",
     "import_does_not_prove_actual_xz_emission_or_performance": true,
@@ -273,13 +230,99 @@
     },
     "no_added_probe_program_or_native_capability": true
   },
+  "known_policy_failure_path": {
+    "actual_failure_details": "Retained in public snapshot; execution exceptions remain errors and never convert to successful execution.",
+    "allowed": true,
+    "conditions": "No unresolved owned actions or locks; normal failure cleanup/control reaches real terminals; actual final preconditions pass. Known business failure or incomplete public self-check alone does not suppress original evaluation.",
+    "does_not_prove_single_agent_inability": true,
+    "original_submission_limit": 1
+  },
+  "mode": "public_b0",
+  "notification_snapshot_contract": {
+    "accepted_intent_resent": false,
+    "causal_attribution_to_this_action": "unknown",
+    "historical_terminal_proof": "actual declared status, not an admission gate",
+    "known_conflict": "stop further sending; finish owned work and record original task result when admissible",
+    "maximum_dispatched_sends_per_intent": 8,
+    "scope": "Fresh complete same-ledger audit after the original owned SMTP terminal; accepted/missing/conflict describe bounded observations, not permanent absence of old in-flight effects.",
+    "state": "snapshot_closed",
+    "transaction": "one atomic record of snapshot, positive acceptance latch, conflict inhibition, consumed ticket, closed occupancy and only original action locks removed",
+    "unknown_owned_action_redispatched": false
+  },
+  "notification_snapshot_contract_sha256": "dcd75e8f0446f877e5c72ce3ee233dbadaf39042f6e619ff89f7dcab19e09351",
+  "original_full_oracle_required": true,
+  "own_action_terminal_required": true,
+  "parent_deployed_strategy_candidate_version": "public_result_candidate_v4",
+  "parent_execution_candidate_version": "public_result_candidate_v4",
+  "planned_fresh_engineering_attempts": 1,
+  "positive_acceptance_read_elision": {
+    "chosen_before_first_profile_start": true,
+    "conditional_cost_model_not_speed_claim": true,
+    "measured_performance_gain": null,
+    "purpose": "Avoid spending full queue and audit captures on an intent whose positive latch already permanently prohibits sending.",
+    "scope": "Skip the send loop for an exact already-latched positive public acceptance in the same physical scope and ledger.",
+    "source": "Actual registry public_acceptances; no summary inference.",
+    "unchanged": [
+      "no accepted intent can be resent",
+      "no unknown original action locks released",
+      "complete current same-generation evidence and original reserve/dispatch checks before every other new send",
+      "final public audit still required",
+      "historical and causal uncertainty stay separate",
+      "all raw existing facts retained"
+    ]
+  },
+  "pre_start_budget_correction": {
+    "actual_cost_context": "Previous v6:25 registered actions,632 native calls,594.254436022 controller seconds; incomplete first issue replay, not a complete-run performance sample.",
+    "future_comparison_arms_same_aggregate_caps": true,
+    "interpretation": "Increase finite ceilings before first new-profile run using public loop structure and measured read overhead. Per-intent limits do not promise every intent exhausts its limit. Actual observed prior instance already had 9 accepted intents and 21 missing, so it is not described as 240 required sends. No worst-case completion guarantee is made.",
+    "new_profile": {
+      "native_calls": 30000,
+      "seconds": 7200
+    },
+    "old_draft_or_runs_rewritten": false,
+    "original_draft": {
+      "native_calls": 10000,
+      "seconds": 3600
+    },
+    "public_lower_bound": "Conditional policy branch, not the observed 9-accepted instance: if a fresh instance has 30 public intents all requiring 8 attempts, then 4 fixed actions per attempt and at least 12 native calls per action imply at least 11520 calls for the send loop alone; other recovery work adds cost.",
+    "source_of_hidden_fault_period_or_count": false,
+    "unchanged": [
+      "4CPU",
+      "8GiB",
+      "8 original sends per intent",
+      "4096 ledger checks",
+      "120-second own stop action budget",
+      "original task and oracle",
+      "all started attempts retained"
+    ]
+  },
+  "profile": "full",
+  "protected_provider_inputs_available_to_solver": false,
+  "protocol_id": "public_result_v1",
+  "reference_informed": true,
+  "reporting_constraints_zh": [
+    "保留所有真实尝试及其失败材料，不把只读资格或语法检查计作完整B0。",
+    "工作流绿色可以只表示完整有效尝试；必须单列原始业务结果。",
+    "一次独立核验通过的B0成功即表明该实例存在集中式公开解法，不延迟承认这一点。",
+    "失败、未知、超预算或工程缺口均不能证明单智能体无法解决。",
+    "本轮没有多智能体速度优势或正式比赛合格结论；后续速度比较必须使用同一多智能体策略的串行与并行版本。"
+  ],
+  "result_codec_amendment_path": "RESULT_CODEC_AMENDMENT.json",
+  "result_codec_amendment_sha256": "6d06d4e8e58364bf44c8879986a8a14780f5954868a2fe5085dce4f23a901e70",
+  "result_codec_review": {
+    "actual_review_sha256": "590dbeb175f3e593df219f7340f41e7b261b6552bb2bd8b41f52cc4ffa6e8f3b",
+    "causal_runtime_speedup_established": false,
+    "inherited_source_bytes_exact": true,
+    "inherited_v4_actual_xz_documents": 91,
+    "new_instance_and_raw_capture_rebinding_required": true
+  },
   "result_dimensions": {
     "additional_assurance": "Historical terminal evidence and causal attribution to each send remain separate; missing history is unknown/not_evaluated, never fabricated as qualified.",
     "execution_integrity": "All owned actions must be truly terminal and closed under the fixed profile before final reservation. The one accepted final action remains pending. Unknown execution is never waived.",
     "original_evaluation": "Retain exact original bool or null from host evidence before reference cleanup; never replace it with self-check or acceptance acknowledgement.",
     "public_business_snapshot": "pass, known_fail or incomplete; preserve accepted, missing, duplicate, wrong-recipient, issue, service and queue facts without defaulting absent evidence to pass."
   },
-  "resume_note_zh": "保留上一场预算耗尽、原题null、未知通知与五把锁；不延长原预算，不复用旧新鲜观察，只在新场验证无损传输效率与原题结果。",
+  "resume_note_zh": "第四场原题null、未知通知与五把锁均完整保留；不扩预算。首次发送前检查、每次发送后的完整核验、原双重写准入与最终服务恢复/唯一原评估保持。",
   "retained_prior_public_result_attempts": [
     {
       "commit": "6592f1c4cfd4e73c7350047a49264b9e5c3182db",
@@ -326,10 +369,35 @@
       "run_id": 44499998488,
       "successful_recovery_time_seconds": null,
       "unknown_actions": 1
+    },
+    {
+      "actual_outcome_review_sha256": "abaeabc4ac05fb44c5954b30d10e9337ad66c3cdc9a41496e1a177f3002fbe55",
+      "actual_result_codec_xz_documents": 91,
+      "business_and_cost_review_sha256": "dd6123f0a82be9e40a6f0cb0cc7fb3320d9808dc920a9a5259a59e7a36675eea",
+      "commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
+      "cross_review_closure_sha256": "70f689c6181060d245ad165c52af13f818134c81a0d649c2f8945245541a8916",
+      "final_accepted_after_unknown_send": null,
+      "last_complete_snapshot_accepted": 29,
+      "last_complete_snapshot_missing": 1,
+      "native_calls_completed": 6330,
+      "native_calls_started": 6331,
+      "original_artifact_sha256": "fdddd465171b805da678709a59bd285304234719038ee743dd51e6ff01fc198d",
+      "original_evaluations": 0,
+      "original_submissions": 0,
+      "outcome": "original incident budget exhausted with one unknown original notification; raw evaluator result unavailable",
+      "prior_unknown_action_or_locks_changed": false,
+      "raw_original_result": null,
+      "registered_actions": 234,
+      "retained_locks": 5,
+      "run_id": 44527975933,
+      "run_url": "https://github.com/fan-2077/wzf/actions/runs/44527975933",
+      "successful_recovery_time_seconds": null,
+      "terminal_actions": 233,
+      "unknown_actions": 1
     }
   ],
   "same_capabilities_for_later_comparison_arms": true,
-  "schema": "public-result-B0-P-preregistration-v4",
+  "schema": "public-result-B0-P-preregistration-v5",
   "service_stop_revision": {
     "actual_old_exit1_cause_inferred": false,
     "all_arms_same": true,
@@ -345,12 +413,14 @@
     "source_review_sha256": "f2f598bfd905ea59155283b622631fe4cafa3fe8757d28038d88b968139f917b",
     "start_semantics_relaxed": false
   },
+  "snapshot_reuse_amendment_path": "SNAPSHOT_REUSE_AMENDMENT.json",
+  "snapshot_reuse_amendment_sha256": "0d5bc7e4c1bb74d4daa8d58811fb09635e2a761dd7d1971d3bedb6f53a1080cc",
   "source_commit": "148dded7ca2737ded1085e7dc7bbf2a8fcfe7861",
   "source_repository": "https://github.com/SREGym/SREGym",
   "started_attempt_denominator": "All starts of this declared profile, including failure, unknown, timeout and engineering gaps; prior different profiles reported separately and never erased.",
-  "status": "v4_frozen_candidate_pending_actual_result_codec_and_original_business_execution",
+  "status": "v5_frozen_candidate_pending_actual_snapshot_reuse_and_original_business_execution",
   "strategy_manifest_path": "STRATEGY_SOURCE_MANIFEST.json",
-  "strategy_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d",
+  "strategy_manifest_sha256": "1cbb18cfe699d83fa0d12970c0b740bd2eefed3c6b84d13c0136301840a24948",
   "submission_protocol": {
     "agent_business_success": null,
     "final_result_source": "original Conductor Mitigation.success retained before reference cleanup",

@@ -1,11 +1,11 @@
 {
-  "candidate_version": "public_result_candidate_v4",
+  "candidate_version": "public_result_snapshot_reuse_v5",
   "file_base": "payload/strategy",
   "files": [
     {
-      "bytes": 9314,
+      "bytes": 13683,
       "path": "RUN_POLICY.json",
-      "sha256": "8aee8fde451e74c7304d996d176976139ca969d4c03fff1a22985b456bdec0d6"
+      "sha256": "1c158ac534b3b433b8b8d322d4f56672427d76e3ef8285f124e9d160775229f0"
     },
     {
       "bytes": 12464,
@@ -23,9 +23,9 @@
       "sha256": "1773901c29dce02c0df8a638e9e515f4961ec6fb0517456124520f9117db8c30"
     },
     {
-      "bytes": 30184,
+      "bytes": 38720,
       "path": "controller.py",
-      "sha256": "4effd2233a3cbd8a75b7f2bc55a5fc899fde57ecd0ef79d507f924c3664c070e"
+      "sha256": "c9e5791c15507af4e12419c2bc53731b2b8989ff01b08d5297e415926199f922"
     },
     {
       "bytes": 10987,
@@ -149,9 +149,9 @@
     }
   ],
   "lineage": {
-    "parent_commit": "22fa7c12ea5274f86a2ecca17e6cc2e16ab7a4ad",
+    "parent_commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
     "parent_repository": "fan-2077/wzf",
-    "prior_source_manifest_sha256": "139f40fdd939680e54add9211723f0879123ab5a66f85300f7e8d504f10e10ac"
+    "prior_source_manifest_sha256": "ee1f7cee664b7b2ab833c76b57f60bdc6fb710b32808ebe26c014797ddccc40d"
   },
   "programs": {
     "archive_check": {

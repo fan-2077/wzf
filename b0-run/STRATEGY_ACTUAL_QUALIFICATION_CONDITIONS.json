@@ -2,7 +2,7 @@
   "accepted_intent_read_skip": "Only exact current-scope/current-ledger/current-intent permanent verified positives can suppress that intent send loop. Unknown owned actions or locks still block. Real execution and performance effect of this optimization require the new run.",
   "actual_new_business_executions": 0,
   "actual_new_original_evaluations": 0,
-  "candidate_version": "public_result_candidate_v4",
+  "candidate_version": "public_result_snapshot_reuse_v5",
   "evidence_read_boundary": "native/agent and public fixed source only; no private provider/host state",
   "independent_diagnostics": [
     "Historical SMTP certificate remains qualified/unqualified/unknown/not_evaluated; no field is forced true.",
@@ -53,6 +53,31 @@
       "retained_locks": 5,
       "run_id": 44499998488,
       "successful_recovery_time_seconds": null,
+      "unknown_actions": 1
+    },
+    "public_result_v4": {
+      "actual_outcome_review_sha256": "abaeabc4ac05fb44c5954b30d10e9337ad66c3cdc9a41496e1a177f3002fbe55",
+      "actual_result_codec_xz_documents": 91,
+      "business_and_cost_review_sha256": "dd6123f0a82be9e40a6f0cb0cc7fb3320d9808dc920a9a5259a59e7a36675eea",
+      "commit": "400757cca027ceec7ae4d14c9744dbe07c520555",
+      "cross_review_closure_sha256": "70f689c6181060d245ad165c52af13f818134c81a0d649c2f8945245541a8916",
+      "final_accepted_after_unknown_send": null,
+      "last_complete_snapshot_accepted": 29,
+      "last_complete_snapshot_missing": 1,
+      "native_calls_completed": 6330,
+      "native_calls_started": 6331,
+      "original_artifact_sha256": "fdddd465171b805da678709a59bd285304234719038ee743dd51e6ff01fc198d",
+      "original_evaluations": 0,
+      "original_submissions": 0,
+      "outcome": "original incident budget exhausted with one unknown original notification; raw evaluator result unavailable",
+      "prior_unknown_action_or_locks_changed": false,
+      "raw_original_result": null,
+      "registered_actions": 234,
+      "retained_locks": 5,
+      "run_id": 44527975933,
+      "run_url": "https://github.com/fan-2077/wzf/actions/runs/44527975933",
+      "successful_recovery_time_seconds": null,
+      "terminal_actions": 233,
       "unknown_actions": 1
     },
     "replay_scope": "actual POST201 and GET200 created one issue, but old client-ID completion lookup was empty; old action remains unresolved",
@@ -111,6 +136,7 @@
     "Missing, conflicting, partial or ambiguous current owned terminal evidence remains unknown and blocks submission."
   ],
   "new_real_conditions_pending": [
+    "New original post-terminal queue/audit pair binding, one-use consumption, and unchanged original reserve/dispatch guards; local fixtures do not establish native qualification.",
     "Actual application_client XZ output, exact bounded receiver decoding and target resource continuity; initial import by itself is not this qualification.",
     "actual complete compressed-source decoder on all three unchanged native targets",
     "actual complete writer observations inside the loaded Rails application",
@@ -123,6 +149,7 @@
   "protocol_id": "public_result_v1",
   "required_before_dependent_actions": [
     "Actual common native chain, current public target/ledger identity, frozen source binding and source/clock qualification.",
+    "First actual send uses the full original pre pair; reuse only the exact complete post-terminal pair of a closed original send. No pair or normal staleness uses the original full path; corruption/unknown/locks reject.",
     "The initial complete public audit must succeed before any business write. All three codec modules import lzma unconditionally; absent core dependency is not silently downgraded.",
     "Original same-action writer stop and database backend barrier before restore.",
     "Actual synchronous restore/owned backend termination and database validity before replay.",
@@ -133,5 +160,6 @@
     "All own actions/effects and locks closed, current source/target/ledger qualification, no prior final action before original evaluation."
   ],
   "schema": "b0-public-result-actual-qualification-conditions-v1",
-  "status": "v4_candidate_pending_actual_result_codec_and_original_business_execution"
+  "snapshot_reuse_policy_sha256": "1c158ac534b3b433b8b8d322d4f56672427d76e3ef8285f124e9d160775229f0",
+  "status": "v5_candidate_pending_actual_snapshot_reuse_and_original_business_execution"
 }
